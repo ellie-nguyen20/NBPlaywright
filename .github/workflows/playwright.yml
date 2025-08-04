@@ -1,0 +1,74 @@
+name: Run Playwright Tests and Publish Report
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+  
+permissions:
+  contents: write
+
+jobs:
+  test-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run tests and generate report
+        run: |
+          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
+          REPORT_NAME="playwright-report_${TIMESTAMP}.html"
+          echo "REPORT_NAME=$REPORT_NAME" >> $GITHUB_ENV
+          npx playwright test || true
+          cp playwright-report/index.html playwright-report/$REPORT_NAME
+        continue-on-error: true
+
+      - name: Debug report files
+        run: ls -l playwright-report/
+
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+          persist-credentials: true
+
+      - name: Copy reports to gh-pages root
+        run: |
+          if [ -f "playwright-report/$REPORT_NAME" ]; then
+            cp "playwright-report/$REPORT_NAME" gh-pages/
+            cp update_reports.js gh-pages/
+          else
+            echo "⚠️ No report file found. Skipping copy."
+          fi
+
+      - name: Update index.html and cleanup old reports
+        run: |
+          cd gh-pages
+          node update_reports.js . ../playwright-report/$REPORT_NAME
+
+      - name: Commit and push reports
+        run: |
+          cd gh-pages
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add *.html
+          git commit -m "Add Playwright test reports"
+          git push origin gh-pages 

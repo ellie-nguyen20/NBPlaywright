@@ -1,0 +1,30 @@
+{
+    "Ellie": {
+      "email": "thivunguyen1506@gmail.com",
+      "password": "777888"
+    },
+    "Alice": {
+      "email": "alice.nguyen@helixmesh.com",
+      "password": "123123"
+    },
+    "Member1": {
+      "email": "thivunguyen1506+member1@gmail.com",
+      "password": "456456"
+    },
+    "Member2": {
+      "email": "thivunguyen1506+member2@gmail.com",
+      "password": "456456"
+    },
+    "Member3": {
+      "email": "thivunguyen1506+member3@gmail.com",
+      "password": "456456"
+    },
+    "Member4": {
+      "email": "thivunguyen1506+member4@gmail.com",
+      "password": "456456"
+    },
+    "Member5": {
+      "email": "thivunguyen1506+member5@gmail.com",
+      "password": "456456"
+    }
+  }
