@@ -62,13 +62,21 @@ jobs:
       - name: Update index.html and cleanup old reports
         run: |
           cd gh-pages
+          echo "📁 Before update:"
+          ls -la
+          echo "📁 Reports before update:"
+          ls -la playwright-report_* || echo "No reports found"
           node update_reports.js . "../$REPORT_NAME/index.html"
+          echo "📁 After update:"
+          ls -la
+          echo "📁 Reports after update:"
+          ls -la playwright-report_* || echo "No reports found"
 
       - name: Commit and push reports
         run: |
           cd gh-pages
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git add *.html
+          git add -A
           git commit -m "Add Playwright test reports"
           git push origin gh-pages 
