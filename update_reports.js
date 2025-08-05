@@ -14,7 +14,7 @@ if (!ghPagesDir || !newReportPath) {
 function getReportFiles(dir) {
   const files = fs.readdirSync(dir);
   return files
-    .filter(file => file.startsWith('playwright-report_') && file.endsWith('.html'))
+    .filter(file => file.startsWith('playwright-report_') && fs.statSync(path.join(dir, file)).isDirectory())
     .map(file => ({
       name: file,
       path: path.join(dir, file),
@@ -32,10 +32,10 @@ function createIndexHtml(reports) {
     
     return `
       <div class="report-item">
-        <a href="${report.name}" target="_blank">
+        <a href="${report.name}/index.html" target="_blank">
           <h3>Playwright Test Report${isLatest}</h3>
           <p>Generated: ${formattedDate}</p>
-          <p>File: ${report.name}</p>
+          <p>Directory: ${report.name}</p>
         </a>
       </div>
     `;
@@ -127,7 +127,7 @@ function createIndexHtml(reports) {
 <body>
     <div class="header">
         <h1>🧪 Playwright Test Reports</h1>
-        <p>Latest 7 test execution reports from CI/CD pipeline</p>
+        <p>Latest 10 test execution reports from CI/CD pipeline</p>
     </div>
     
     <div class="reports-grid">
@@ -152,11 +152,15 @@ try {
   
   // Copy new report if it exists
   if (fs.existsSync(newReportPath)) {
-    const newReportName = path.basename(newReportPath);
+    const newReportDir = path.dirname(newReportPath);
+    const newReportName = path.basename(newReportDir);
     const newReportDest = path.join(ghPagesDir, newReportName);
     
-    console.log(`📋 Copying new report: ${newReportName}`);
-    fs.copyFileSync(newReportPath, newReportDest);
+    console.log(`📋 Copying new report directory: ${newReportName}`);
+    if (fs.existsSync(newReportDest)) {
+      fs.rmSync(newReportDest, { recursive: true, force: true });
+    }
+    fs.cpSync(newReportDir, newReportDest, { recursive: true });
     
     // Add new report to the list
     const newReportStats = fs.statSync(newReportDest);
@@ -169,18 +173,18 @@ try {
     console.log('⚠️ New report not found:', newReportPath);
   }
   
-  // Keep only the latest 7 reports
-  const latestReports = existingReports.slice(0, 7);
+  // Keep only the latest 10 reports
+  const latestReports = existingReports.slice(0, 10);
   console.log(`🎯 Keeping latest ${latestReports.length} reports`);
   
-  // Remove old reports beyond the 7th
-  if (existingReports.length > 7) {
-    const reportsToRemove = existingReports.slice(7);
+  // Remove old reports beyond the 10th
+  if (existingReports.length > 10) {
+    const reportsToRemove = existingReports.slice(10);
     console.log(`🗑️ Removing ${reportsToRemove.length} old reports`);
     
     reportsToRemove.forEach(report => {
       try {
-        fs.unlinkSync(report.path);
+        fs.rmSync(report.path, { recursive: true, force: true });
         console.log(`   Removed: ${report.name}`);
       } catch (error) {
         console.log(`   Failed to remove: ${report.name}`, error.message);
