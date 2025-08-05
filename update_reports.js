@@ -164,11 +164,13 @@ try {
     
     // Add new report to the list
     const newReportStats = fs.statSync(newReportDest);
-    existingReports.unshift({
+    const updatedReports = existingReports.filter(r => r.name !== newReportName);
+    updatedReports.unshift({
       name: newReportName,
       path: newReportDest,
       stats: newReportStats
     });
+    
   } else {
     console.log('⚠️ New report not found:', newReportPath);
   }
