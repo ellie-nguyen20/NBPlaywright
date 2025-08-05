@@ -34,14 +34,14 @@ jobs:
       - name: Run tests and generate report
         run: |
           TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
-          REPORT_NAME="playwright-report_${TIMESTAMP}.html"
+          REPORT_NAME="playwright-report_${TIMESTAMP}"
           echo "REPORT_NAME=$REPORT_NAME" >> $GITHUB_ENV
-          npx playwright test --workers=2 || true
-          cp playwright-report/index.html playwright-report/$REPORT_NAME
+          npx playwright test --workers=8 || true
+          cp -r playwright-report $REPORT_NAME
         continue-on-error: true
 
       - name: Debug report files
-        run: ls -l playwright-report/
+        run: ls -la $REPORT_NAME/
 
       - name: Checkout gh-pages branch
         uses: actions/checkout@v4
@@ -52,17 +52,17 @@ jobs:
 
       - name: Copy reports to gh-pages root
         run: |
-          if [ -f "playwright-report/$REPORT_NAME" ]; then
-            cp "playwright-report/$REPORT_NAME" gh-pages/
+          if [ -d "$REPORT_NAME" ]; then
+            cp -r "$REPORT_NAME" gh-pages/
             cp update_reports.js gh-pages/
           else
-            echo "⚠️ No report file found. Skipping copy."
+            echo "⚠️ No report directory found. Skipping copy."
           fi
 
       - name: Update index.html and cleanup old reports
         run: |
           cd gh-pages
-          node update_reports.js . ../playwright-report/$REPORT_NAME
+          node update_reports.js . "../$REPORT_NAME/index.html"
 
       - name: Commit and push reports
         run: |

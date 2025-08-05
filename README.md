@@ -1,140 +1,62 @@
-# NBPlaywright - Nebula Block Portal E2E Testing
+# Playwright Test Automation
 
-A comprehensive end-to-end testing suite for the Nebula Block Portal using Playwright and TypeScript.
+This project contains automated tests using Playwright for the Nebula Block development portal.
 
-## 🚀 Features
+## Test Reports with Screenshots
 
-- **Comprehensive Test Coverage**: Tests for instances, API keys, team management, billing, and more
-- **Page Object Model**: Well-structured page objects for maintainable tests
-- **HTML Reporting**: Detailed HTML reports for test analysis
-- **Cross-browser Support**: Configured for Chromium
-- **CI/CD Ready**: Optimized for continuous integration
+### How to View Screenshots
 
-## 📋 Prerequisites
+The test reports are automatically published to GitHub Pages and include screenshots for all test executions. Here's how to access them:
 
-- **Node.js**: Version 16 or higher
-- **npm**: Package manager
+1. **Access Reports**: Go to the GitHub Pages URL (usually `https://[username].github.io/[repo-name]/`)
+2. **View Latest Report**: Click on the latest report link
+3. **Find Screenshots**: In the report, you can find screenshots in:
+   - **Test Results**: Each test case shows screenshots if available
+   - **Failure Screenshots**: Failed tests include screenshots showing the state when the test failed
+   - **Trace Viewer**: For more detailed debugging, use the trace viewer
 
-## 🛠️ Installation
+### Screenshot Configuration
+
+The project is configured to capture screenshots for:
+- ✅ **All test executions** (not just failures)
+- ✅ **Failed tests** with detailed error states
+- ✅ **Trace files** for debugging complex issues
+
+### Report Structure
+
+Each report contains:
+- `index.html` - Main report file
+- `data/` - Test data and metadata
+- `trace/` - Trace files for debugging
+- Screenshots embedded in the HTML report
+
+### Local Development
+
+To run tests locally with screenshots:
 
 ```bash
-# Clone and install
-git clone <repository-url>
-cd NBPlaywright
+# Install dependencies
 npm install
-npx playwright install
-```
 
-## 🧪 Running Tests
+# Run tests with screenshots
+npx playwright test
 
-```bash
-# Run all tests
-npm test
-
-# Run with browser UI
-npm run test:headed
-
-# Run with Playwright UI
-npm run test:ui
-
-# Run specific test file
-npx playwright test tests/login.spec.ts
-
-# Open HTML report
+# View the report
 npx playwright show-report
 ```
 
-## 📁 Project Structure
+### CI/CD Integration
 
-```
-NBPlaywright/
-├── tests/                    # Test specifications
-├── pages/                   # Page Object Models
-├── utils/                   # Utility functions
-├── fixtures/                # Test data
-├── constants/               # Application constants
-└── playwright.config.ts     # Configuration
-```
+The GitHub Actions workflow automatically:
+1. Runs tests on every push/PR
+2. Captures screenshots for all tests
+3. Publishes reports to GitHub Pages
+4. Maintains history of the last 10 reports
 
-## 📝 Test Categories
+## Test Configuration
 
-- **Authentication**: Login/logout functionality
-- **Core Features**: Home, Dashboard, Instances, API Keys
-- **Team Management**: Team creation, member management
-- **Infrastructure**: SSH Keys, Object Storage, Reserved Instances
-- **Serverless**: Models, Video, Image, Text Vision processing
-- **Account & Billing**: Settings, Payments, Contact, Referral
-
-## 🔧 Configuration
-
-### Base Configuration
-- **Base URL**: `https://dev-portal.nebulablock.com`
-- **Browser**: Chromium
-- **Timeout**: 20 seconds
-- **Screenshots**: Only on failure
-
-### Environment Variables
-Create `.env` file:
-```env
-TEST_BASE_URL=https://dev-portal.nebulablock.com
-TEST_USER_EMAIL=your-email@example.com
-TEST_USER_PASSWORD=your-password
-```
-
-## 🔍 Debugging
-
-```bash
-# Debug mode
-npm run test:debug
-
-# Trace viewer
-npx playwright show-trace trace.zip
-
-# Screenshots and videos: test-results/
-```
-
-## 🚀 CI/CD Example
-
-```yaml
-name: E2E Tests
-on: [push, pull_request]
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - run: npm ci
-      - run: npx playwright install
-      - run: npm test
-```
-
-## 🐛 Troubleshooting
-
-### Common Issues
-1. **Timeout Errors**: Increase timeout in `playwright.config.ts`
-2. **Selector Issues**: Use data-testid attributes, avoid fragile selectors
-3. **Authentication**: Verify credentials in fixtures
-
-### Getting Help
-- Check test reports for detailed error information
-- Use debugging tools (UI mode, trace viewer)
-- Review Playwright documentation
-
-## 📄 License
-
-ISC License
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Write tests for new features
-4. Ensure all tests pass
-5. Submit a pull request
-
----
-
-**Happy Testing! 🧪✨** 
+See `playwright.config.ts` for detailed configuration including:
+- Screenshot settings: `screenshot: 'on'`
+- Trace settings: `trace: 'on-first-retry'`
+- Browser configuration
+- Timeout settings 
