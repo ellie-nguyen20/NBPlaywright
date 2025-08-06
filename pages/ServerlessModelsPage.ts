@@ -186,12 +186,10 @@ export class ServerlessModelsPage extends BasePage {
     const sendIcons = this.page.locator('.icon-send');
     const count = await sendIcons.count();
     const index = count === 2 ? 1 : 0;
-    await sendIcons.nth(index).waitFor({ state: 'visible', timeout: 10000 });
-    await expect(sendIcons.nth(index)).toBeVisible({ timeout: 10000 });
+    await sendIcons.nth(index).waitFor({ state: 'visible' });
+    await expect(sendIcons.nth(index)).toBeVisible();
     await sendIcons.nth(index).click({ force: true });
-    // await this.page.waitForTimeout(10000);
   }
-s
   async checkImageResult() {
     const img = this.page.locator('div.show-img img');
     await expect(img).toBeVisible({ timeout: 60000 });

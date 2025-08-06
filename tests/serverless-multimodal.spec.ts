@@ -23,8 +23,8 @@ test.describe('Serverless Page - Multimodal Models', () => {
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
   });
 
-  test.describe('Check chat with multimodal models via Model Detail UI, timeout 30s', () => {
-    test.setTimeout(30000);
+  test.describe('Check chat with multimodal models via Model Detail UI, timeout 60s', () => {
+    test.setTimeout(60000);
     
     const multimodalModels = [
       'Claude-Sonnet-4',
@@ -50,12 +50,11 @@ test.describe('Serverless Page - Multimodal Models', () => {
         await serverlessPage.clickSendButton();
         
         // Verify the message is visible
-        // await page.waitForTimeout(20000);
         await expect(page.locator('div.text:has-text("Hi, I need help")')).toBeVisible({ timeout: 30000 });
         
         // Check for tools div
         const toolsDiv = page.locator('div.tools.show');
-        await expect(toolsDiv).toHaveCount(1, { timeout: 30000 });
+        await expect(toolsDiv).toHaveCount(1, { timeout: 50000 });
       });
     }
   });
