@@ -1,0 +1,938 @@
+# Page snapshot
+
+```yaml
+- complementary:
+  - navigation "Main administration navigation":
+    - link "Return to Nebula dashboard home":
+      - /url: /home
+      - img "Nebula platform logo"
+    - navigation:
+      - menuitem "Home":
+        - link "Home":
+          - /url: /home
+      - menuitem "Instances":
+        - text: Instances
+        - img
+      - menuitem "Object Storage":
+        - link "Object Storage":
+          - /url: /object-storage
+      - menuitem "Serverless Models":
+        - link "Serverless Models":
+          - /url: /serverless
+      - menuitem "SSH Public Key":
+        - link "SSH Public Key":
+          - /url: /sshKey
+      - menuitem "API Keys":
+        - link "API Keys":
+          - /url: /apiKeys
+      - menuitem "Billing":
+        - link "Billing":
+          - /url: /billing
+      - menuitem "Account":
+        - link "Account":
+          - /url: /profile
+      - menuitem "Team":
+        - link "Team":
+          - /url: /team
+      - menuitem "Contact":
+        - link "Contact":
+          - /url: /contact
+      - menuitem "Referral":
+        - link "Referral":
+          - /url: /referral
+- navigation:
+  - heading "Team" [level=1]
+  - link "Pricing":
+    - /url: /pricing/serverless-ai
+  - link "Docs":
+    - /url: https://docs.nebulablock.com/
+  - link "Referral":
+    - /url: /referral
+  - text: $8,322.45 Deposit
+  - button "Ellie Nguyen":
+    - text: Ellie Nguyen
+    - img
+  - radiogroup "segmented":
+    - radio "EN" [checked]
+    - text: EN
+    - radio "FR"
+    - text: FR
+- main:
+  - text: Create Team Refresh
+  - table:
+    - rowgroup:
+      - row "Team Name Your Role Members Created At Actions":
+        - cell "Team Name"
+        - cell "Your Role"
+        - cell "Members":
+          - img
+          - text: Members
+        - cell "Created At":
+          - img
+          - text: Created At
+        - cell "Actions"
+  - table:
+    - rowgroup:
+      - row "Mock Team 1 Admin 247 2025/08/06 05:13:13 UTC+0 Manage":
+        - cell "Mock Team 1"
+        - cell "Admin"
+        - cell "247"
+        - cell "2025/08/06 05:13:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 2 Member 341 2025/08/06 02:26:33 UTC+0 View":
+        - cell "Mock Team 2"
+        - cell "Member"
+        - cell "341"
+        - cell "2025/08/06 02:26:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 3 Member 122 2025/08/05 23:39:53 UTC+0 View":
+        - cell "Mock Team 3"
+        - cell "Member"
+        - cell "122"
+        - cell "2025/08/05 23:39:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 4 Member 192 2025/08/05 20:53:13 UTC+0 View":
+        - cell "Mock Team 4"
+        - cell "Member"
+        - cell "192"
+        - cell "2025/08/05 20:53:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 5 Owner 42 2025/08/05 18:06:33 UTC+0 Manage Delete":
+        - cell "Mock Team 5"
+        - cell "Owner"
+        - cell "42"
+        - cell "2025/08/05 18:06:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 6 Admin 333 2025/08/05 15:19:53 UTC+0 Manage":
+        - cell "Mock Team 6"
+        - cell "Admin"
+        - cell "333"
+        - cell "2025/08/05 15:19:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 7 Admin 71 2025/08/05 12:33:13 UTC+0 Manage":
+        - cell "Mock Team 7"
+        - cell "Admin"
+        - cell "71"
+        - cell "2025/08/05 12:33:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 8 Member 310 2025/08/05 09:46:33 UTC+0 View":
+        - cell "Mock Team 8"
+        - cell "Member"
+        - cell "310"
+        - cell "2025/08/05 09:46:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 9 Admin 476 2025/08/05 06:59:53 UTC+0 Manage":
+        - cell "Mock Team 9"
+        - cell "Admin"
+        - cell "476"
+        - cell "2025/08/05 06:59:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 10 Member 444 2025/08/05 04:13:13 UTC+0 View":
+        - cell "Mock Team 10"
+        - cell "Member"
+        - cell "444"
+        - cell "2025/08/05 04:13:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 11 Owner 455 2025/08/05 01:26:33 UTC+0 Manage Delete":
+        - cell "Mock Team 11"
+        - cell "Owner"
+        - cell "455"
+        - cell "2025/08/05 01:26:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 12 Admin 405 2025/08/04 22:39:53 UTC+0 Manage":
+        - cell "Mock Team 12"
+        - cell "Admin"
+        - cell "405"
+        - cell "2025/08/04 22:39:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 13 Admin 249 2025/08/04 19:53:13 UTC+0 Manage":
+        - cell "Mock Team 13"
+        - cell "Admin"
+        - cell "249"
+        - cell "2025/08/04 19:53:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 14 Admin 356 2025/08/04 17:06:33 UTC+0 Manage":
+        - cell "Mock Team 14"
+        - cell "Admin"
+        - cell "356"
+        - cell "2025/08/04 17:06:33 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 15 Owner 97 2025/08/04 14:19:53 UTC+0 Manage Delete":
+        - cell "Mock Team 15"
+        - cell "Owner"
+        - cell "97"
+        - cell "2025/08/04 14:19:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 16 Owner 269 2025/08/04 11:33:13 UTC+0 Manage Delete":
+        - cell "Mock Team 16"
+        - cell "Owner"
+        - cell "269"
+        - cell "2025/08/04 11:33:13 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 17 Member 446 2025/08/04 08:46:33 UTC+0 View":
+        - cell "Mock Team 17"
+        - cell "Member"
+        - cell "446"
+        - cell "2025/08/04 08:46:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 18 Owner 52 2025/08/04 05:59:53 UTC+0 Manage Delete":
+        - cell "Mock Team 18"
+        - cell "Owner"
+        - cell "52"
+        - cell "2025/08/04 05:59:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 19 Admin 377 2025/08/04 03:13:13 UTC+0 Manage":
+        - cell "Mock Team 19"
+        - cell "Admin"
+        - cell "377"
+        - cell "2025/08/04 03:13:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 20 Owner 41 2025/08/04 00:26:33 UTC+0 Manage Delete":
+        - cell "Mock Team 20"
+        - cell "Owner"
+        - cell "41"
+        - cell "2025/08/04 00:26:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 21 Admin 371 2025/08/03 21:39:53 UTC+0 Manage":
+        - cell "Mock Team 21"
+        - cell "Admin"
+        - cell "371"
+        - cell "2025/08/03 21:39:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 22 Member 71 2025/08/03 18:53:13 UTC+0 View":
+        - cell "Mock Team 22"
+        - cell "Member"
+        - cell "71"
+        - cell "2025/08/03 18:53:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 23 Admin 291 2025/08/03 16:06:33 UTC+0 Manage":
+        - cell "Mock Team 23"
+        - cell "Admin"
+        - cell "291"
+        - cell "2025/08/03 16:06:33 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 24 Member 71 2025/08/03 13:19:53 UTC+0 View":
+        - cell "Mock Team 24"
+        - cell "Member"
+        - cell "71"
+        - cell "2025/08/03 13:19:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 25 Member 467 2025/08/03 10:33:13 UTC+0 View":
+        - cell "Mock Team 25"
+        - cell "Member"
+        - cell "467"
+        - cell "2025/08/03 10:33:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 26 Owner 232 2025/08/03 07:46:33 UTC+0 Manage Delete":
+        - cell "Mock Team 26"
+        - cell "Owner"
+        - cell "232"
+        - cell "2025/08/03 07:46:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 27 Owner 280 2025/08/03 04:59:53 UTC+0 Manage Delete":
+        - cell "Mock Team 27"
+        - cell "Owner"
+        - cell "280"
+        - cell "2025/08/03 04:59:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 28 Member 14 2025/08/03 02:13:13 UTC+0 View":
+        - cell "Mock Team 28"
+        - cell "Member"
+        - cell "14"
+        - cell "2025/08/03 02:13:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 29 Member 266 2025/08/02 23:26:33 UTC+0 View":
+        - cell "Mock Team 29"
+        - cell "Member"
+        - cell "266"
+        - cell "2025/08/02 23:26:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 30 Admin 311 2025/08/02 20:39:53 UTC+0 Manage":
+        - cell "Mock Team 30"
+        - cell "Admin"
+        - cell "311"
+        - cell "2025/08/02 20:39:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 31 Admin 363 2025/08/02 17:53:13 UTC+0 Manage":
+        - cell "Mock Team 31"
+        - cell "Admin"
+        - cell "363"
+        - cell "2025/08/02 17:53:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 32 Admin 147 2025/08/02 15:06:33 UTC+0 Manage":
+        - cell "Mock Team 32"
+        - cell "Admin"
+        - cell "147"
+        - cell "2025/08/02 15:06:33 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 33 Member 312 2025/08/02 12:19:53 UTC+0 View":
+        - cell "Mock Team 33"
+        - cell "Member"
+        - cell "312"
+        - cell "2025/08/02 12:19:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 34 Owner 2 2025/08/02 09:33:13 UTC+0 Manage Delete":
+        - cell "Mock Team 34"
+        - cell "Owner"
+        - cell "2"
+        - cell "2025/08/02 09:33:13 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 35 Member 336 2025/08/02 06:46:33 UTC+0 View":
+        - cell "Mock Team 35"
+        - cell "Member"
+        - cell "336"
+        - cell "2025/08/02 06:46:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 36 Admin 408 2025/08/02 03:59:53 UTC+0 Manage":
+        - cell "Mock Team 36"
+        - cell "Admin"
+        - cell "408"
+        - cell "2025/08/02 03:59:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 37 Admin 166 2025/08/02 01:13:13 UTC+0 Manage":
+        - cell "Mock Team 37"
+        - cell "Admin"
+        - cell "166"
+        - cell "2025/08/02 01:13:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 38 Owner 456 2025/08/01 22:26:33 UTC+0 Manage Delete":
+        - cell "Mock Team 38"
+        - cell "Owner"
+        - cell "456"
+        - cell "2025/08/01 22:26:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 39 Member 300 2025/08/01 19:39:53 UTC+0 View":
+        - cell "Mock Team 39"
+        - cell "Member"
+        - cell "300"
+        - cell "2025/08/01 19:39:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 40 Owner 61 2025/08/01 16:53:13 UTC+0 Manage Delete":
+        - cell "Mock Team 40"
+        - cell "Owner"
+        - cell "61"
+        - cell "2025/08/01 16:53:13 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 41 Owner 5 2025/08/01 14:06:33 UTC+0 Manage Delete":
+        - cell "Mock Team 41"
+        - cell "Owner"
+        - cell "5"
+        - cell "2025/08/01 14:06:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 42 Member 118 2025/08/01 11:19:53 UTC+0 View":
+        - cell "Mock Team 42"
+        - cell "Member"
+        - cell "118"
+        - cell "2025/08/01 11:19:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 43 Owner 109 2025/08/01 08:33:13 UTC+0 Manage Delete":
+        - cell "Mock Team 43"
+        - cell "Owner"
+        - cell "109"
+        - cell "2025/08/01 08:33:13 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 44 Admin 114 2025/08/01 05:46:33 UTC+0 Manage":
+        - cell "Mock Team 44"
+        - cell "Admin"
+        - cell "114"
+        - cell "2025/08/01 05:46:33 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 45 Owner 96 2025/08/01 02:59:53 UTC+0 Manage Delete":
+        - cell "Mock Team 45"
+        - cell "Owner"
+        - cell "96"
+        - cell "2025/08/01 02:59:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 46 Member 420 2025/08/01 00:13:13 UTC+0 View":
+        - cell "Mock Team 46"
+        - cell "Member"
+        - cell "420"
+        - cell "2025/08/01 00:13:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 47 Member 278 2025/07/31 21:26:33 UTC+0 View":
+        - cell "Mock Team 47"
+        - cell "Member"
+        - cell "278"
+        - cell "2025/07/31 21:26:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 48 Owner 131 2025/07/31 18:39:53 UTC+0 Manage Delete":
+        - cell "Mock Team 48"
+        - cell "Owner"
+        - cell "131"
+        - cell "2025/07/31 18:39:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 49 Admin 159 2025/07/31 15:53:13 UTC+0 Manage":
+        - cell "Mock Team 49"
+        - cell "Admin"
+        - cell "159"
+        - cell "2025/07/31 15:53:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 50 Member 285 2025/07/31 13:06:33 UTC+0 View":
+        - cell "Mock Team 50"
+        - cell "Member"
+        - cell "285"
+        - cell "2025/07/31 13:06:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 51 Owner 348 2025/07/31 10:19:53 UTC+0 Manage Delete":
+        - cell "Mock Team 51"
+        - cell "Owner"
+        - cell "348"
+        - cell "2025/07/31 10:19:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 52 Owner 155 2025/07/31 07:33:13 UTC+0 Manage Delete":
+        - cell "Mock Team 52"
+        - cell "Owner"
+        - cell "155"
+        - cell "2025/07/31 07:33:13 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 53 Member 130 2025/07/31 04:46:33 UTC+0 View":
+        - cell "Mock Team 53"
+        - cell "Member"
+        - cell "130"
+        - cell "2025/07/31 04:46:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 54 Member 210 2025/07/31 01:59:53 UTC+0 View":
+        - cell "Mock Team 54"
+        - cell "Member"
+        - cell "210"
+        - cell "2025/07/31 01:59:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 55 Admin 450 2025/07/30 23:13:13 UTC+0 Manage":
+        - cell "Mock Team 55"
+        - cell "Admin"
+        - cell "450"
+        - cell "2025/07/30 23:13:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 56 Member 342 2025/07/30 20:26:33 UTC+0 View":
+        - cell "Mock Team 56"
+        - cell "Member"
+        - cell "342"
+        - cell "2025/07/30 20:26:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 57 Admin 134 2025/07/30 17:39:53 UTC+0 Manage":
+        - cell "Mock Team 57"
+        - cell "Admin"
+        - cell "134"
+        - cell "2025/07/30 17:39:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 58 Member 86 2025/07/30 14:53:13 UTC+0 View":
+        - cell "Mock Team 58"
+        - cell "Member"
+        - cell "86"
+        - cell "2025/07/30 14:53:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 59 Admin 49 2025/07/30 12:06:33 UTC+0 Manage":
+        - cell "Mock Team 59"
+        - cell "Admin"
+        - cell "49"
+        - cell "2025/07/30 12:06:33 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 60 Member 413 2025/07/30 09:19:53 UTC+0 View":
+        - cell "Mock Team 60"
+        - cell "Member"
+        - cell "413"
+        - cell "2025/07/30 09:19:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 61 Owner 487 2025/07/30 06:33:13 UTC+0 Manage Delete":
+        - cell "Mock Team 61"
+        - cell "Owner"
+        - cell "487"
+        - cell "2025/07/30 06:33:13 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 62 Owner 486 2025/07/30 03:46:33 UTC+0 Manage Delete":
+        - cell "Mock Team 62"
+        - cell "Owner"
+        - cell "486"
+        - cell "2025/07/30 03:46:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 63 Admin 474 2025/07/30 00:59:53 UTC+0 Manage":
+        - cell "Mock Team 63"
+        - cell "Admin"
+        - cell "474"
+        - cell "2025/07/30 00:59:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 64 Owner 387 2025/07/29 22:13:13 UTC+0 Manage Delete":
+        - cell "Mock Team 64"
+        - cell "Owner"
+        - cell "387"
+        - cell "2025/07/29 22:13:13 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 65 Member 333 2025/07/29 19:26:33 UTC+0 View":
+        - cell "Mock Team 65"
+        - cell "Member"
+        - cell "333"
+        - cell "2025/07/29 19:26:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 66 Owner 385 2025/07/29 16:39:53 UTC+0 Manage Delete":
+        - cell "Mock Team 66"
+        - cell "Owner"
+        - cell "385"
+        - cell "2025/07/29 16:39:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 67 Admin 153 2025/07/29 13:53:13 UTC+0 Manage":
+        - cell "Mock Team 67"
+        - cell "Admin"
+        - cell "153"
+        - cell "2025/07/29 13:53:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 68 Owner 22 2025/07/29 11:06:33 UTC+0 Manage Delete":
+        - cell "Mock Team 68"
+        - cell "Owner"
+        - cell "22"
+        - cell "2025/07/29 11:06:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 69 Admin 348 2025/07/29 08:19:53 UTC+0 Manage":
+        - cell "Mock Team 69"
+        - cell "Admin"
+        - cell "348"
+        - cell "2025/07/29 08:19:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 70 Admin 357 2025/07/29 05:33:13 UTC+0 Manage":
+        - cell "Mock Team 70"
+        - cell "Admin"
+        - cell "357"
+        - cell "2025/07/29 05:33:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 71 Member 183 2025/07/29 02:46:33 UTC+0 View":
+        - cell "Mock Team 71"
+        - cell "Member"
+        - cell "183"
+        - cell "2025/07/29 02:46:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 72 Member 164 2025/07/28 23:59:53 UTC+0 View":
+        - cell "Mock Team 72"
+        - cell "Member"
+        - cell "164"
+        - cell "2025/07/28 23:59:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 73 Member 321 2025/07/28 21:13:13 UTC+0 View":
+        - cell "Mock Team 73"
+        - cell "Member"
+        - cell "321"
+        - cell "2025/07/28 21:13:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 74 Owner 395 2025/07/28 18:26:33 UTC+0 Manage Delete":
+        - cell "Mock Team 74"
+        - cell "Owner"
+        - cell "395"
+        - cell "2025/07/28 18:26:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 75 Member 371 2025/07/28 15:39:53 UTC+0 View":
+        - cell "Mock Team 75"
+        - cell "Member"
+        - cell "371"
+        - cell "2025/07/28 15:39:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 76 Member 267 2025/07/28 12:53:13 UTC+0 View":
+        - cell "Mock Team 76"
+        - cell "Member"
+        - cell "267"
+        - cell "2025/07/28 12:53:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 77 Member 310 2025/07/28 10:06:33 UTC+0 View":
+        - cell "Mock Team 77"
+        - cell "Member"
+        - cell "310"
+        - cell "2025/07/28 10:06:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 78 Owner 72 2025/07/28 07:19:53 UTC+0 Manage Delete":
+        - cell "Mock Team 78"
+        - cell "Owner"
+        - cell "72"
+        - cell "2025/07/28 07:19:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 79 Admin 446 2025/07/28 04:33:13 UTC+0 Manage":
+        - cell "Mock Team 79"
+        - cell "Admin"
+        - cell "446"
+        - cell "2025/07/28 04:33:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 80 Member 83 2025/07/28 01:46:33 UTC+0 View":
+        - cell "Mock Team 80"
+        - cell "Member"
+        - cell "83"
+        - cell "2025/07/28 01:46:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 81 Owner 161 2025/07/27 22:59:53 UTC+0 Manage Delete":
+        - cell "Mock Team 81"
+        - cell "Owner"
+        - cell "161"
+        - cell "2025/07/27 22:59:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 82 Member 18 2025/07/27 20:13:13 UTC+0 View":
+        - cell "Mock Team 82"
+        - cell "Member"
+        - cell "18"
+        - cell "2025/07/27 20:13:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 83 Admin 266 2025/07/27 17:26:33 UTC+0 Manage":
+        - cell "Mock Team 83"
+        - cell "Admin"
+        - cell "266"
+        - cell "2025/07/27 17:26:33 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 84 Member 334 2025/07/27 14:39:53 UTC+0 View":
+        - cell "Mock Team 84"
+        - cell "Member"
+        - cell "334"
+        - cell "2025/07/27 14:39:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 85 Member 25 2025/07/27 11:53:13 UTC+0 View":
+        - cell "Mock Team 85"
+        - cell "Member"
+        - cell "25"
+        - cell "2025/07/27 11:53:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 86 Member 371 2025/07/27 09:06:33 UTC+0 View":
+        - cell "Mock Team 86"
+        - cell "Member"
+        - cell "371"
+        - cell "2025/07/27 09:06:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 87 Admin 96 2025/07/27 06:19:53 UTC+0 Manage":
+        - cell "Mock Team 87"
+        - cell "Admin"
+        - cell "96"
+        - cell "2025/07/27 06:19:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 88 Member 174 2025/07/27 03:33:13 UTC+0 View":
+        - cell "Mock Team 88"
+        - cell "Member"
+        - cell "174"
+        - cell "2025/07/27 03:33:13 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 89 Owner 295 2025/07/27 00:46:33 UTC+0 Manage Delete":
+        - cell "Mock Team 89"
+        - cell "Owner"
+        - cell "295"
+        - cell "2025/07/27 00:46:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 90 Admin 228 2025/07/26 21:59:53 UTC+0 Manage":
+        - cell "Mock Team 90"
+        - cell "Admin"
+        - cell "228"
+        - cell "2025/07/26 21:59:53 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 91 Admin 124 2025/07/26 19:13:13 UTC+0 Manage":
+        - cell "Mock Team 91"
+        - cell "Admin"
+        - cell "124"
+        - cell "2025/07/26 19:13:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 92 Admin 452 2025/07/26 16:26:33 UTC+0 Manage":
+        - cell "Mock Team 92"
+        - cell "Admin"
+        - cell "452"
+        - cell "2025/07/26 16:26:33 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+      - row "Mock Team 93 Owner 20 2025/07/26 13:39:53 UTC+0 Manage Delete":
+        - cell "Mock Team 93"
+        - cell "Owner"
+        - cell "20"
+        - cell "2025/07/26 13:39:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 94 Owner 56 2025/07/26 10:53:13 UTC+0 Manage Delete":
+        - cell "Mock Team 94"
+        - cell "Owner"
+        - cell "56"
+        - cell "2025/07/26 10:53:13 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 95 Member 409 2025/07/26 08:06:33 UTC+0 View":
+        - cell "Mock Team 95"
+        - cell "Member"
+        - cell "409"
+        - cell "2025/07/26 08:06:33 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 96 Member 197 2025/07/26 05:19:53 UTC+0 View":
+        - cell "Mock Team 96"
+        - cell "Member"
+        - cell "197"
+        - cell "2025/07/26 05:19:53 UTC+0"
+        - cell "View":
+          - img
+          - text: View
+      - row "Mock Team 97 Owner 389 2025/07/26 02:33:13 UTC+0 Manage Delete":
+        - cell "Mock Team 97"
+        - cell "Owner"
+        - cell "389"
+        - cell "2025/07/26 02:33:13 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 98 Owner 123 2025/07/25 23:46:33 UTC+0 Manage Delete":
+        - cell "Mock Team 98"
+        - cell "Owner"
+        - cell "123"
+        - cell "2025/07/25 23:46:33 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 99 Owner 285 2025/07/25 20:59:53 UTC+0 Manage Delete":
+        - cell "Mock Team 99"
+        - cell "Owner"
+        - cell "285"
+        - cell "2025/07/25 20:59:53 UTC+0"
+        - cell "Manage Delete":
+          - img
+          - text: Manage
+          - img
+          - text: Delete
+      - row "Mock Team 100 Admin 453 2025/07/25 18:13:13 UTC+0 Manage":
+        - cell "Mock Team 100"
+        - cell "Admin"
+        - cell "453"
+        - cell "2025/07/25 18:13:13 UTC+0"
+        - cell "Manage":
+          - img
+          - text: Manage
+```
