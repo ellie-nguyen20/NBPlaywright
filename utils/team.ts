@@ -62,3 +62,35 @@ export async function acceptTeamInvitation(request: APIRequestContext, token: st
 
   if (res.status() !== 200) throw new Error('Accept invitation failed');
 }
+
+export async function getTeams(request: APIRequestContext, token: string) {
+  const res = await request.get(`${BASE_URL}/api/v1/teams`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status() !== 200) throw new Error('Get teams failed');
+  return (await res.json()).data;
+}
+
+export async function getTeamId(request: APIRequestContext, token: string, teamName: string): Promise<number | null> {
+  try {
+    const teams = await getTeams(request, token);
+    const team = teams.find((team: any) => team.name === teamName);
+    return team ? team.id : null;
+  } catch (error) {
+    console.log(`Failed to get team ID for "${teamName}":`, error);
+    return null;
+  }
+}
+
+export async function deleteTeamByName(request: APIRequestContext, token: string, teamName: string) {
+  const teamId = await getTeamId(request, token, teamName);
+  if (teamId) {
+    await deleteTeam(request, token, teamId.toString());
+    console.log(`Team "${teamName}" (ID: ${teamId}) deleted via API`);
+  } else {
+    console.log(`Team "${teamName}" not found`);
+  }
+}

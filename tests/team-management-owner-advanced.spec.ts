@@ -4,44 +4,11 @@ import { TeamDetailPage } from '../pages/TeamDetailPage';
 import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
-test.describe('Team Management', () => {
+test.describe('Team Management - Owner Advanced Operations', () => {
   const teamName = 'Test Team';
   let teamPage: TeamPage;
   let teamDetailPage: TeamDetailPage;
   let loginPage: LoginPage;
-
-  test.describe('when user is Owner, he can create, delete team', () => {
-    test.beforeEach(async ({ page }) => {
-      teamPage = new TeamPage(page);
-      teamDetailPage = new TeamDetailPage(page);
-      loginPage = new LoginPage(page);
-
-      // Load credentials and login
-      const creds = require('../fixtures/credential.json');
-      
-      await loginPage.visit();
-      await loginPage.login(creds.valid.email, creds.valid.password);
-      await loginPage.isLoggedIn(creds.valid.username);
-      await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
-      
-      await teamPage.visit();
-      await expect(page).toHaveURL(new RegExp(ENDPOINTS.TEAM));
-    });
-
-    test('should create new team successfully', async ({ page }) => {
-      await teamPage.clickCreateTeam();
-      await teamPage.fillTeamName(teamName);
-      await teamPage.fillTeamDescription('Test Description');
-      await teamPage.confirmCreate();
-      await expect(page.locator('text=Team created successfully')).toBeVisible();
-    });
-
-    test('should delete team successfully', async ({ page }) => {
-      await teamPage.clickDelete(teamName);
-      await teamPage.confirmDelete();
-      await expect(page.locator('text=Team deleted successfully')).toBeVisible();
-    });
-  });
 
   test.describe('when user is Owner, he can invite member, cancel pending invitation, remove member, transfer ownership', () => {
     let teamId: number;
@@ -209,39 +176,4 @@ test.describe('Team Management', () => {
       await expect(row.locator('text=Admin')).toBeVisible();
     });
   });
-
-  // Commented out tests for future implementation
-  /*
-  test.describe('when user is Owner, he can edit roles and permissions of all team members', () => {
-    test.beforeEach(async ({ page }) => {
-      // Setup code
-    });
-
-    test('should edit roles successfully', async ({ page }) => {
-      // Test implementation
-    });
-
-    test('should edit permissions successfully', async ({ page }) => {
-      // Test implementation
-    });
-  });
-
-  test.describe('when user is Admin', () => {
-    test.beforeEach(async ({ page }) => {
-      // Setup code
-    });
-
-    test('should delete team successfully', async ({ page }) => {
-      // Test implementation
-    });
-
-    test('should invite user to team successfully', async ({ page }) => {
-      // Test implementation
-    });
-
-    test('should Edit roles and permissions of the team member successfully', async ({ page }) => {
-      // Test implementation
-    });
-  });
-  */
 }); 

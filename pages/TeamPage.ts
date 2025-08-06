@@ -23,20 +23,20 @@ export class TeamPage extends BasePage {
   }
 
   async manageButtonVisible(roleText: string) {
-    const row = this.page.locator(`tr:has-text("${roleText}")`);
-    const manageButtonInRow = row.locator('div.font-16.ml-8:has-text("Manage")');
+    const row = this.page.locator(`tr`).filter({ hasText: roleText });
+    const manageButtonInRow = row.getByText('Manage');
     await expect(manageButtonInRow).toBeVisible();
   }
 
   async deleteButtonVisible(roleText: string) {
-    const row = this.page.locator(`tr:has-text("${roleText}")`);
-    const deleteButtonInRow = row.locator('div.font-16.ml-8:has-text("Delete")');
+    const row = this.page.locator(`tr`).filter({ hasText: roleText });
+    const deleteButtonInRow = row.getByText('Delete');
     await expect(deleteButtonInRow).toBeVisible();
   }
 
   async viewButtonVisible(roleText: string) {
-    const row = this.page.locator(`tr:has-text("${roleText}")`);
-    const viewButtonInRow = row.locator('div.font-16.ml-8:has-text("View")');
+    const row = this.page.locator(`tr`).filter({ hasText: roleText });
+    const viewButtonInRow = row.getByText('View');
     await expect(viewButtonInRow).toBeVisible();
   }
 
@@ -90,14 +90,13 @@ export class TeamPage extends BasePage {
 
   // This action navigates to the team detail page
   async clickManage(teamName: string) {
-    const row = this.page.locator(`tr:has-text("${teamName}")`);
-    await row.locator('div.instance-btn.btn-transparent.border-radius-10.font-22.flex.flex-ai-center.color-border.pointer.mr-8.mt-4.mb-4').click();
-
+    const row = this.page.locator(`tr`).filter({ hasText: teamName });
+    await row.getByText('Manage').click();
   }
 
   async clickDelete(teamName: string) {
-    const row = this.page.locator(`tr:has-text("${teamName}")`);
-    await row.locator('div.instance-btn.btn-transparent.delete.border-radius-10.font-22.flex.flex-ai-center.color-border.pointer.mt-4.mb-4').click();
+    const row = this.page.locator(`tr`).filter({ hasText: teamName });
+    await row.getByText('Delete').click();
   }
 
   async confirmDelete() {
@@ -114,7 +113,7 @@ export class TeamPage extends BasePage {
   }  
 
   async checkRoleText(teamName: string, roleText: string) {
-    const row = this.page.locator(`tr:has-text("${teamName}")`);
+    const row = this.page.locator(`tr`).filter({ hasText: teamName });
     await expect(row.locator('.owner-style')).toHaveText(roleText);
   }
 
@@ -128,5 +127,49 @@ export class TeamPage extends BasePage {
 
   async checkViewButtonNotExist() {
     await expect(this.page.locator('div:has-text("View")')).not.toBeVisible();
+  }
+
+  // API method for cleanup
+  async deleteTeamViaAPI(teamName: string) {
+    try {
+      // Get auth token from localStorage or cookies
+      const token = await this.page.evaluate(() => {
+        return localStorage.getItem('token') || document.cookie.split('token=')[1]?.split(';')[0];
+      });
+      
+      if (!token) {
+        console.log('No auth token found');
+        return;
+      }
+
+      // Get team ID from team name
+      const response = await this.page.request.get('/api/v1/teams', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      if (response.status() !== 200) {
+        console.log('Failed to get teams list');
+        return;
+      }
+
+      const teams = await response.json();
+      const team = teams.data.find((t: any) => t.name === teamName);
+      
+      if (team) {
+        // Delete team via API
+        await this.page.request.delete(`/api/v1/teams/${team.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(`Team "${teamName}" (ID: ${team.id}) deleted via API`);
+      } else {
+        console.log(`Team "${teamName}" not found`);
+      }
+    } catch (error) {
+      console.log(`Failed to delete team "${teamName}" via API:`, error);
+    }
   }
 } 
