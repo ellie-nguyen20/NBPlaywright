@@ -170,19 +170,19 @@ test.describe('Team Page', () => {
         await teamPage.checkRoleText(name, roleText);
         
         if (showManage) {
-          await teamPage.manageButtonVisible();
+          await teamPage.manageButtonVisible(roleText);
         } else {
           await teamPage.checkManageButtonNotExist();
         }
         
         if (showDelete) {
-          await teamPage.deleteButtonVisible();
+          await teamPage.deleteButtonVisible(roleText);
         } else {
           await teamPage.checkDeleteButtonNotExist();
         }
         
         if (showView) {
-          await teamPage.viewButtonVisible();
+          await teamPage.viewButtonVisible(roleText);
         } else {
           await teamPage.checkViewButtonNotExist();
         }

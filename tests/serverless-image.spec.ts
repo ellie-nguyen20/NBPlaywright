@@ -23,7 +23,8 @@ test.describe('Serverless Page - Image model', () => {
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
   });
 
-  test.describe('Check chat with each image model via Model Detail UI, time for limitation 60s', () => {
+  test.describe('Check chat with each image model via Model Detail UI, timeout 60s', () => {
+    test.setTimeout(120000);
     const imageModels = [
       'Bytedance-Seedream-3.0',
       'SD-XL 1.0-base',
@@ -45,7 +46,6 @@ test.describe('Serverless Page - Image model', () => {
         await serverlessPage.checkImageResult();
         await serverlessPage.checkBase64ImageResult();
         
-        // Wait 60 seconds for rate limiting (equivalent to cy.wait(60000))
         await page.waitForTimeout(60000);
       });
     }

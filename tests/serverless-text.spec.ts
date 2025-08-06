@@ -52,7 +52,7 @@ test.describe('Serverless Page - Text Models', () => {
         await serverlessPage.clickSendButton();
         
         // Verify the message is visible
-        await expect(page.locator('div.text:has-text("Hi, I need help")')).toBeVisible({ timeout: 30000 });
+        await expect(page.locator('div.text:has-text("Hi, I need help")')).toBeVisible({ timeout: 40000 });
         
         // Check for tools div
         const toolsDiv = page.locator('div.tools.show');

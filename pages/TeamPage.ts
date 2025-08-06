@@ -17,24 +17,27 @@ export class TeamPage extends BasePage {
   private teamDescriptionTextarea = 'textarea[placeholder="Team Description"]';
   private confirmCreateButton = 'div.button:has-text("Create Team")';
   private confirmDeleteButton = 'div.button:has-text("Delete Team")';
-  private manageButton = 'div:has-text("Manage")';
-  private deleteButton = 'div:has-text("Delete")';
-  private viewButton = 'div:has-text("View")';
 
   async visit() {
     await this.page.locator(this.teamMenuItem).click({ force: true });
   }
 
-  async manageButtonVisible() {
-    await expect(this.page.locator(this.manageButton)).toBeVisible();
+  async manageButtonVisible(roleText: string) {
+    const row = this.page.locator(`tr:has-text("${roleText}")`);
+    const manageButtonInRow = row.locator('div.font-16.ml-8:has-text("Manage")');
+    await expect(manageButtonInRow).toBeVisible();
   }
 
-  async deleteButtonVisible() {
-    await expect(this.page.locator(this.deleteButton)).toBeVisible();
+  async deleteButtonVisible(roleText: string) {
+    const row = this.page.locator(`tr:has-text("${roleText}")`);
+    const deleteButtonInRow = row.locator('div.font-16.ml-8:has-text("Delete")');
+    await expect(deleteButtonInRow).toBeVisible();
   }
 
-  async viewButtonVisible() {
-    await expect(this.page.locator(this.viewButton)).toBeVisible();
+  async viewButtonVisible(roleText: string) {
+    const row = this.page.locator(`tr:has-text("${roleText}")`);
+    const viewButtonInRow = row.locator('div.font-16.ml-8:has-text("View")');
+    await expect(viewButtonInRow).toBeVisible();
   }
 
   // Use this when you expect the user to have no teams
@@ -89,8 +92,7 @@ export class TeamPage extends BasePage {
   async clickManage(teamName: string) {
     const row = this.page.locator(`tr:has-text("${teamName}")`);
     await row.locator('div.instance-btn.btn-transparent.border-radius-10.font-22.flex.flex-ai-center.color-border.pointer.mr-8.mt-4.mb-4').click();
-    // Return TeamDetailPage instance (you'll need to create this class)
-    // return new TeamDetailPage(this.page);
+
   }
 
   async clickDelete(teamName: string) {
@@ -108,8 +110,8 @@ export class TeamPage extends BasePage {
   }
 
   async checkTeamVisible(teamName: string) {
-    await expect(this.page.locator(`text=${teamName}`)).toBeVisible();
-  }
+    await expect(this.page.getByText(teamName, { exact: true })).toBeVisible();
+  }  
 
   async checkRoleText(teamName: string, roleText: string) {
     const row = this.page.locator(`tr:has-text("${teamName}")`);
@@ -117,14 +119,14 @@ export class TeamPage extends BasePage {
   }
 
   async checkManageButtonNotExist() {
-    await expect(this.page.locator(this.manageButton)).not.toBeVisible();
+    await expect(this.page.locator('div:has-text("Manage")')).not.toBeVisible();
   }
 
   async checkDeleteButtonNotExist() {
-    await expect(this.page.locator(this.deleteButton)).not.toBeVisible();
+    await expect(this.page.locator('div:has-text("Delete")')).not.toBeVisible();
   }
 
   async checkViewButtonNotExist() {
-    await expect(this.page.locator(this.viewButton)).not.toBeVisible();
+    await expect(this.page.locator('div:has-text("View")')).not.toBeVisible();
   }
 } 
