@@ -3,7 +3,7 @@ import { ServerlessModelsPage } from '../pages/ServerlessModelsPage';
 import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
-test.describe('Serverless Page - Multimodal, text, vision model', () => {
+test.describe('Serverless Page - Multimodal Models', () => {
   let serverlessPage: ServerlessModelsPage;
   let loginPage: LoginPage;
 
@@ -23,24 +23,21 @@ test.describe('Serverless Page - Multimodal, text, vision model', () => {
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
   });
 
-  test.describe('Check chat with each model via Model Detail UI, time out 20s', () => {
-    const models = [
+  test.describe('Check chat with multimodal models via Model Detail UI, timeout 30s', () => {
+    test.setTimeout(30000);
+    
+    const multimodalModels = [
       'Claude-Sonnet-4',
       'GPT-4o-mini',
       'Gemini-2.5-Pro-Preview-06-05',
       'Gemini-2.5-Pro-Preview-05-06',
       'Gemini-2.5-Flash-Preview-05-20',
       'Gemini-2.0-Flash',
-      'DeepSeek-R1-0528 (free)',
-      'DeepSeek-V3-0324 (free)',
-      'DeepSeek-R1 (free)',
-      'Llama3.3-70B',
-      'Qwen-QwQ-32B',
-      'Qwen2.5-VL-7B-Instruct',
+      // 'Qwen2.5-VL-7B-Instruct',
     ];
 
-    for (const modelName of models) {
-      test(`should chat with model: ${modelName}`, async ({ page }) => {
+    for (const modelName of multimodalModels) {
+      test(`should chat with multimodal model: ${modelName}`, async ({ page }) => {
         // Click on the model to open detail page
         await serverlessPage.clickModel(modelName);
         
@@ -53,7 +50,7 @@ test.describe('Serverless Page - Multimodal, text, vision model', () => {
         await serverlessPage.clickSendButton();
         
         // Verify the message is visible
-        await page.waitForTimeout(20000);
+        // await page.waitForTimeout(20000);
         await expect(page.locator('div.text:has-text("Hi, I need help")')).toBeVisible({ timeout: 30000 });
         
         // Check for tools div

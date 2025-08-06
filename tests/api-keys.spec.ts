@@ -25,7 +25,7 @@ test.describe('API Keys Page', () => {
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.API_KEYS));
   });
 
-  test.describe.skip('when user have 1 API personal key (default value)', () => {
+  test.describe('when user have 1 API personal key (default value)', () => {
     test('should display API Keys Default UI', async ({ page }) => {
       await apiKeysPage.checkUI();
     });
