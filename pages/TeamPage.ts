@@ -22,6 +22,10 @@ export class TeamPage extends BasePage {
     await this.page.locator(this.teamMenuItem).click({ force: true });
   }
 
+  async navigateTo() {
+    await this.page.goto('/team');
+  }
+
   async manageButtonVisible(roleText: string) {
     const row = this.page.locator(`tr`).filter({ hasText: roleText });
     const manageButtonInRow = row.getByText('Manage');

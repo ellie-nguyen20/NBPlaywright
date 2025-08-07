@@ -10,9 +10,6 @@ test.describe('SSH Key Page', () => {
 
   test.beforeEach(async ({ page }) => {
     sshKeyPage = new SSHKeyPage(page);
-
-    // Since we're using the 'chromium' project which has storageState from login.setup.ts,
-    // we should already be logged in. Navigate to SSH Key page.
     await sshKeyPage.navigateTo();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.SSH_KEY));
   });

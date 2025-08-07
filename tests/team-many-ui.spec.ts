@@ -1,0 +1,62 @@
+import { test, expect } from '@playwright/test';
+import { TeamPage } from '../pages/TeamPage';
+import { LoginPage } from '../pages/LoginPage';
+import { ENDPOINTS } from '../constants/endpoints';
+
+test.describe('Team Page - Many Teams UI', () => {
+  let teamPage: TeamPage;
+  let loginPage: LoginPage;
+
+  test.beforeEach(async ({ page }) => {
+    teamPage = new TeamPage(page);
+    // Mock team data with 100 teams
+    const mockTeamData = Array.from({ length: 100 }, (_, i) => ({
+      id: 31 + i,
+      name: `Mock Team ${i + 1}`,
+      description: `This is a description for team ${i + 1}`,
+      role: Math.floor(Math.random() * 3),
+      permissions: [],
+      members: Math.floor(Math.random() * 500) + 1,
+      created_at: Math.floor(Date.now() / 1000) - (i * 10000),
+      owner: {
+        id: 422,
+        name: "Member 5",
+        tier: "ENGINEER_TIER_1"
+      }
+    }));
+
+    await page.route('**/api/v1/teams?*', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          data: mockTeamData,
+          message: "Teams retrieved successfully",
+          status: "success"
+        })
+      });
+    });
+
+    await teamPage.navigateTo();
+    await expect(page).toHaveURL(new RegExp(ENDPOINTS.TEAM));
+  });
+
+  test('should click create team button', async ({ page }) => {
+    await teamPage.clickCreateTeam();
+  });
+
+  test('should click refresh button', async ({ page }) => {
+    await teamPage.clickRefresh();
+  });
+
+  test('should display the team list table with 100 teams', async ({ page }) => {
+    await teamPage.checkTeamListUI();
+    await teamPage.checkTeamCount(100);
+    await teamPage.checkTeamVisible('Mock Team 1');
+    
+    // Scroll to last team and check visibility
+    const lastTeam = page.locator('text=Mock Team 100');
+    await lastTeam.scrollIntoViewIfNeeded();
+    await expect(lastTeam).toBeVisible();
+  });
+}); 
