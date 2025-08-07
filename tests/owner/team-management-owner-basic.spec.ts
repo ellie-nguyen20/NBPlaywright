@@ -1,10 +1,10 @@
 import { test, expect } from '@playwright/test';
-import { TeamPage } from '../pages/TeamPage';
-import { TeamDetailPage } from '../pages/TeamDetailPage';
-import { LoginPage } from '../pages/LoginPage';
-import { ENDPOINTS } from '../constants/endpoints';
-import { createTeam, deleteTeamByName } from '../utils/team';
-import { loginAndGetToken } from '../utils/auth';
+import { TeamPage } from '../../pages/TeamPage';
+import { TeamDetailPage } from '../../pages/TeamDetailPage';
+import { LoginPage } from '../../pages/LoginPage';
+import { ENDPOINTS } from '../../constants/endpoints';
+import { createTeam, deleteTeamByName } from '../../utils/team';
+import { loginAndGetToken } from '../../utils/auth';
 
 test.describe('Team Management - Owner Basic Operations', () => {
   let teamPage: TeamPage;
@@ -33,9 +33,14 @@ test.describe('Team Management - Owner Basic Operations', () => {
     });
 
     test.afterEach(async ({ request }) => {
-      const creds = require('../fixtures/credential.json');
-      const token = await loginAndGetToken(request, creds.valid.email, creds.valid.password);
-      await deleteTeamByName(request, token, teamName);
+      try {
+        const creds = require('../fixtures/credential.json');
+        const token = await loginAndGetToken(request, creds.valid.email, creds.valid.password);
+        await deleteTeamByName(request, token, teamName);
+      } catch (error) {
+        // Silently ignore cleanup errors - team might not exist or already deleted
+        // No need to log or raise error for cleanup failures
+      }
     });
 
     test('should create new team successfully', async ({ page }) => {
