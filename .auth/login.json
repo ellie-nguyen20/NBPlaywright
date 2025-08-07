@@ -1,0 +1,61 @@
+{
+  "cookies": [
+    {
+      "name": "_ga",
+      "value": "GA1.1.1063688647.1754556855",
+      "domain": ".nebulablock.com",
+      "path": "/",
+      "expires": 1789116855.980806,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "_ga_19TVXETREZ",
+      "value": "GS2.1.s1754556854$o1$g1$t1754556855$j59$l0$h0",
+      "domain": ".nebulablock.com",
+      "path": "/",
+      "expires": 1789116855.983078,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "NID",
+      "value": "525=adEsq8QZqCL9dt3vZy893JI69AZaJOvyP2GHdPbuufslPa1rtsGQGDYUmUc_dkTGHgfQHVutcurF88ESKlFKkXswpeiOFQ-S3xTGWpij0Tr7CzFDedyawldrzgY5SiMQga8Be_pEV_pmzv8XoG_0fP7lRKuhMMXCmRpqK7AGKNNU8rvGzjU6sA7uN12RD-WS",
+      "domain": ".google.com",
+      "path": "/",
+      "expires": 1770368057.962149,
+      "httpOnly": true,
+      "secure": true,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "https://dev-portal.nebulablock.com",
+      "localStorage": [
+        {
+          "name": "nebulablock_newlook_token",
+          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0aGl2dW5ndXllbjE1MDZAZ21haWwuY29tIiwicm9sZXMiOlsiQURNSU4iXSwidGllciI6IkVYUEVSVF9USUVSXzIiLCJleHAiOjE3NTQ1NjQwNTcsInNjb3BlcyI6WyJBRE1JTiIsIkVYUEVSVF9USUVSXzIiXX0.tFA1J19KpyPoMDeLwaifwaK5JIGOwL_81E7TL13OAng"
+        },
+        {
+          "name": "referralInfo_nebulablock_newlook",
+          "value": "{\"is_referred\":false,\"referral_code\":\"adc37747\"}"
+        },
+        {
+          "name": "nebulablock_newlook_tier",
+          "value": "EXPERT_TIER_2"
+        },
+        {
+          "name": "accountInfo_nebulablock_newlook",
+          "value": "{\"accessID\":371,\"accessName\":\"Ellie Nguyen\",\"emailAddress\":\"thivunguyen1506@gmail.com\",\"password\":\"U2FsdGVkX1+GKj7vvg+FUO+SqdjduR9OXA8QwbiKURQ=\"}"
+        },
+        {
+          "name": "language",
+          "value": "en"
+        }
+      ]
+    }
+  ]
+}

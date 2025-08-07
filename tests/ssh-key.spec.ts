@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { SSHKeyPage } from '../pages/SSHKeyPage';
-import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
 const TEST_KEY = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtestkey1234567890';
@@ -8,21 +7,13 @@ const HIDE_KEY = 'ssh-rsa A...234567890';
 
 test.describe('SSH Key Page', () => {
   let sshKeyPage: SSHKeyPage;
-  let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
     sshKeyPage = new SSHKeyPage(page);
-    loginPage = new LoginPage(page);
 
-    // Load credentials and login
-    const creds = require('../fixtures/credential.json');
-    
-    await loginPage.visit();
-    await loginPage.login(creds.valid.email, creds.valid.password);
-    await loginPage.isLoggedIn(creds.valid.username);
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
-    
-    await sshKeyPage.visit();
+    // Since we're using the 'chromium' project which has storageState from login.setup.ts,
+    // we should already be logged in. Navigate to SSH Key page.
+    await sshKeyPage.navigateTo();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.SSH_KEY));
   });
 

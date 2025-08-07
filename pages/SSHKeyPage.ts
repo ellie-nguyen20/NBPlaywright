@@ -3,6 +3,7 @@
  */
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { ENDPOINTS } from '../constants/endpoints';
 
 export class SSHKeyPage extends BasePage {
   constructor(page: Page) {
@@ -22,6 +23,10 @@ export class SSHKeyPage extends BasePage {
 
   async visit() {
     await this.page.locator(this.sshKeyMenuItem).click({ force: true });
+  }
+
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.SSH_KEY);
   }
 
   async openCreateModal() {
