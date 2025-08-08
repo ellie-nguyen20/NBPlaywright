@@ -1,27 +1,16 @@
 import { test, expect, request } from '@playwright/test';
 import { ApiKeysPage } from '../pages/ApiKeysPage';
-import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
-import { loginAndGetToken, loginByApiAndSetLocalStorage } from '../utils/auth';
+import { loginAndGetToken } from '../utils/auth';
 import { createTeam, deleteTeam, createApiTeamKey } from '../utils/team';
 
 test.describe('API Keys Page', () => {
   let apiKeysPage: ApiKeysPage;
-  let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
     apiKeysPage = new ApiKeysPage(page);
-    loginPage = new LoginPage(page);
     
-    // Load credentials and login
-    const creds = require('../fixtures/credential.json');
-    
-    await loginPage.visit();
-    await loginPage.login(creds.valid.email, creds.valid.password);
-    await loginPage.isLoggedIn(creds.valid.username);
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
-    
-    await apiKeysPage.visit();
+    await apiKeysPage.navigateTo();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.API_KEYS));
   });
 

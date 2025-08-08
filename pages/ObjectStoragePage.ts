@@ -17,6 +17,10 @@ export class ObjectStoragePage extends BasePage {
     await this.page.locator(this.objectStorageMenuItem).click({ force: true });
   }
 
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.OBJECT_STORAGE);
+  }
+
   async fillLabel(label: string) {
     await this.page.locator('input[placeholder="Please enter a label to create your object storage"]').clear({ force: true });
     await this.page.locator('input[placeholder="Please enter a label to create your object storage"]').fill(label, { force: true });

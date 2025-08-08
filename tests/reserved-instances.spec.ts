@@ -1,24 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { ReservedInstancesPage } from '../pages/ReservedInstancesPage';
-import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
 test.describe('Reserved Instances Page', () => {
   const statuses = ['Booked', 'Canceled', 'Provisioning', 'Completed', 'Running'];
   let reservedInstancesPage: ReservedInstancesPage;
-  let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
     reservedInstancesPage = new ReservedInstancesPage(page);
-    loginPage = new LoginPage(page);
-
-    // Load credentials and login
-    const creds = require('../fixtures/credential.json');
-    
-    await loginPage.visit();
-    await loginPage.login(creds.valid.email, creds.valid.password);
-    await loginPage.isLoggedIn(creds.valid.username);
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
+    await reservedInstancesPage.navigateTo();
+    await expect(page).toHaveURL(new RegExp(ENDPOINTS.RESERVED_INSTANCES));
   });
 
   test.describe('when user have 5 GPUs with various statuses', () => {

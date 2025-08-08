@@ -47,6 +47,10 @@ export class ServerlessModelsPage extends BasePage {
     await this.page.locator(this.serverlessModelsMenuItem).click({ force: true });
   }
 
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.SERVERLESS);
+  }
+
   async getModelDiv(modelName: string) {
     return this.page.locator(`span:has-text("${modelName}")`);
   }

@@ -17,6 +17,10 @@ export class ContactPage extends BasePage {
     await this.page.locator(this.contactMenuItem).click({ force: true });
   }
 
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.CONTACT);
+  }
+
   async checkUI() {
     await expect(this.page.locator('h1:has-text("Contact")')).toBeVisible();
     await expect(this.page.locator('text=Our dedicated support team is here to help you with any questions or concerns related to the Nebula Block platform. We aim to provide timely and accurate responses, and your understanding is appreciated.')).toBeVisible();

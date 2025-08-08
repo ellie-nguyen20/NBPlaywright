@@ -1,25 +1,13 @@
 import { test, expect } from '@playwright/test';
 import { ReferralPage } from '../pages/ReferralPage';
-import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
 test.describe('Referral Page', () => {
   let referralPage: ReferralPage;
-  let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
     referralPage = new ReferralPage(page);
-    loginPage = new LoginPage(page);
-
-    // Load credentials and login
-    const creds = require('../fixtures/credential.json');
-    
-    await loginPage.visit();
-    await loginPage.login(creds.valid.email, creds.valid.password);
-    await loginPage.isLoggedIn(creds.valid.username);
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
-    
-    await referralPage.visit();
+    await referralPage.navigateTo();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.REFERRAL));
   });
 

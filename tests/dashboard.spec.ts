@@ -1,25 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { DashboardPage } from '../pages/DashboardPage';
-import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
 test.describe('Dashboard Page', () => {
   let dashboardPage: DashboardPage;
-  let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
     dashboardPage = new DashboardPage(page);
-    loginPage = new LoginPage(page);
 
-    // Load credentials and login
-    const creds = require('../fixtures/credential.json');
-    
-    await loginPage.visit();
-    await loginPage.login(creds.valid.email, creds.valid.password);
-    await loginPage.isLoggedIn(creds.valid.username);
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
-    
-    await dashboardPage.visit();
+    await dashboardPage.navigateTo();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.DASHBOARD));
   });
 

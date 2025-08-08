@@ -3,6 +3,7 @@
  */
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { ENDPOINTS } from '../constants/endpoints';
 
 export class TeamPage extends BasePage {
   constructor(page: Page) {
@@ -23,7 +24,7 @@ export class TeamPage extends BasePage {
   }
 
   async navigateTo() {
-    await this.page.goto('/team');
+    await this.page.goto(ENDPOINTS.TEAM);
   }
 
   async manageButtonVisible(roleText: string) {
@@ -96,6 +97,11 @@ export class TeamPage extends BasePage {
   async clickManage(teamName: string) {
     const row = this.page.locator(`tr`).filter({ hasText: teamName });
     await row.getByText('Manage').click();
+  }
+
+  async clickView(teamName: string) {
+    const row = this.page.locator(`tr`).filter({ hasText: teamName });
+    await row.getByText('View').click();
   }
 
   async clickDelete(teamName: string) {

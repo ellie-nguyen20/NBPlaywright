@@ -3,6 +3,7 @@
  */
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { ENDPOINTS } from '../constants/endpoints';
 
 export class DashboardPage extends BasePage {
   constructor(page: Page) {
@@ -19,6 +20,10 @@ export class DashboardPage extends BasePage {
 
   async visit() {
     await this.page.locator('.el-menu-item:has-text("Home")').click({ force: true });
+  }
+
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.DASHBOARD);
   }
 
   async checkUI() {

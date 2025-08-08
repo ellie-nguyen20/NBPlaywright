@@ -3,6 +3,7 @@
  */
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { ENDPOINTS } from '../constants/endpoints';
 
 export class ApiKeysPage extends BasePage {
   constructor(page: Page) {
@@ -15,6 +16,10 @@ export class ApiKeysPage extends BasePage {
     await apiKeysMenuItem.waitFor({ state: 'visible', timeout: 10000 });
     
     await apiKeysMenuItem.click({ force: true });
+  }
+
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.API_KEYS);
   }
 
   async checkUI() {

@@ -1,25 +1,14 @@
 import { test, expect } from '@playwright/test';
 import { ServerlessModelsPage } from '../pages/ServerlessModelsPage';
-import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
-test.describe('Serverless Page - Text Models', () => {
+test.describe('Serverless Page - Text model', () => {
   let serverlessPage: ServerlessModelsPage;
-  let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
     serverlessPage = new ServerlessModelsPage(page);
-    loginPage = new LoginPage(page);
 
-    // Load credentials and login
-    const creds = require('../fixtures/credential.json');
-    
-    await loginPage.visit();
-    await loginPage.login(creds.valid.email, creds.valid.password);
-    await loginPage.isLoggedIn(creds.valid.username);
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
-    
-    await serverlessPage.visit();
+    await serverlessPage.navigateTo();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
   });
 

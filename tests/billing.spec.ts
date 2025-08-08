@@ -1,28 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { BillingPage } from '../pages/BillingPage';
-import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
-import { getCredentials } from '../utils/testData';
 
 test.describe.configure({ mode: 'parallel' });
 test.describe('Billing Page', () => {
   let billingPage: BillingPage;
-  let loginPage: LoginPage;
-  let credentials: any;
 
   test.beforeEach(async ({ page }) => {
     billingPage = new BillingPage(page);
-    loginPage = new LoginPage(page);
-    credentials = getCredentials();
 
-    // Login first
-    await loginPage.visit();
-    await loginPage.login(credentials.valid.email, credentials.valid.password);
-    await loginPage.isLoggedIn(credentials.valid.username);
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS), { timeout: 20000 });
-
-    // Navigate to Billing page
-    await billingPage.visit();
+    await billingPage.navigateTo();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.BILLING));
   });
     

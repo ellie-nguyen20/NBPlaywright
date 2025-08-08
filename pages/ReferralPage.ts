@@ -3,6 +3,7 @@
  */
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { ENDPOINTS } from '../constants/endpoints';
 
 export class ReferralPage extends BasePage {
   constructor(page: Page) {
@@ -18,6 +19,10 @@ export class ReferralPage extends BasePage {
 
   async visit() {
     await this.page.locator(this.referralMenuItem).click({ force: true });
+  }
+
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.REFERRAL);
   }
 
   async checkUI() {

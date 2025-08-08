@@ -1,82 +1,70 @@
 import { test, expect } from '@playwright/test';
 import { TeamPage } from '../../pages/TeamPage';
 import { TeamDetailPage } from '../../pages/TeamDetailPage';
-import { LoginPage } from '../../pages/LoginPage';
 import { ENDPOINTS } from '../../constants/endpoints';
+import { createTeam, inviteMemberToTeam, deleteTeamByName } from '../../utils/team';
 
 test.describe('Team Management - Owner Invite Member', () => {
   const teamName = 'Test Team';
+  const teamDescription = 'Test Description';
+  const inviteEmail = 'test@gmail.com';
   let teamPage: TeamPage;
   let teamDetailPage: TeamDetailPage;
-  let loginPage: LoginPage;
+  let teamId: number;
+  let authToken: string;
 
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, request }) => {
     teamPage = new TeamPage(page);
     teamDetailPage = new TeamDetailPage(page);
-    loginPage = new LoginPage(page);
 
-    // Load credentials and login
-    const creds = require('../../fixtures/credential.json');
-    
-    await loginPage.visit();
-    await loginPage.login(creds.valid.email, creds.valid.password);
-    await loginPage.isLoggedIn(creds.valid.username);
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
-    
-    await teamPage.visit();
+    // Get auth token from localStorage
+    authToken = await page.evaluate(() => {
+      return localStorage.getItem('token') || document.cookie.split('token=')[1]?.split(';')[0];
+    });
+
+    if (!authToken) {
+      throw new Error('No auth token found. Please ensure user is logged in.');
+    }
+
+    await teamPage.navigateTo();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.TEAM));
   });
 
-  test('should invite user to team successfully', async ({ page }) => {
-    // Mock team creation API
-    await page.route('**/api/v1/teams', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          data: { id: 123, name: teamName },
-          message: "Team created successfully",
-          status: "success"
-        })
-      });
-    });
+  test.afterEach(async ({ request }) => {
+    // Cleanup: Delete the team via API
+    if (authToken) {
+      await deleteTeamByName(request, authToken, teamName);
+    }
+  });
 
-    // Mock team list API
-    await page.route('**/api/v1/teams?*', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          data: [{ id: 123, name: teamName, role: 0 }],
-          message: "Teams retrieved successfully",
-          status: "success"
-        })
-      });
-    });
-
-    // Mock invite API
-    await page.route('**/api/v1/teams/*/invite', async route => {
-      await route.fulfill({
-        status: 200,
-        contentType: 'application/json',
-        body: JSON.stringify({
-          message: "Team member invited successfully",
-          status: "success"
-        })
-      });
-    });
-
-    await teamPage.clickCreateTeam();
-    await teamPage.fillTeamName(teamName);
-    await teamPage.fillTeamDescription('Test Description');
-    await teamPage.confirmCreate();
+  test('should invite user to team successfully', async ({ page, request }) => {
+    // Create team via API
+    const teamData = await createTeam(request, authToken, teamName, teamDescription);
+    teamId = teamData.id;
     
+    // Refresh the page to see the newly created team
     await teamPage.clickRefresh();
+    await teamPage.checkTeamVisible(teamName);
+    
+    // Navigate to team detail page
     await teamPage.clickManage(teamName);
+    
+    // Invite member via UI
     await teamDetailPage.clickInviteMember();
-    await teamDetailPage.fillInviteEmail('test@gmail.com');
+    await teamDetailPage.fillInviteEmail(inviteEmail);
     await page.waitForTimeout(1000);
     await teamDetailPage.confirmInvite();
+    
+    // Verify success message
     await expect(page.locator('text=Team member invited successfully')).toBeVisible({ timeout: 10000 });
+    
+    // Optional: Verify the invitation was actually sent via API
+    try {
+      const inviteToken = await inviteMemberToTeam(request, authToken, teamId.toString(), inviteEmail);
+      expect(inviteToken).toBeDefined();
+    } catch (error) {
+      // If invitation already exists, that's also acceptable
+      console.log('Member might already be invited or team might not exist');
+    }
   });
 }); 

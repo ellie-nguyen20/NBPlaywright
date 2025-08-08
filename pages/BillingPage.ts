@@ -17,6 +17,10 @@ export class BillingPage extends BasePage {
     await this.page.locator(this.billingMenuItem).click({ force: true });
   }
 
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.BILLING);
+  }
+
   async checkUI() {
     // Wait for the element to be visible, not just present
     await expect(this.page.locator('h1:has-text("Available Credits")').first()).toHaveCount(1);

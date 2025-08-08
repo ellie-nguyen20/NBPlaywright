@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { TeamPage } from '../pages/TeamPage';
-import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
 test.describe('Team Page - User Roles UI', () => {

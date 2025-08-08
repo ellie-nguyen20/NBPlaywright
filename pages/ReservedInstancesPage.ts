@@ -3,6 +3,7 @@
  */
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { ENDPOINTS } from '../constants/endpoints';
 
 export class ReservedInstancesPage extends BasePage {
   constructor(page: Page) {
@@ -11,6 +12,10 @@ export class ReservedInstancesPage extends BasePage {
 
   async visit() {
     await this.page.locator('.el-menu-item:has-text("Reserved Instances")').click({ force: true });
+  }
+
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.RESERVED_INSTANCES);
   }
 
   async checkUI() {

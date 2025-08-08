@@ -25,6 +25,10 @@ export class AccountPage extends BasePage {
     await this.page.locator(this.accountMenuItem).click({ force: true });
   }
 
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.ACCOUNT);
+  }
+
   async checkUI() {
     await expect(this.page.locator('text=Account').first()).toBeVisible();
     await expect(this.page.locator('text=Edit Profile').first()).toBeVisible();

@@ -36,7 +36,7 @@ jobs:
           TIMESTAMP=$(date +'%Y-%m-%d_%H-%M-%S')
           REPORT_NAME="playwright-report_${TIMESTAMP}"
           echo "REPORT_NAME=$REPORT_NAME" >> $GITHUB_ENV
-          npx playwright test --workers=8 || true
+          npx playwright test --workers=10 || true
           cp -r playwright-report $REPORT_NAME
         continue-on-error: true
 

@@ -1,11 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { TeamPage } from '../pages/TeamPage';
-import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
 test.describe('Team Page - Many Teams UI', () => {
   let teamPage: TeamPage;
-  let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
     teamPage = new TeamPage(page);

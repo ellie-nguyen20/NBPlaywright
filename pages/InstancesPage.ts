@@ -3,6 +3,7 @@
  */
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
+import { ENDPOINTS } from '../constants/endpoints';
 
 const SELECTOR_ACTIVE_CHECKBOX = 'label.el-checkbox';
 const SELECTOR_DEPLOY_BUTTON = 'div.refresh.refresh-active.text-center.pointer';
@@ -18,6 +19,9 @@ export class InstancesPage extends BasePage {
     await this.page.locator('.el-menu-item:has-text("Instances")').click({ force: true });
   }
 
+  async navigateTo() {
+    await this.page.goto(ENDPOINTS.INSTANCES);
+  }
   // Check UI when there are no instances
   async checkUI() {
     await expect(this.page.locator('text=Start Using GPU Instances')).toBeVisible();

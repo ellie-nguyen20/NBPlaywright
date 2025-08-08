@@ -1,28 +1,17 @@
 import { test, expect } from '@playwright/test';
 import { InstancesPage } from '../pages/InstancesPage';
 import { DeployInstancePage } from '../pages/DeployInstancePage';
-import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
 test.describe('Instances Page', () => {
   let instancesPage: InstancesPage;
   let deployInstancePage: DeployInstancePage;
-  let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
     instancesPage = new InstancesPage(page);
     deployInstancePage = new DeployInstancePage(page);
-    loginPage = new LoginPage(page);
-
-    // Load credentials and login
-    const creds = require('../fixtures/credential.json');
     
-    await loginPage.visit();
-    await loginPage.login(creds.valid.email, creds.valid.password);
-    await loginPage.isLoggedIn(creds.valid.username);
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
-    
-    await instancesPage.visit();
+    await instancesPage.navigateTo();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.INSTANCES));
   });
 
