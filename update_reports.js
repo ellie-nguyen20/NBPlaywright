@@ -127,7 +127,7 @@ function createIndexHtml(reports) {
 <body>
     <div class="header">
         <h1>🧪 Playwright Test Reports</h1>
-        <p>Latest 10 test execution reports from CI/CD pipeline</p>
+        <p>Latest 4 test execution reports from CI/CD pipeline</p>
     </div>
     
     <div class="reports-grid">
@@ -175,13 +175,13 @@ try {
     console.log('⚠️ New report not found:', newReportPath);
   }
   
-  // Keep only the latest 10 reports
-  const latestReports = existingReports.slice(0, 10);
+  // Keep only the latest 4 reports
+  const latestReports = existingReports.slice(0, 4);
   console.log(`🎯 Keeping latest ${latestReports.length} reports`);
   
-  // Remove old reports beyond the 10th
-  if (existingReports.length > 10) {
-    const reportsToRemove = existingReports.slice(10);
+  // Remove old reports beyond the 4th
+  if (existingReports.length > 4) {
+    const reportsToRemove = existingReports.slice(4);
     console.log(`🗑️ Removing ${reportsToRemove.length} old reports`);
     
     reportsToRemove.forEach(report => {
