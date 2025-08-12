@@ -1,28 +1,28 @@
 /**
- * Contact Page Object Model
+ * Support Page Object Model
  */
 import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 import { ENDPOINTS } from '../constants/endpoints';
 
-export class ContactPage extends BasePage {
+export class SupportPage extends BasePage {
   constructor(page: Page) {
     super(page);
   }
 
   // Selectors
-  private contactMenuItem = '.el-menu-item:has-text("Contact")';
+  private supportMenuItem = '.el-menu-item:has-text("Contact")';
 
   async visit() {
-    await this.page.locator(this.contactMenuItem).click({ force: true });
+    await this.page.locator(this.supportMenuItem).click({ force: true });
   }
 
   async navigateTo() {
-    await this.page.goto(ENDPOINTS.CONTACT);
+    await this.page.goto(ENDPOINTS.SUPPORT);
   }
 
   async checkUI() {
-    await expect(this.page.locator('h1:has-text("Contact")')).toBeVisible();
+    await expect(this.page.locator('h1:has-text("Support")')).toBeVisible();
     await expect(this.page.locator('text=Our dedicated support team is here to help you with any questions or concerns related to the Nebula Block platform. We aim to provide timely and accurate responses, and your understanding is appreciated.')).toBeVisible();
     await expect(this.page.locator('text=Subject')).toBeVisible();
     await expect(this.page.locator('text=Description')).toBeVisible();

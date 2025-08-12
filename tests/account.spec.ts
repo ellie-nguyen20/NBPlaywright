@@ -1,14 +1,29 @@
 import { test, expect } from '@playwright/test';
 import { AccountPage } from '../pages/AccountPage';
+import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
+import { getCredentials } from '../utils/testData';
 
 test.describe('Account Page', () => {
   let accountPage: AccountPage;
+  let loginPage: LoginPage;
+  let credentials: any;
 
   test.beforeEach(async ({ page }) => {
-    accountPage = new AccountPage(page);
+    test.use({ storageState: undefined });
 
-    await accountPage.navigateTo();
+    accountPage = new AccountPage(page);
+    loginPage = new LoginPage(page);
+    credentials = getCredentials();
+
+    // Login first
+    await loginPage.visit();
+    await loginPage.login(credentials.account.email, credentials.account.password);
+    await loginPage.isLoggedIn(credentials.account.username);
+    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
+
+    // Navigate to Account page
+    await accountPage.visit();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.ACCOUNT));
   });
 
@@ -17,13 +32,11 @@ test.describe('Account Page', () => {
   });
 
   test('should update profile information successfully', async () => {
-    const credentials = require('../fixtures/credential.json');
     await accountPage.updateProfile(credentials.account.updateUsername);
     await accountPage.updateProfile(credentials.account.username);
   });
 
   test('should change password successfully', async () => {
-    const credentials = require('../fixtures/credential.json');
     await accountPage.changePassword(credentials.account.password, credentials.account.newPassword);
     await accountPage.changePassword(credentials.account.newPassword, credentials.account.password);
   });
@@ -33,7 +46,6 @@ test.describe('Account Page', () => {
   });
 
   test('should not change password with duplicate password', async () => {
-    const credentials = require('../fixtures/credential.json');
     await accountPage.changeWithDuplicatePassword(credentials.account.password, credentials.account.password);
   });
 }); 

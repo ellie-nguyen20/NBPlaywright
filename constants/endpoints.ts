@@ -15,7 +15,7 @@ export const ENDPOINTS = {
   API_KEYS: '/apiKeys',
   BILLING: '/billing',
   ACCOUNT: '/profile',
-  CONTACT: '/contact',
+  SUPPORT: '/support',
   REFERRAL: '/referral',
   SSH_KEY: '/sshKey',
   TEAM: '/team',
