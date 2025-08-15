@@ -5,7 +5,7 @@ import { ENDPOINTS } from '../constants/endpoints';
 const TEST_KEY = 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCtestkey1234567890';
 const HIDE_KEY = 'ssh-rsa A...234567890';
 
-test.describe('SSH Key Page', () => {
+test.describe.serial('SSH Key Page', () => {
   let sshKeyPage: SSHKeyPage;
 
   test.beforeEach(async ({ page }) => {
@@ -14,13 +14,12 @@ test.describe('SSH Key Page', () => {
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.SSH_KEY));
   });
 
-  test('should display SSH Key UI', async ({ page }) => {
-    await sshKeyPage.checkUI();
+  test.afterEach(async ({ page }) => {
+    
   });
 
-  test('should check create modal UI', async ({ page }) => {
-    await sshKeyPage.openCreateModal();
-    await sshKeyPage.checkCreateModalUI();
+  test('should display SSH Key UI', async ({ page }) => {
+    await sshKeyPage.checkUI();
   });
 
   test('should open create modal and display UI', async ({ page }) => {

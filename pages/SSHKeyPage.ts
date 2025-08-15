@@ -72,8 +72,10 @@ export class SSHKeyPage extends BasePage {
   }
 
   async checkViewModal(key: string) {
-    const keyElement = this.page.locator('text=SSH Public Key:').locator('..').locator('..');
-    await expect(keyElement).toContainText(key.substring(0, 10));
+    const title = this.page.locator('h4:has-text("Key Details")');
+    await expect(title).toBeVisible();
+    const keyElement = this.page.getByText(key).nth(1);
+    await expect(keyElement).toBeVisible();
   }
 
   async copyKeyInTable(name: string) {
@@ -86,7 +88,7 @@ export class SSHKeyPage extends BasePage {
   }
 
   async deleteKeyInModal() {
-    await this.page.locator(this.deleteButton).click({ force: true });
+    await this.page.locator('div.delete:has-text("Delete")').click({ force: true });
   }
 
   async checkKeyNotInTable(name: string) {
@@ -103,7 +105,7 @@ export class SSHKeyPage extends BasePage {
 
   async checkUI() {
     await expect(this.page.locator('h1:has-text("SSH Public Key")')).toBeVisible();
-    await expect(this.page.locator('text=Create')).toBeVisible();
+    await expect(this.page.getByText('Create', { exact: true })).toBeVisible();
     await expect(this.page.locator('text=Refresh')).toBeVisible();
     await expect(this.page.locator('text=Name')).toBeVisible();
     await expect(this.page.locator('text=Key Data')).toBeVisible();
