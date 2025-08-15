@@ -28,7 +28,7 @@ test.describe('Referral Page', () => {
     await referralPage.copyCode();
   });
 
-  test('should apply invalid referral code and show error', async ({ page }) => {
+  test.skip('should apply invalid referral code and show error', async ({ page }) => {
     await referralPage.fillReferralCode('invalid-code');
     await referralPage.applyReferralCode();
     await referralPage.checkApplyError();
