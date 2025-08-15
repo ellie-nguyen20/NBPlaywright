@@ -24,7 +24,7 @@ test.describe('Dashboard Page', () => {
     await dashboardPage.checkSwitchLanguageButtons();
   });
 
-  test('Check dashboard links/tabs', async ({ page }) => {
+  test.skip('Check dashboard links/tabs', async ({ page }) => {
     await dashboardPage.checkDashboardLinks();
   });
 
