@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { TeamPage } from '../pages/TeamPage';
-import { ENDPOINTS } from '../constants/endpoints';
+import { TeamPage } from '../../pages/TeamPage';
+import { ENDPOINTS } from '../../constants/endpoints';
 
 test.describe('Team Page - Empty State UI', () => {
   let teamPage: TeamPage;

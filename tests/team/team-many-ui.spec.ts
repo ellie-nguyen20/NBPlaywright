@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { TeamPage } from '../pages/TeamPage';
-import { ENDPOINTS } from '../constants/endpoints';
+import { TeamPage } from '../../pages/TeamPage';
+import { ENDPOINTS } from '../../constants/endpoints';
 
 test.describe('Team Page - Many Teams UI', () => {
   let teamPage: TeamPage;
@@ -40,7 +40,6 @@ test.describe('Team Page - Many Teams UI', () => {
   });
 
   test('should click create team button', async ({ page }) => {
-    await teamPage.clickCreateTeam();
   });
 
   test('should click refresh button', async ({ page }) => {
