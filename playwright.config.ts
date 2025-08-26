@@ -43,6 +43,8 @@ export default defineConfig({
 
     navigationTimeout: 20_000,
     actionTimeout: 20_000,
+    // storageState: '.auth/login.json',
+
   },
 
   /* Configure projects for major browsers */
@@ -58,7 +60,17 @@ export default defineConfig({
         storageState: '.auth/login.json',
        },
       dependencies: ['setup'],
+    },
+    {
+      name: 'api',
+      use: {
+        baseURL: 'https://dev-portal.nebulablock.com/api/v1',
+        storageState: '.auth/login.json',
+      },
+      dependencies: ['setup'],
+      testMatch: /.*\.api\.ts/,
     }
+    
 
     // {
     //   name: 'firefox',

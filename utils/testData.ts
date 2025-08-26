@@ -42,4 +42,32 @@ export function getInvalidCredentials() {
 export function getAccountCredentials() {
   const credentials = getCredentials();
   return credentials.account;
-} 
+}
+
+// Payment test data for credit card tests
+export const PAYMENT_TEST_DATA = {
+  validCard: {
+    email: 'ellie.nguyen@example.com',
+    cardNumber: '4242424242424242', // Stripe test card - successful payment
+    expiration: '1230', // December 2030
+    cvc: '123',
+    cardholderName: 'Ellie Nguyen',
+    country: 'VN' // Vietnam
+  },
+  declinedCard: {
+    email: 'ellie.nguyen@example.com',
+    cardNumber: '4000000000000002', // Stripe test card - declined
+    expiration: '1230',
+    cvc: '123',
+    cardholderName: 'Ellie Nguyen',
+    country: 'VN'
+  },
+  insufficientFundsCard: {
+    email: 'ellie.nguyen@example.com',
+    cardNumber: '4000000000009995', // Stripe test card - insufficient funds
+    expiration: '1230',
+    cvc: '123',
+    cardholderName: 'Ellie Nguyen',
+    country: 'VN'
+  }
+}; 

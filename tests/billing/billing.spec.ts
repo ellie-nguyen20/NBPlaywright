@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { BillingPage } from '../pages/BillingPage';
-import { ENDPOINTS } from '../constants/endpoints';
+import { BillingPage } from '../../pages/BillingPage';
+import { ENDPOINTS } from '../../constants/endpoints';
 
 test.describe.configure({ mode: 'parallel' });
 test.describe('Billing Page', () => {
