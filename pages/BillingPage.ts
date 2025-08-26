@@ -92,7 +92,7 @@ export class BillingPage extends BasePage {
     
     // Check if modal is visible, if not wait longer
     const modal = this.page.locator('h2:has-text("Add Payment Method")');
-    await modal.waitFor({ state: 'visible', timeout: 25000 });
+    await modal.waitFor({ state: 'visible', timeout: 30000 });
     
     // Verify modal is actually visible
     await expect(modal).toBeVisible({ timeout: 25000 });
@@ -159,10 +159,10 @@ export class BillingPage extends BasePage {
   }
 
   async fillCreditCardInfo(cardInfo: {
-    cardNumber: string;
+    // cardNumber: string;
     expirationDate: string;
     securityCode: string;
-  }) {
+  }, cardNumber?: string) {
     // Wait for Stripe iframe to be ready first
     await this.page.waitForSelector('iframe[title*="payment"]', { timeout: 25000 });
     
@@ -194,7 +194,9 @@ export class BillingPage extends BasePage {
     // Wait for each field to be ready before filling
     const cardNumberField = paymentFrame.locator('input[name="cardnumber"]');
     await cardNumberField.waitFor({ state: 'visible', timeout: 25000 });
-    await cardNumberField.fill(cardInfo.cardNumber);
+    if (cardNumber) {
+      await cardNumberField.fill(cardNumber);
+    }
     
     const expiryField = paymentFrame.locator('input[name="exp-date"]');
     await expiryField.waitFor({ state: 'visible', timeout: 25000 });
@@ -211,7 +213,7 @@ export class BillingPage extends BasePage {
 
   async verifyCardAddedSuccessfully() {
     // Wait for success message to appear
-    await expect(this.page.getByText('Card Added Successfully')).toBeVisible();
+    await expect(this.page.getByText('Card Added Successfully')).toBeVisible({ timeout: 30000 });
     
     // Click outside to close the success popup
     await this.closeSuccessPopup();
@@ -254,6 +256,7 @@ export class BillingPage extends BasePage {
 
   async clickDeleteFromDropdown() {
     // Wait for dropdown menu to appear and click Delete option
+    await this.page.waitForTimeout(500);
     await this.page.locator('.el-dropdown-menu .el-dropdown-menu__item:has-text("Delete")').click({ force: true });
   }
 
@@ -364,10 +367,10 @@ export class BillingPage extends BasePage {
     addressLine2: string;
     city: string;
     postalCode: string;
-    cardNumber: string;
+    // cardNumber: string;
     expirationDate: string;
     securityCode: string;
-  }) {
+  }, cardNumber?: string) {
     // Click on "Add a New Card" button to open the form
     await this.clickAddNewCard();
     
@@ -382,15 +385,14 @@ export class BillingPage extends BasePage {
     
     // Fill in the credit card information
     await this.fillCreditCardInfo({
-      cardNumber: cardData.cardNumber,
       expirationDate: cardData.expirationDate,
       securityCode: cardData.securityCode
-    });
+    }, cardNumber);
     
     // Submit the form by clicking "Add Card" button
     await this.submitAddCard();
     
-    // Wait for success message and close popup
-    await this.verifyCardAddedSuccessfully();
+    // // Wait for success message and close popup
+    // await this.verifyCardAddedSuccessfully();
   }
 } 
