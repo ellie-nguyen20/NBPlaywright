@@ -8,14 +8,12 @@ type ErrorRequest = {
 
 export const test = base.extend<{pageWithMonitoring: Page}>({
     pageWithMonitoring: [async ({ page }, use, testInfo) => {
-        //set up monitoring - Chỉ log, không fail test
         const failedRequests: ErrorRequest[] = [];
 
         page.on("response", async (response) => {
             const url = response.url();
             const status = response.status();
-            console.log(`Response: ${url} - Status: ${status}`);
-
+            
             if (status >= 400) {
                 let responseBody = '';
                 try {
@@ -30,7 +28,6 @@ export const test = base.extend<{pageWithMonitoring: Page}>({
                     responseBody,
                 });
 
-                // Log failed request details immediately
                 console.log(`❌ FAILED REQUEST:`);
                 console.log(`   URL: ${url}`);
                 console.log(`   Status: ${status}`);
@@ -39,13 +36,12 @@ export const test = base.extend<{pageWithMonitoring: Page}>({
             }
         });
         await use(page);
-        //tear down monitoring - Chỉ log, không fail test
         if (failedRequests.length > 0) {
             await testInfo.attach("failed-requests.json", {
                 body: JSON.stringify(failedRequests, null, 2),
                 contentType: "application/json",
             });
-            console.log(`⚠️  Test completed with ${failedRequests.length} failed requests (test not failed)`);
+            console.log(`Hey there were Failed requests: ${failedRequests.length}`);
         }
     }, { auto: true }],
 });
