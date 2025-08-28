@@ -10,7 +10,7 @@ export class HomePage extends BasePage {
   }
 
   async visit() {
-    await this.page.goto('/');
+    await this.page.goto('https://dev-portal-v2.nebulablock.com/');
   }
 
   async checkUI() {
