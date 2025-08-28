@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { test } from '../fixtures/testFixtures';
+import { expect } from '@playwright/test';
 import { ReferralPage } from '../pages/ReferralPage';
 import { ENDPOINTS } from '../constants/endpoints';
 

@@ -41,6 +41,8 @@ export default defineConfig({
     /* Take screenshot on all tests */
     screenshot: 'on',
 
+    // video: 'retain-on-failure',
+
     navigationTimeout: 20_000,
     actionTimeout: 20_000,
     // storageState: '.auth/login.json',

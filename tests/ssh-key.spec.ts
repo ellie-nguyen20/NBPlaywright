@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { test } from '../fixtures/testFixtures';
+import { expect } from '@playwright/test';
 import { SSHKeyPage } from '../pages/SSHKeyPage';
 import { ENDPOINTS } from '../constants/endpoints';
 

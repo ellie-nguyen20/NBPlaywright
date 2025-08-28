@@ -1,4 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { test } from '../fixtures/testFixtures';
+import { expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { ENDPOINTS } from '../constants/endpoints';
 import { getCredentials } from '../utils/testData';
