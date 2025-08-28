@@ -69,6 +69,15 @@ export default defineConfig({
       },
       dependencies: ['setup'],
       testMatch: /.*\.api\.ts/,
+    },
+    {
+      name: 'auth-tests',
+      use: { 
+        ...devices['Desktop Chrome'],
+        baseURL: 'https://dev-console.nebulablock.com',
+        storageState: undefined, 
+      },
+      testMatch: /.*\.no-prefix-auth|no-prefix-auth\.ts/,
     }
     
 

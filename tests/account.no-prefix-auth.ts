@@ -10,8 +10,6 @@ test.describe('Account Page', () => {
   let credentials: any;
 
   test.beforeEach(async ({ page }) => {
-    test.use({ storageState: undefined });
-
     accountPage = new AccountPage(page);
     loginPage = new LoginPage(page);
     credentials = getCredentials();
