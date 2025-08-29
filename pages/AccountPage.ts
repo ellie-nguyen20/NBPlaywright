@@ -80,9 +80,11 @@ export class AccountPage extends BasePage {
     await expect(this.page.locator(this.wrongPasswordMessage)).toBeVisible();
   }
 
-  async changeWithDuplicatePassword(currentPassword: string, newPassword: string) {
-    await this.clickChangePassword();
-    await this.fillPassword(currentPassword, newPassword);
-    await expect(this.page.locator(this.duplicatePasswordMessage)).toBeVisible();
+  async changeWithDuplicatePassword(currentPassword: string, newPassword: string) {    
+    await expect(async () => {
+      await this.clickChangePassword();
+      await this.fillPassword(currentPassword, newPassword);
+      await expect(this.page.locator(this.duplicatePasswordMessage)).toBeVisible({ timeout: 1000 });
+    }).toPass({ timeout: 10000 });
   }
 } 

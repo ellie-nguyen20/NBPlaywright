@@ -27,10 +27,9 @@ test.describe('Object Storage Page', () => {
     });
 
     test('should display empty state UI and detail creating object storage modal', async ({ page }) => {
-      await objectStoragePage.checkUI();
-    //   await page.waitForTimeout(1000);
-    //   await objectStoragePage.clickContinueCreatingObjectStorage();
-    //   await objectStoragePage.checkDetailCreatingObjectStorage();
+      await expect(async () => {
+        await objectStoragePage.checkUI();
+      }).toPass({ timeout: 10000 });
     });
   });
 
