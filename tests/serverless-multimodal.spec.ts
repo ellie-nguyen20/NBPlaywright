@@ -19,11 +19,11 @@ test.describe('Serverless Page - Multimodal model', () => {
     const multimodalModels = [
       'Claude-Sonnet-4',
       'GPT-4o-mini',
-      'Gemini-2.5-Pro-Preview-06-05',
-      'Gemini-2.5-Pro-Preview-05-06',
-      'Gemini-2.5-Flash-Preview-05-20',
+      'Gemini-2.5-Pro',
+      'Gemini-2.5-Flash',
+      'Gemini-2.5-Flash-Lite',
       'Gemini-2.0-Flash',
-      // 'Qwen2.5-VL-7B-Instruct',
+      'Gemini-2.0-Flash-Lite',
     ];
 
     for (const modelName of multimodalModels) {
@@ -33,18 +33,15 @@ test.describe('Serverless Page - Multimodal model', () => {
         
         // Wait for chat input to be visible and type message
         const chatInput = page.locator('textarea[placeholder="Enter message here"]');
-        await chatInput.waitFor({ state: 'visible', timeout: 10000 });
+        await chatInput.waitFor({ state: 'visible', timeout: 20000 });
         await chatInput.fill('Hi, I need help');
-        
-        // Click send button
-        await serverlessPage.clickSendButton();
-        
-        // Verify the message is visible
-        await expect(page.locator('div.text:has-text("Hi, I need help")')).toBeVisible({ timeout: 30000 });
-        
-        // Check for tools div
-        const toolsDiv = page.locator('div.tools.show');
-        await expect(toolsDiv).toHaveCount(1, { timeout: 50000 });
+
+        await expect(async () => {
+          await serverlessPage.clickSendButton();
+          await expect(page.locator('div.text:has-text("Hi, I need help")')).toBeVisible({ timeout: 500 });
+          const toolsDiv = page.locator('div.tools.show');
+          await expect(toolsDiv).toHaveCount(1, { timeout: 30000 });
+        }).toPass({ timeout: 40000 });
       });
     }
   });

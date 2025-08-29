@@ -19,6 +19,7 @@ test.describe('Serverless Page - Image model', () => {
       'Bytedance-Seedream-3.0',
       'SD-XL 1.0-base',
       'FLUX.1 [schnell]',
+      'FLUX.1 [Kontext-dev]',
     ];
 
     for (const modelName of imageModels) {

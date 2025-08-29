@@ -9,21 +9,30 @@ const allModels = [
   // Multimodal Models
   'Claude-Sonnet-4',
   'GPT-4o-mini',
-  'Gemini-2.5-Pro-Preview-06-05',
-  'Gemini-2.5-Pro-Preview-05-06',
-  'Gemini-2.5-Flash-Preview-05-20',
+  'Gemini-2.5-Pro',
+  'Gemini-2.5-Flash',
+  'Gemini-2.5-Flash-Lite',
   'Gemini-2.0-Flash',
+  'Gemini-2.0-Flash-Lite',
   // Text Models
+  'L3.3-MS-Nevoria-70b',
+  'Mistral-Small-3.2-24B-Instruct-2506(beta)',
+  'Midnight-Rose-70B-v2.0.3(beta)',
+  'L3-70B-Euryale-v2.1(beta)',
+  'L3-8B-Stheno-v3.2',
   'DeepSeek-R1-0528 (free)',
   'DeepSeek-V3-0324 (free)',
   'DeepSeek-R1 (free)',
   'Llama3.3-70B',
   'Qwen-QwQ-32B',
+  'DeepSeek-V3-0324',
+  'DeepSeek-R1-0528',
   // 'Bring your own model',
   // Image Models
   'Bytedance-Seedream-3.0',
   'SD-XL 1.0-base',
   'FLUX.1 [schnell]',
+  'FLUX.1 [Kontext-dev]',
   // Embedding Models
   'UAE-Large-V1',
   'BGE-large-en-v1.5',
@@ -52,7 +61,8 @@ export class ServerlessModelsPage extends BasePage {
   }
 
   async getModelDiv(modelName: string) {
-    return this.page.locator(`span:has-text("${modelName}")`);
+    // Sử dụng selector chính xác hơn để tránh match với tên tương tự
+    return this.page.locator(`span:has-text("${modelName}")`).filter({ hasText: new RegExp(`^${modelName}$`) });
   }
 
   async clickModel(modelName: string) {
