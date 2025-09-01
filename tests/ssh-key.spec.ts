@@ -56,8 +56,8 @@ test.describe.serial('SSH Key Page', () => {
   });
 
   test('should delete SSH key', async ({ page }) => {
-    await sshKeyPage.viewKey('test-key');
-    await sshKeyPage.deleteKeyInModal();
-    await sshKeyPage.checkKeyNotInTable('test-key');
+      await sshKeyPage.viewKey('test-key');
+      await sshKeyPage.deleteKeyInModal();
+      await sshKeyPage.checkKeyNotInTable('test-key');
   });
 }); 

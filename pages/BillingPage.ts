@@ -19,7 +19,6 @@ export class BillingPage extends BasePage {
 
   async navigateTo() {
     await this.page.goto(ENDPOINTS.BILLING);
-    // await this.page.waitForTimeout(5000);
   }
 
   async checkUI() {
@@ -47,7 +46,10 @@ export class BillingPage extends BasePage {
   }
 
   async payWithCrypto() {
-    await this.page.locator('text=Pay with Crypto').click({ force: true });
+    await expect(async () => {
+      await this.page.locator('text=Pay with Crypto').click({ force: true });
+      await expect(this.page.getByText('Payment Details')).toBeVisible({ timeout: 1000 });
+    }).toPass({timeout: 10000});
   }
 
   async configureAutoPay() {
@@ -84,18 +86,20 @@ export class BillingPage extends BasePage {
 
   // New methods for adding payment method
   async clickAddNewCard() {
-    await expect(this.page.locator('button.el-button.add-method:has-text("Add a New Card")')).toBeVisible();
-    await this.page.locator('button.el-button.add-method:has-text("Add a New Card")').click({ force: true });
-    
-    // Wait for modal to appear and be visible
-    await this.page.waitForTimeout(2000); // Wait for modal animation
-    
-    // Check if modal is visible, if not wait longer
-    const modal = this.page.locator('h2:has-text("Add Payment Method")');
-    await modal.waitFor({ state: 'visible', timeout: 30000 });
-    
-    // Verify modal is actually visible
-    await expect(modal).toBeVisible({ timeout: 25000 });
+    await expect(async () => {
+      await expect(this.page.locator('button.el-button.add-method:has-text("Add a New Card")')).toBeVisible();
+      await this.page.locator('button.el-button.add-method:has-text("Add a New Card")').click({ force: true });
+      
+      // Wait for modal to appear and be visible
+      await this.page.waitForTimeout(2000); // Wait for modal animation
+      
+      // Check if modal is visible, if not wait longer
+      const modal = this.page.locator('h2:has-text("Add Payment Method")');
+      await modal.waitFor({ state: 'visible', timeout: 5000 });
+      
+      // Verify modal is actually visible
+      await expect(modal).toBeVisible({ timeout: 5000 });
+    }).toPass({timeout: 20000});
   }
 
   async fillBillingAddress(addressInfo: {
@@ -246,6 +250,10 @@ export class BillingPage extends BasePage {
 
   async verifyCardErrorMessage() {
     await expect(this.page.locator('#message')).toHaveText('This payment method is already in use. Please use a different method.');
+  }
+
+  async verifyCardErrorTypeMessage() {
+    await expect(this.page.locator('#message')).toHaveText('Currently only credit cards are allowed.');
   }
 
   // New methods for deleting specific card

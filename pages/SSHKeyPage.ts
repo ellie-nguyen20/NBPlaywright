@@ -67,15 +67,20 @@ export class SSHKeyPage extends BasePage {
   }
 
   async viewKey(name: string) {
-    const row = this.page.locator(`tr:has-text("${name}")`);
-    await row.locator(this.viewButton).click({ force: true });
+    await expect(async () => {
+      const row = this.page.locator(`tr:has-text("${name}")`);
+      await row.locator(this.viewButton).click({ force: true });
+      await expect(this.page.locator('h4:has-text("Key Details")')).toBeVisible();
+    }).toPass({timeout: 20000});
   }
 
   async checkViewModal(key: string) {
-    const title = this.page.locator('h4:has-text("Key Details")');
-    await expect(title).toBeVisible();
-    const keyElement = this.page.getByText(key).nth(1);
-    await expect(keyElement).toBeVisible();
+    await expect(async () => {
+      const title = this.page.locator('h4:has-text("Key Details")');
+      await expect(title).toBeVisible();
+      const keyElement = this.page.getByText(key).nth(1);
+      await expect(keyElement).toBeVisible();
+    }).toPass({timeout: 10000});
   }
 
   async copyKeyInTable(name: string) {

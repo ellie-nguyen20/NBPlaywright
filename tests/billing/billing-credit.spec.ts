@@ -24,9 +24,10 @@ test.describe('Billing Page, Add credit by card', () => {
 
   test.beforeEach(async ({ page }) => {
     billingPage = new BillingPage(page);
-
-    await billingPage.navigateTo();
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.BILLING));
+    await expect(async () => {
+      await billingPage.navigateTo();
+      await expect(page).toHaveURL(new RegExp(ENDPOINTS.BILLING));
+    }).toPass({timeout: 20000});
   });
   test.afterEach(async ({ context, page }) => {
     try {
@@ -115,6 +116,12 @@ test.describe('Billing Page, Add credit by card', () => {
     await billingPage.verifyCardErrorMessage();
   });
 
+  test('should only accept credit card', async () => {
+    test.setTimeout(60000);
+    await billingPage.addNewCard(testData, cards.second);
+    await billingPage.verifyCardErrorTypeMessage();
+  });
+
   test('should delete specific card by last 4 digits successfully', async () => {
     test.setTimeout(60000);
  
@@ -133,7 +140,7 @@ test.describe('Billing Page, Add credit by card', () => {
   });
 
   test('should add credit by card successfully', async () => {
-    test.setTimeout(120000); // 2 minutes timeout for payment processing
+    test.setTimeout(60000); 
     
     // Use test data for payment
     const paymentData = PAYMENT_TEST_DATA.validCard;

@@ -22,8 +22,11 @@ test.describe('Billing Page', () => {
     await billingPage.clickAddCredits();
   });
 
-  test('should open and interact with payment methods', async () => {
+  test('should open and interact with Card payment methods', async () => {
     await billingPage.payWithCard();
+  });
+
+  test('should open and interact with Crypto payment methods', async () => {
     await billingPage.payWithCrypto();
   });
 

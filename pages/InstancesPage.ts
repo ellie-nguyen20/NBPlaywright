@@ -16,7 +16,7 @@ export class InstancesPage extends BasePage {
 
   // Navigate to the Instances page
   async visit() {
-    await this.page.locator('.el-menu-item:has-text("Instances")').click({ force: true });
+    await this.page.locator('.el-menu-item:has-text("Instances"):not(.el-sub-menu)').click({ force: true });
   }
 
   async navigateTo() {
