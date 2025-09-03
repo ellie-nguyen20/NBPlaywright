@@ -35,10 +35,12 @@ export class ObjectStoragePage extends BasePage {
   }
 
   async createObjectStorage(label: string) {
-    await expect(this.page.locator('.cont:has-text("Standard"):not(.is-disabled)')).toBeVisible({ timeout: 10000 });
-    await this.selectCanada();
-    await this.fillLabel(label);
-    await this.clickCreate();
+    await expect(async () => {
+      await expect(this.page.locator('.cont:has-text("Standard"):not(.is-disabled)')).toBeVisible({ timeout: 10000 });
+      await this.selectCanada();
+      await this.fillLabel(label);
+      await this.clickCreate();
+    }).toPass({timeout: 20000});
   }
 
   async viewObjectStorage(label: string) {

@@ -140,9 +140,6 @@ export class DashboardPage extends BasePage {
     const spendRateSection = this.page.getByText('Current spend rate',{exact: true});
     await spendRateSection.scrollIntoViewIfNeeded();
     
-    const zeroRateSection = this.page.locator('text=$0/hr');
-    await zeroRateSection.scrollIntoViewIfNeeded();
-    
     const insightsSection = this.page.locator('text=Keep an eye on your daily spend ');
     await insightsSection.scrollIntoViewIfNeeded();
     

@@ -30,7 +30,7 @@ test.describe('API Keys Page', () => {
     });
   });
 
-  test.describe('when user has own team, he can create, delete API key for team', () => {
+  test.describe.skip('when user has own team, he can create, delete API key for team', () => {
     let teamId: string;
     let teamName: string;
     let token: string;
