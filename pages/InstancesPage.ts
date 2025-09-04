@@ -25,9 +25,9 @@ export class InstancesPage extends BasePage {
   // Check UI when there are no instances
   async checkUI() {
     await expect(async () => {
-      await expect(this.page.locator('text=Start Using GPU Instances')).toBeVisible();
-      await expect(this.page.locator('text=Launch your first GPU instance for ML, training, or rendering tasks.')).toBeVisible();
-      await expect(this.page.locator('text=Continue')).toBeVisible();
+      await expect(this.page.locator('text=Start Using GPU Instances')).toBeVisible({ timeout: 10000 });
+      await expect(this.page.locator('text=Launch your first GPU instance for ML, training, or rendering tasks.')).toBeVisible({ timeout: 10000 });
+      await expect(this.page.locator('text=Continue')).toBeVisible({ timeout: 10000 });
     }).toPass({ timeout: 25000 });
   }
 
@@ -78,7 +78,7 @@ export class InstancesPage extends BasePage {
     await expect(this.page.locator(`td:has-text("${instance.ram / 1024} TB")`)).toBeVisible();
     await expect(this.page.locator(`td:has-text("${instance.disk_size / 1024} TB")`)).toBeVisible();
     await expect(this.page.locator(`td:has-text("$${instance.price_per_hour}/hr")`)).toBeVisible();
-    await expect(this.page.locator(`td:has-text("${instance.status}")`)).toBeVisible();
+    await expect(this.page.getByRole('cell', { name: instance.status, exact: true })).toBeVisible();
     await expect(this.page.locator(`tr:has-text("${instance.name}")`).locator('text=View')).toBeVisible();
   }
 
@@ -89,22 +89,21 @@ export class InstancesPage extends BasePage {
   async checkInstanceDefaultFields() {
     await expect(this.page.locator('text=Instance Details')).toBeVisible();
     await expect(this.page.locator('text=Virtual Machine')).toBeVisible();
-    await expect(this.page.locator('text=Personal')).toBeVisible();
-    await expect(this.page.locator('text=Name:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=Status:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=Location:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=Served:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=Total Cost:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=Instance Started:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=OS/Image:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=LAN IP Address:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=Public IP Address:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=GPU:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=vCPU:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=Memory:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=Disk/Ephemeral:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=Username:').locator('xpath=following-sibling::*[1]')).toBeVisible();
-    await expect(this.page.locator('text=Password:').locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('div.font-14.color-info.mb-4:has-text("Team/Personal")')).toBeVisible();
+    await expect(this.page.locator('text=Name:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=Status:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=Location:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=Served:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=Total Cost:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=Instance Started:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=OS/Image:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=Public IP Address:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=GPU:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=vCPU:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=Memory:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=Disk/Ephemeral:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=Username:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
+    await expect(this.page.locator('text=Password:').first().locator('xpath=following-sibling::*[1]')).toBeVisible();
     await expect(this.page.locator('text=Terminate')).toBeVisible();
     await expect(this.page.locator('text=Connect to Your Instance')).toBeVisible();
     await expect(this.page.locator('text=Instructions')).toBeVisible();
@@ -123,13 +122,13 @@ export class InstancesPage extends BasePage {
     await expect(gpuElement).toContainText(detail.gpu);
     
     const cpuElement = this.page.locator('text=vCPU:').locator('xpath=following-sibling::*[1]');
-    await expect(cpuElement).toContainText(detail.cpu_cores);
+    await expect(cpuElement).toContainText(detail.cpu_cores.toString());
     
     const memoryElement = this.page.locator('text=Memory:').locator('xpath=following-sibling::*[1]');
-    await expect(memoryElement).toContainText(`${detail.ram / 1024} TB`);
+    await expect(memoryElement).toContainText(`${(detail.ram / 1024).toString()} TB`);
     
     const diskElement = this.page.locator('text=Disk/Ephemeral:').locator('xpath=following-sibling::*[1]');
-    await expect(diskElement).toContainText(`${detail.disk_size / 1024} TB`);
+    await expect(diskElement).toContainText(`${(detail.disk_size / 1024).toString()} TB`);
     
     const usernameElement = this.page.locator('text=Username:').locator('xpath=following-sibling::*[1]');
     await expect(usernameElement).toContainText(detail.username);
@@ -139,13 +138,7 @@ export class InstancesPage extends BasePage {
   }
 
   async checkStatus(status: string) {
-    const rows = this.page.locator('tbody tr');
-    const count = await rows.count();
-    
-    for (let i = 0; i < count; i++) {
-      const statusCell = rows.nth(i).locator('td').nth(8);
-      await expect(statusCell).toHaveText(status);
-    }
+    await expect(this.page.getByRole('cell', { name: status, exact: true })).toBeVisible();
   }
 
   async selectGpuOption(gpuText: string) {

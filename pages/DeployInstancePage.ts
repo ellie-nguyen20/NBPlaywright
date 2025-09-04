@@ -32,11 +32,13 @@ export class DeployInstancePage extends BasePage {
     await expect(this.page.locator('.region-style:has-text("Currently out of stock")').first()).toBeVisible();
     
     // Check specific GPU types are displayed
-    await expect(this.page.locator(':has-text("H100-80G-SXM")')).toHaveCount(59);
-    await expect(this.page.locator(':has-text("H100-80G-PCIe")')).toHaveCount(119);
-    await expect(this.page.locator(':has-text("A100-80G-PCIe")')).toHaveCount(109);
-    await expect(this.page.locator(':has-text("L40")')).toHaveCount(112);
-    await expect(this.page.locator(':has-text("RTX-A6000")')).toHaveCount(129);
+    await expect(async () => {
+      await expect(this.page.locator(':has-text("H100-80G-SXM")')).toHaveCount(59);
+      await expect(this.page.locator(':has-text("H100-80G-PCIe")')).toHaveCount(119);
+      await expect(this.page.locator(':has-text("A100-80G-PCIe")')).toHaveCount(109);
+      await expect(this.page.locator(':has-text("L40")')).toHaveCount(112);
+      await expect(this.page.locator(':has-text("RTX-A6000")')).toHaveCount(129);
+    }).toPass({ timeout: 30000 });
     
     // Check More Options button
     await expect(this.page.locator('.deploy-form-item-btn:has-text("More Options")').first()).toBeVisible();
@@ -45,10 +47,4 @@ export class DeployInstancePage extends BasePage {
     await expect(this.page.locator('.anchor-btn.is-disabled:has-text("Deploy")')).toBeVisible();
   }
 
-  async checkAllHardwareOutOfStock() {
-    // Check that all hardware options show out-of-stock status
-    const outOfStockElements = this.page.locator('text=Out of Stock');
-    const count = await outOfStockElements.count();
-    expect(count).toBeGreaterThan(0);
-  }
 } 
