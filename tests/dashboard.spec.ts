@@ -61,22 +61,4 @@ test.describe('Dashboard Page', () => {
     await dashboardPage.submitFeedbackViaHelpButton();
   });
 
-  // Commented out tests for future implementation
-  /*
-  test.skip('LLM/VLM/Embedding API Requests and data table should be displayed correctly', async ({ page }) => {
-    // Test implementation
-  });
-
-  test.skip('LLM/VLM/Embedding Token Generation and data table should be displayed correctly', async ({ page }) => {
-    // Test implementation
-  });
-
-  test.skip('Image API Requests and data table should be displayed correctly', async ({ page }) => {
-    // Test implementation
-  });
-
-  test.skip('Image Generation and data table should be displayed correctly', async ({ page }) => {
-    // Test implementation
-  });
-  */
 }); 

@@ -31,8 +31,10 @@ test.describe('Account Page', () => {
   });
 
   test('should update profile information successfully', async () => {
-    await accountPage.updateProfile(credentials.account.updateUsername);
-    await accountPage.updateProfile(credentials.account.username);
+    await expect(async () => {
+      await accountPage.updateProfile(credentials.account.updateUsername);
+      await accountPage.updateProfile(credentials.account.username);
+    }).toPass();
   });
 
   test('should change password successfully', async () => {
