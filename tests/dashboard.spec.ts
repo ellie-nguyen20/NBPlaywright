@@ -49,6 +49,18 @@ test.describe('Dashboard Page', () => {
     await dashboardPage.checkUsageStats();
   });
 
+  test('should display Help button', async ({ page }) => {
+    await dashboardPage.checkHelpButton();
+    await expect(async () => {
+      await dashboardPage.clickHelpButton();
+      await dashboardPage.checkFeedbackModal();
+    }).toPass();
+  });
+
+  test.skip('should submit feedback via Help button successfully', async ({ page }) => {
+    await dashboardPage.submitFeedbackViaHelpButton();
+  });
+
   // Commented out tests for future implementation
   /*
   test.skip('LLM/VLM/Embedding API Requests and data table should be displayed correctly', async ({ page }) => {

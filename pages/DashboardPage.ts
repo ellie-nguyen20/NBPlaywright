@@ -227,4 +227,66 @@ export class DashboardPage extends BasePage {
     await this.page.getByText('EN', { exact: true }).click();
     await expect(this.page.locator('h1:has-text("Home")')).toBeVisible();
   }
+
+  async checkHelpButton() {
+    // Check for the launcher frame (Help button) in the bottom right corner
+    await expect(this.page.locator('#launcher-frame')).toBeVisible();
+    
+    // Verify it's positioned in the bottom right area
+    const launcherFrame = this.page.locator('#launcher-frame');
+    const boundingBox = await launcherFrame.boundingBox();
+    
+    if (boundingBox) {
+      // Check that it's in the bottom right quadrant (right 25% and bottom 25% of viewport)
+      const viewport = this.page.viewportSize();
+      if (viewport) {
+        expect(boundingBox.x).toBeGreaterThan(viewport.width * 0.75);
+        expect(boundingBox.y).toBeGreaterThan(viewport.height * 0.75);
+      }
+    }
+  }
+
+  async clickHelpButton() {
+    await this.page.locator('#launcher-frame').click();
+  }
+
+  async checkFeedbackModal() {
+    // Check if the help widget iframe is visible
+    await expect(this.page.locator('#widget-frame')).toBeVisible();
+    
+    // Check form elements inside the iframe
+    const iframe = this.page.frameLocator('#widget-frame');
+    
+    // Check form header/title
+    await expect(iframe.locator('h2:has-text("Contact us")')).toBeVisible();
+    
+    // Check all form input fields
+    await expect(iframe.locator('#name')).toBeVisible();
+    await expect(iframe.locator('#email')).toBeVisible();
+    await expect(iframe.locator('#subject')).toBeVisible();
+    await expect(iframe.locator('#description')).toBeVisible();
+    
+    // Check dropdown elements (Type, Priority, Module)
+    await expect(iframe.locator('button:has-text("--Dropdown arrow")').first()).toBeVisible();
+    await expect(iframe.locator('button:has-text("LowDropdown arrow")')).toBeVisible();
+    await expect(iframe.locator('button:has-text("--Dropdown arrow")').last()).toBeVisible();
+    
+    // Check file upload area
+    await expect(iframe.locator('text=Upload files (max 5)')).toBeVisible();
+    await expect(iframe.locator('text=Click to add or dra')).toBeVisible();
+    
+    // Check Send button
+    await expect(iframe.locator('#form-button:has-text("Send")')).toBeVisible();
+    
+    // Verify form structure
+    await expect(iframe.locator('form')).toBeVisible();
+    
+    // Check that email field is marked as required
+    await expect(iframe.locator('text=Email *')).toBeVisible();
+    await expect(iframe.locator('text=Description *')).toBeVisible();
+  }
+
+  async submitFeedbackViaHelpButton() {
+    await this.page.locator('h1:has-text("Feedback")').locator('xpath=..').locator('button:has-text("Submit")').click();
+  }
 } 
