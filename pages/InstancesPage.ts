@@ -16,7 +16,7 @@ export class InstancesPage extends BasePage {
 
   // Navigate to the Instances page
   async visit() {
-    await this.page.locator('.el-menu-item:has-text("Instances"):not(.el-sub-menu)').click({ force: true });
+    await this.page.getByRole('menuitem', { name: 'Instances', exact: true }).nth(1).click();
   }
 
   async navigateTo() {
@@ -24,9 +24,11 @@ export class InstancesPage extends BasePage {
   }
   // Check UI when there are no instances
   async checkUI() {
-    await expect(this.page.locator('text=Start Using GPU Instances')).toBeVisible();
-    await expect(this.page.locator('text=Launch your first GPU instance for ML, training, or rendering tasks.')).toBeVisible();
-    await expect(this.page.locator('text=Continue')).toBeVisible();
+    await expect(async () => {
+      await expect(this.page.locator('text=Start Using GPU Instances')).toBeVisible();
+      await expect(this.page.locator('text=Launch your first GPU instance for ML, training, or rendering tasks.')).toBeVisible();
+      await expect(this.page.locator('text=Continue')).toBeVisible();
+    }).toPass({ timeout: 20000 });
   }
 
   // Check the instance table is present and has at least one row

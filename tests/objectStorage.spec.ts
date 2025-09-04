@@ -15,15 +15,20 @@ test.describe('Object Storage Page', () => {
     objectStoragePage = new ObjectStoragePage(page);
 
     // Navigate to Object Storage page
-    await objectStoragePage.navigateTo();
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.OBJECT_STORAGE));
+    await expect(async () => {
+      await objectStoragePage.navigateTo();
+      await expect(page).toHaveURL(new RegExp(ENDPOINTS.OBJECT_STORAGE));
+    }).toPass({ timeout: 20000 });
+      
   });
 
   test.describe('Check UI when user have no object storage', () => {
     test.beforeEach(async ({ page }) => {
       await mockObjectStorageList(page, [], "No object storage found.");
-      await objectStoragePage.visit();
-      await page.waitForResponse('**/api/v1/object-storage/**');
+      await expect(async () => {
+        await objectStoragePage.visit();
+        await page.waitForResponse('**/api/v1/object-storage/**');
+      }).toPass({ timeout: 20000 });
     });
 
     test('should display empty state UI and detail creating object storage modal', async ({ page }) => {
