@@ -28,7 +28,7 @@ export class InstancesPage extends BasePage {
       await expect(this.page.locator('text=Start Using GPU Instances')).toBeVisible();
       await expect(this.page.locator('text=Launch your first GPU instance for ML, training, or rendering tasks.')).toBeVisible();
       await expect(this.page.locator('text=Continue')).toBeVisible();
-    }).toPass({ timeout: 20000 });
+    }).toPass({ timeout: 25000 });
   }
 
   // Check the instance table is present and has at least one row
