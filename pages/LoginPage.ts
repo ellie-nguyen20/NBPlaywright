@@ -24,6 +24,7 @@ export class LoginPage extends BasePage {
 
   async visit() {
     await this.page.goto(ENDPOINTS.LOGIN);
+    await expect(this.page).toHaveURL(new RegExp(ENDPOINTS.LOGIN), {timeout: 60000});
   }
 
   async closeOverlayIfVisible() {

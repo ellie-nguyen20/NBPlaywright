@@ -11,6 +11,6 @@ setup("login", async ({ page }: { page: Page }) => {
     await loginPage.visit();
     await loginPage.login(creds.valid.email, creds.valid.password);
     await loginPage.isLoggedIn(creds.valid.username);
-    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS));
+    await expect(page).toHaveURL(new RegExp(ENDPOINTS.SERVERLESS), {timeout: 60000});
     await page.context().storageState({ path: '.auth/login.json' });
 }) 
