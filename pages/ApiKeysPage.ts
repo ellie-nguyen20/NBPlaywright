@@ -92,10 +92,12 @@ export class ApiKeysPage extends BasePage {
     // Wait for dropdown to be visible and select the team
     const dropdownItem = this.page.locator('.el-select-dropdown__item')
       .filter({ hasText: teamname });
-    await dropdownItem.waitFor({ state: 'visible'});
-    await dropdownItem.click({ force: true });
-    await this.page.waitForSelector('.el-select-dropdown', { state: 'hidden', timeout: 10000 });
-    
+    await expect(async () => {
+      await dropdownItem.waitFor({ state: 'visible'});
+      await dropdownItem.click({ force: true });
+      await this.page.waitForSelector('.el-select-dropdown', { state: 'hidden', timeout: 10000 });
+    }).toPass({ timeout: 25000 });
+
     await this.page.locator('text=Ok').click({ force: true });
     await expect(this.page.locator('text=New API key generated successfully')).toBeVisible();
   }

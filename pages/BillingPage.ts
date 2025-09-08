@@ -334,6 +334,7 @@ export class BillingPage extends BasePage {
     // Verify that payment was successful (adjust selectors based on actual success page)
     // This might need to be updated based on what actually appears after successful payment
     await expect(this.page.getByText('Your funds are on the way and are usually available within the minute!')).toBeVisible();
+    await this.page.locator('div.button.btn-transparent:has-text("Billing")').click();
   }
 
   async addCreditByCard(paymentData: {
