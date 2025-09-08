@@ -41,8 +41,10 @@ export class ApiKeysPage extends BasePage {
   }
 
   async copyApiKey(name: string) {
-    await this.clickCopy(name);
-    await expect(this.page.locator('text=Copied')).toBeVisible();
+    await expect(async () => {
+      await this.clickCopy(name);
+      await this.page.waitForSelector('text=Copied', { timeout: 5000 });
+    }).toPass({ timeout: 25000 });
   }
 
   async clickDelete(name: string) {

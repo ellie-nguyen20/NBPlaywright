@@ -15,10 +15,8 @@ test.describe('Object Storage Page', () => {
     objectStoragePage = new ObjectStoragePage(page);
 
     // Navigate to Object Storage page
-    await expect(async () => {
-      await objectStoragePage.navigateTo();
-      await expect(page).toHaveURL(new RegExp(ENDPOINTS.OBJECT_STORAGE));
-    }).toPass({ timeout: 20000 });
+    await objectStoragePage.navigateTo();
+    await expect(page).toHaveURL(new RegExp(ENDPOINTS.OBJECT_STORAGE), { timeout: 20000 });
       
   });
 

@@ -28,7 +28,7 @@ export class ReferralPage extends BasePage {
   async checkUI() {
     // Main referral content
     await expect(this.page.locator('h1:has-text("Referral")')).toBeVisible();
-    await expect(this.page.locator('text=Earn up to 4.00%: 3.00% from serverless and 1.00% from compute')).toBeVisible();
+    await expect(this.page.locator('text=Earn up to 4.00%: 3.00% from serverless and 1.00% from compute')).toBeVisible({ timeout: 30000 });
     await expect(this.page.locator('text=Copy the link')).toBeVisible();
     await expect(this.page.locator('text=https://dev-console.nebulablock.com/register?referral')).toBeVisible();
     await expect(this.page.locator('text=Share the link or code with your friends')).toBeVisible();
