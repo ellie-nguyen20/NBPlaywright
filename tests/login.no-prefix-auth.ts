@@ -28,4 +28,5 @@ test.describe('Login Page', () => {
     await loginPage.login(credentials.invalid.email, credentials.invalid.password);
     await loginPage.isLoginError();
   });
+
 }); 

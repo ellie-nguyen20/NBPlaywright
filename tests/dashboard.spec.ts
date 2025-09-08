@@ -2,6 +2,7 @@ import { test } from '../fixtures/testFixtures';
 import { expect } from '@playwright/test';
 import { DashboardPage } from '../pages/DashboardPage';
 import { ENDPOINTS } from '../constants/endpoints';
+import { type } from 'os';
 
 test.describe('Dashboard Page', () => {
   let dashboardPage: DashboardPage;
@@ -12,6 +13,8 @@ test.describe('Dashboard Page', () => {
     await dashboardPage.navigateTo();
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.DASHBOARD));
   });
+  // Error monitoring is now handled automatically by fixture afterEach
+  // No need for separate test case
 
   test('Check sidebar and active state', async ({ page }) => {
     await dashboardPage.checkSidebarMenu();
