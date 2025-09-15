@@ -4,7 +4,7 @@ import { BillingPage } from '../../pages/BillingPage';
 import { ENDPOINTS } from '../../constants/endpoints';
 
 test.describe.configure({ mode: 'parallel' });
-test.describe('Billing Page', () => {
+test.describe('Billing Page - Check UI', () => {
   let billingPage: BillingPage;
 
   test.beforeEach(async ({ page }) => {

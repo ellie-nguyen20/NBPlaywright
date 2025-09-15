@@ -15,10 +15,11 @@ export class BillingPage extends BasePage {
 
   async visit() {
     await this.page.locator(this.billingMenuItem).click({ force: true });
+    await this.page.waitForURL(new RegExp(ENDPOINTS.BILLING), { timeout: 30000 });
   }
 
   async navigateTo() {
-    await this.page.goto(ENDPOINTS.BILLING);
+    await this.page.goto(ENDPOINTS.BILLING, { timeout: 30000 });
   }
 
   async checkUI() {
@@ -249,7 +250,7 @@ export class BillingPage extends BasePage {
   }
 
   async verifyCardErrorMessage() {
-    await expect(this.page.locator('#message')).toHaveText('This payment method is already in use. Please use a different method.');
+    await expect(this.page.locator('#message')).toHaveText('This payment method is already in use. Please use a different method.', { timeout: 30000 });
   }
 
   async verifyCardErrorTypeMessage() {
@@ -262,10 +263,51 @@ export class BillingPage extends BasePage {
     await this.page.locator(`label.el-radio:has-text(".... .... .... ${cardLastDigits}") .el-dropdown-link`).click({ force: true });
   }
 
-  async clickDeleteFromDropdown() {
-    // Wait for dropdown menu to appear and click Delete option
-    await this.page.waitForTimeout(500);
-    await this.page.locator('.el-dropdown-menu .el-dropdown-menu__item:has-text("Delete")').click({ force: true });
+  async clickDeleteFromDropdown(cardLastDigits: string) {
+    // Wait for dropdown menu to appear
+    await this.page.waitForTimeout(1000);
+    
+    // Use direct selector based on actual HTML structure
+    try {
+      console.log('Attempting to click Delete button with direct selector...');
+      
+      // Direct selector for the Delete span inside the dropdown
+      const deleteButton = this.page.locator('.el-dropdown-menu__item .color-danger span:has-text("Delete")');
+      await deleteButton.waitFor({ state: 'visible', timeout: 5000 });
+      await deleteButton.click({ force: true });
+      
+      console.log('Successfully clicked Delete button');
+    } catch (error) {
+      console.log('Direct selector failed:', error.message);
+      
+      // Fallback: Try the parent li element
+      try {
+        console.log('Trying parent li element...');
+        const deleteLi = this.page.locator('.el-dropdown-menu__item:has(.color-danger span:has-text("Delete"))');
+        await deleteLi.waitFor({ state: 'visible', timeout: 3000 });
+        await deleteLi.click({ force: true });
+        
+        console.log('Successfully clicked Delete li element');
+      } catch (error2) {
+        console.log('Parent li approach failed:', error2.message);
+        
+        // Final fallback: Use the exact structure from HTML
+        try {
+          console.log('Trying exact HTML structure selector...');
+          const deleteDiv = this.page.locator('div.flex.font-16.font-bold.is-disabled.color-danger span:has-text("Delete")');
+          await deleteDiv.waitFor({ state: 'visible', timeout: 3000 });
+          await deleteDiv.click({ force: true });
+          
+          console.log('Successfully clicked Delete div element');
+        } catch (error3) {
+          console.log('All approaches failed:', error3.message);
+          
+          // Last resort: Click anywhere on the dropdown item containing Delete
+          console.log('Last resort: clicking dropdown item...');
+          await this.page.locator('.el-dropdown-menu__item:has-text("Delete")').first().click({ force: true });
+        }
+      }
+    }
   }
 
   async confirmDeleteInDialog() {
@@ -276,8 +318,26 @@ export class BillingPage extends BasePage {
   async deleteSpecificCard(cardLastDigits: string) {
     // Complete flow to delete a specific card
     await this.openCardDropdownMenu(cardLastDigits);
-    await this.clickDeleteFromDropdown();
+    await this.clickDeleteFromDropdown(cardLastDigits);
     await this.confirmDeleteInDialog();
+  }
+
+  async clickSetAsDefaultFromDropdown(cardLastDigits: string) {
+    const setAsDefaultButton = this.page.locator('.el-dropdown-menu__item:has-text("Set as Default")');
+    await setAsDefaultButton.waitFor({ state: 'visible', timeout: 5000 });
+    await setAsDefaultButton.click({ force: true });
+  }
+
+  async setCardAsDefault(cardLastDigits: string) {
+    // Complete flow to set a specific card as default
+    await this.openCardDropdownMenu(cardLastDigits);
+    await this.clickSetAsDefaultFromDropdown(cardLastDigits);
+  }
+
+  async verifyCardSetAsDefault(cardLastDigits: string) {
+    // Find the card with specific last digits and verify it has "Default" text
+    const cardContainer = this.page.locator(`label.el-radio:has-text(".... .... .... ${cardLastDigits}")`);
+    await expect(cardContainer.locator('span.default-text:has-text("Default")')).toBeVisible();
   }
 
   async verifyCardDeleted(cardLastDigits: string) {

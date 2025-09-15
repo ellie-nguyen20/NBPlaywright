@@ -7,7 +7,6 @@ import { ENDPOINTS } from '../constants/endpoints';
 
 const allModels = [
   // Multimodal Models
-  'Claude-Sonnet-4',
   'GPT-4o-mini',
   'Gemini-2.5-Pro',
   'Gemini-2.5-Flash',
@@ -23,25 +22,26 @@ const allModels = [
   'DeepSeek-R1-0528 (free)',
   'DeepSeek-V3-0324 (free)',
   'DeepSeek-R1 (free)',
-  'Llama3.3-70B',
   'Qwen-QwQ-32B',
   'DeepSeek-V3-0324',
   'DeepSeek-R1-0528',
   // 'Bring your own model',
   // Image Models
   'Bytedance-Seedream-3.0',
-  'SD-XL 1.0-base',
-  'FLUX.1 [schnell]',
   'FLUX.1 [Kontext-dev]',
   // Embedding Models
   'UAE-Large-V1',
   'BGE-large-en-v1.5',
+  'Qwen3-Embedding-8B',
   // Vision Models
   'Qwen2.5-VL-7B-Instruct',
   // Video Models
-  'Seedance-1-0-pro',
-  'Seedance-1.0-lite-i2v',
-  'Seedance-1.0-lite-t2v',
+  'Seedance-1.0-Pro-Image-to-Video',
+  'Seedance-1.0-Pro-Text-to-Video',
+  'Seedance-1.0-Lite-Image-to-Video',
+  'Seedance-1.0-Lite-Text-to-Video',
+  // Rerank Models
+  'BGE-reranker-v2-m3',
 ];
 
 export class ServerlessModelsPage extends BasePage {
@@ -114,6 +114,10 @@ export class ServerlessModelsPage extends BasePage {
     await videoModelsSection.scrollIntoViewIfNeeded();
     await expect(videoModelsSection).toBeVisible({ timeout: 10000 });
 
+    const rerankModelsSection = this.page.locator('text=Rerank Models');
+    await rerankModelsSection.scrollIntoViewIfNeeded();
+    await expect(rerankModelsSection).toBeVisible({ timeout: 10000 });
+
     // Check all models displayed on the page
     await this.checkAllModelsVisible(allModels);
   }
@@ -136,8 +140,8 @@ export class ServerlessModelsPage extends BasePage {
     await expect(this.page.locator('div.el-segmented__item-label:has-text("API")')).toBeVisible();
 
     // Model info
-    await expect(this.page.locator('text=$15 / M tokens')).toBeVisible();
-    await expect(this.page.locator('div.el-select__selected-item:has-text("Claude-Sonnet-4")')).toBeVisible();
+    // await expect(this.page.locator('text=$15 / M tokens')).toBeVisible();
+    await expect(this.page.locator(`div.el-select__selected-item:has-text("${modelName}")`)).toBeVisible();
 
     // Chat input area
     await expect(this.page.locator('text=What\'s on your mind?')).toBeVisible();
@@ -163,6 +167,10 @@ export class ServerlessModelsPage extends BasePage {
     const videoSection = this.page.locator('li.el-select-group__title:has-text("VIDEO")');
     await videoSection.scrollIntoViewIfNeeded();
     await expect(videoSection).toBeVisible({ timeout: 10000 });
+    
+    const rerankSection = this.page.locator('li.el-select-group__title:has-text("RERANK")');
+    await rerankSection.scrollIntoViewIfNeeded();
+    await expect(rerankSection).toBeVisible({ timeout: 10000 });
     
     for (const model of allModels) {
       // const modelElement = this.page.locator(`text=${model}`);

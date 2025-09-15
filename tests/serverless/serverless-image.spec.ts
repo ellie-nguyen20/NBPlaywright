@@ -1,7 +1,7 @@
-import { test } from '../fixtures/testFixtures';
+import { test } from '../../fixtures/testFixtures';
 import { expect } from '@playwright/test';
-import { ServerlessModelsPage } from '../pages/ServerlessModelsPage';
-import { ENDPOINTS } from '../constants/endpoints';
+import { ServerlessModelsPage } from '../../pages/ServerlessModelsPage';
+import { ENDPOINTS } from '../../constants/endpoints';
 
 test.describe('Serverless Page - Image model', () => {
   let serverlessPage: ServerlessModelsPage;
