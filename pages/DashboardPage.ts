@@ -163,7 +163,7 @@ export class DashboardPage extends BasePage {
     const menus = [
       // 'Instances', 'Reserved Instances' add later
       'Home', 'Object Storage', 'Serverless Models', 'SSH Public Key', 'API Keys', 'Billing',
-      'Account', 'Team', 'Support', 'Referral'
+      'Account', 'Team','Audit Logs', 'Support', 'Referral'
     ];
     
     for (const menu of menus) {

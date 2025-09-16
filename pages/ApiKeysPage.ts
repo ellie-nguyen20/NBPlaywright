@@ -66,14 +66,15 @@ export class ApiKeysPage extends BasePage {
   }
 
   async createApiKey(keyname: string) {
-    await this.clickRegenerate();
-    
-    // Wait for the modal dialog to appear
     const inputField = this.page.locator('input[placeholder="API Key Name"]');
-    await inputField.waitFor({ state: 'visible', timeout: 10000 });
-    
+
+    await expect(async () => {
+      await this.clickRegenerate();
+      // Wait for the modal dialog to appear
+      await inputField.waitFor({ state: 'visible', timeout: 10000 });
+    }).toPass({ timeout: 25000 });
     await inputField.fill(keyname);
-    await this.page.locator('text=Ok').click({ force: true });
+    await this.page.getByText('Ok', { exact: true }).click({ force: true });
     await expect(this.page.locator('text=API key updated successfully')).toBeVisible();
   }
 
@@ -98,7 +99,7 @@ export class ApiKeysPage extends BasePage {
       await this.page.waitForSelector('.el-select-dropdown', { state: 'hidden', timeout: 10000 });
     }).toPass({ timeout: 25000 });
 
-    await this.page.locator('text=Ok').click({ force: true });
+    await this.page.getByText('Ok', { exact: true }).click({ force: true });
     await expect(this.page.locator('text=New API key generated successfully')).toBeVisible();
   }
 } 
