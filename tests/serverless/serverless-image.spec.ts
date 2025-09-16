@@ -17,9 +17,8 @@ test.describe('Serverless Page - Image model', () => {
     test.setTimeout(120000);
     const imageModels = [
       'Bytedance-Seedream-3.0',
-      'SD-XL 1.0-base',
-      'FLUX.1 [schnell]',
       'FLUX.1 [Kontext-dev]',
+      'Bytedance-Seedream-4.0',
     ];
 
     for (const modelName of imageModels) {

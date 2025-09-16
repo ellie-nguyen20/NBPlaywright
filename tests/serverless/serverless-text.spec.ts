@@ -25,7 +25,6 @@ test.describe('Serverless Page - Text model', () => {
       'DeepSeek-R1-0528 (free)',
       'DeepSeek-V3-0324 (free)',
       'DeepSeek-R1 (free)',
-      'Llama3.3-70B',
       'Qwen-QwQ-32B',
       'DeepSeek-V3-0324',
       'DeepSeek-R1-0528'

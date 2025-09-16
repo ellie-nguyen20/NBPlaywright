@@ -29,6 +29,7 @@ const allModels = [
   // Image Models
   'Bytedance-Seedream-3.0',
   'FLUX.1 [Kontext-dev]',
+  'Bytedance-Seedream-4.0',
   // Embedding Models
   'UAE-Large-V1',
   'BGE-large-en-v1.5',
@@ -61,8 +62,8 @@ export class ServerlessModelsPage extends BasePage {
   }
 
   async getModelDiv(modelName: string) {
-    // Sử dụng selector chính xác hơn để tránh match với tên tương tự
-    return this.page.locator(`span:has-text("${modelName}")`).filter({ hasText: new RegExp(`^${modelName}$`) });
+    // Use exact text matching to avoid regex issues with special characters
+    return this.page.getByText(modelName, { exact: true });
   }
 
   async clickModel(modelName: string) {
@@ -173,8 +174,8 @@ export class ServerlessModelsPage extends BasePage {
     await expect(rerankSection).toBeVisible({ timeout: 10000 });
     
     for (const model of allModels) {
-      // const modelElement = this.page.locator(`text=${model}`);
-      const modelElement = this.page.getByRole('option', { name: model }).locator('span');
+      // Use exact text matching to avoid strict mode violation
+      const modelElement = this.page.getByRole('option', { name: model, exact: true }).locator('span');
       await modelElement.scrollIntoViewIfNeeded();
       await expect(modelElement).toBeVisible();
     }

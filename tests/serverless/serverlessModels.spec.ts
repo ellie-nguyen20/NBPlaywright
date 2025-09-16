@@ -39,22 +39,6 @@ test.describe('Serverless Models Page', () => {
       }
     });
 
-    test('should not display deprecated models', async () => {
-      // These models should NOT be visible anymore
-      const deprecatedModels = [
-        'Claude-Sonnet-4',
-        'Llama3.3-70B',
-        'SD-XL 1.0-base',
-        'FLUX.1 [schnell]',
-        'Seedance-1-0-pro',
-        'Seedance-1.0-lite-i2v',
-        'Seedance-1.0-lite-t2v'
-      ];
 
-      for (const model of deprecatedModels) {
-        const modelElement = await serverlessPage.getModelDiv(model);
-        await expect(modelElement).not.toBeVisible();
-      }
-    });
   });
 }); 

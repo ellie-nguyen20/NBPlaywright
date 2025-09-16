@@ -17,7 +17,6 @@ test.describe('Serverless Page - Multimodal model', () => {
     test.setTimeout(60000);
     
     const multimodalModels = [
-      'Claude-Sonnet-4',
       'GPT-4o-mini',
       'Gemini-2.5-Pro',
       'Gemini-2.5-Flash',

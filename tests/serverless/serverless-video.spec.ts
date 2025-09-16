@@ -15,9 +15,10 @@ test.describe('Serverless Page - Video model', () => {
 
   test.describe('Check chat with each video model via Model Detail UI, time out 120s', () => {
     const videoModels = [
-      'Seedance-1-0-pro',
-      'Seedance-1.0-lite-i2v',
-      'Seedance-1.0-lite-t2v',
+      'Seedance-1.0-Pro-Image-to-Video',
+      'Seedance-1.0-Pro-Text-to-Video',
+      'Seedance-1.0-Lite-Image-to-Video',
+      'Seedance-1.0-Lite-Text-to-Video',
     ];
 
     for (const modelName of videoModels) {
