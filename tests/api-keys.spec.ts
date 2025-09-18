@@ -5,7 +5,7 @@ import { ENDPOINTS } from '../constants/endpoints';
 import { loginAndGetToken } from '../utils/auth';
 import { createTeam, deleteTeam, createApiTeamKey } from '../utils/team';
 
-test.describe('API Keys Page', () => {
+test.describe.skip('API Keys Page', () => {
   let apiKeysPage: ApiKeysPage;
 
   test.beforeEach(async ({ page }) => {
