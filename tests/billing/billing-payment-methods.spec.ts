@@ -16,6 +16,7 @@ test.describe('Billing Page, Payment Methods', () => {
   }
   const  cards = {
     first: '371449635398431',
+    // first: '4000008580000003',  // temporary used for member12
     third: '5200828282828210'
   }
 

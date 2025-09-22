@@ -20,4 +20,5 @@ export const ENDPOINTS = {
   SSH_KEY: '/sshKey',
   TEAM: '/team',
   RESERVED_INSTANCES: '/reserved-instance',
+  AUDIT_LOGS: '/audit-logs',
 }; 
