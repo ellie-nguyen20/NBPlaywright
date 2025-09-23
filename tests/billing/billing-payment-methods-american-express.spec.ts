@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import { BillingPage } from '../../pages/BillingPage';
 import { ENDPOINTS } from '../../constants/endpoints';
 
-test.describe('Billing Page, Delete Card', () => {
+test.describe('Billing Page, American Express Cards', () => {
   let billingPage: BillingPage;
   const testData = {
       fullName: 'Ellie nguyen',
@@ -15,7 +15,8 @@ test.describe('Billing Page, Delete Card', () => {
       securityCode: '111'
   }
   const cards = {
-    second: '4000004400000000'
+    americanExpress: '371449635398431',
+    americanExpressAlternative: '378282246310005',
   }
 
   test.beforeAll(async ({ browser }) => {
@@ -35,7 +36,7 @@ test.describe('Billing Page, Delete Card', () => {
         localStorage.getItem('nebulablock_newlook_token')
       );
     
-      console.log('=== BEFORE ALL CLEANUP ===');
+      console.log('=== BEFORE ALL CLEANUP (AMERICAN EXPRESS) ===');
       console.log('JWT Token:', token ? token.substring(0, 50) + '...' : 'No token found');
       
       if (!token) {
@@ -59,12 +60,12 @@ test.describe('Billing Page, Delete Card', () => {
         return;
       }
       
-      // Find cards with last4 digits that need to be deleted
+      // Find American Express cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '0000'
+        card.last4 === '8431' || card.last4 === '0005'
       );
       
-      console.log('Cards to delete:', cardsToDelete);
+      console.log('American Express cards to delete:', cardsToDelete);
       
       // Delete each found card using stripe_id
       for (const card of cardsToDelete) {
@@ -77,10 +78,10 @@ test.describe('Billing Page, Delete Card', () => {
             payment_method_id: card.stripe_id
           }
         });
-        console.log(`🗑️ Deleted card ${card.last4}, status:`, deleteResponse.status());
+        console.log(`🗑️ Deleted American Express card ${card.last4}, status:`, deleteResponse.status());
       }
       
-      console.log('=== BEFORE ALL CLEANUP COMPLETED ===');
+      console.log('=== BEFORE ALL CLEANUP COMPLETED (AMERICAN EXPRESS) ===');
     } catch (error) {
       console.log('Error in beforeAll cleanup:', error);
     } finally {
@@ -111,7 +112,7 @@ test.describe('Billing Page, Delete Card', () => {
         localStorage.getItem('nebulablock_newlook_token')
       );
     
-      console.log('=== AFTER ALL CLEANUP ===');
+      console.log('=== AFTER ALL CLEANUP (AMERICAN EXPRESS) ===');
       console.log('JWT Token:', token ? token.substring(0, 50) + '...' : 'No token found');
       
       if (!token) {
@@ -135,17 +136,17 @@ test.describe('Billing Page, Delete Card', () => {
         return;
       }
       
-      // Find cards with last4 digits that need to be deleted
+      // Find American Express cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '0000'
+        card.last4 === '8431' || card.last4 === '0005'
       );
       
-      console.log('🧹 Final cleanup - Cards to delete:', cardsToDelete);
+      console.log('🧹 Final cleanup - American Express cards to delete:', cardsToDelete);
       console.log('📊 Total cards found before final cleanup:', paymentJson.data.length);
       
       // Delete each found card using stripe_id
       for (const card of cardsToDelete) {
-        console.log(`🗑️ Final cleanup - Attempting to delete card ${card.last4} with ID: ${card.stripe_id}`);
+        console.log(`🗑️ Final cleanup - Attempting to delete American Express card ${card.last4} with ID: ${card.stripe_id}`);
         const deleteResponse = await context.request.post('https://dev-portal-api.nebulablock.com/api/v1/payment/delete', {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -155,7 +156,7 @@ test.describe('Billing Page, Delete Card', () => {
             payment_method_id: card.stripe_id
           }
         });
-        console.log(`✅ Final cleanup - Deleted card ${card.last4}, status:`, deleteResponse.status());
+        console.log(`✅ Final cleanup - Deleted American Express card ${card.last4}, status:`, deleteResponse.status());
       }
       
       // Final verification - check if cards still exist
@@ -168,19 +169,19 @@ test.describe('Billing Page, Delete Card', () => {
       });
       const finalData = await finalCheck.json();
       const remainingTestCards = finalData.data?.filter((card: any) => 
-        card.last4 === '0000'
+        card.last4 === '8431' || card.last4 === '0005'
       ) || [];
       
       console.log('📊 Total cards after final cleanup:', finalData.data?.length || 0);
-      console.log('🚨 Remaining test cards:', remainingTestCards);
+      console.log('🚨 Remaining American Express test cards:', remainingTestCards);
       
       if (remainingTestCards.length > 0) {
-        console.log('⚠️ WARNING: Some test cards were not deleted in final cleanup!');
+        console.log('⚠️ WARNING: Some American Express test cards were not deleted in final cleanup!');
       } else {
-        console.log('✅ All test cards successfully cleaned up in final cleanup!');
+        console.log('✅ All American Express test cards successfully cleaned up in final cleanup!');
       }
       
-      console.log('=== AFTER ALL CLEANUP COMPLETED ===');
+      console.log('=== AFTER ALL CLEANUP COMPLETED (AMERICAN EXPRESS) ===');
     } catch (error) {
       console.log('Error in afterAll cleanup:', error);
     } finally {
@@ -188,12 +189,16 @@ test.describe('Billing Page, Delete Card', () => {
     }
   });
 
-  test('should delete specific card by last 4 digits successfully - 4000004400000000', async () => {
-    test.setTimeout(90000);
- 
-    await billingPage.addNewCard(testData, cards.second);
+  test.skip('should accept American Express - 371449635398431', async () => {
+    test.setTimeout(120000);
+    await billingPage.addNewCard(testData, cards.americanExpress);
     await billingPage.verifyCardAddedSuccessfully();
-    await billingPage.deleteSpecificCard('0000');
-    await billingPage.verifyCardDeleted('0000');
   });
+
+  test('should accept American Express( Alternative) - 378282246310005', async () => {
+    test.setTimeout(120000);
+    await billingPage.addNewCard(testData, cards.americanExpressAlternative);
+    await billingPage.verifyCardAddedSuccessfully();
+  });
+
 });

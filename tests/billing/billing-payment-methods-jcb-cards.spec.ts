@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import { BillingPage } from '../../pages/BillingPage';
 import { ENDPOINTS } from '../../constants/endpoints';
 
-test.describe('Billing Page, Payment Methods', () => {
+test.describe('Billing Page, JCB Cards', () => {
   let billingPage: BillingPage;
   const testData = {
       fullName: 'Ellie nguyen',
@@ -14,10 +14,9 @@ test.describe('Billing Page, Payment Methods', () => {
       expirationDate: '0327',
       securityCode: '111'
   }
-  const  cards = {
-    first: '371449635398431',
-    // first: '4000008580000003',  // temporary used for member12
-    third: '5200828282828210'
+  const cards = {
+    jcb: '3566002020360505',
+    jcbJapan: '3530111333300000',
   }
 
   test.beforeAll(async ({ browser }) => {
@@ -37,7 +36,7 @@ test.describe('Billing Page, Payment Methods', () => {
         localStorage.getItem('nebulablock_newlook_token')
       );
     
-      console.log('=== BEFORE ALL CLEANUP ===');
+      console.log('=== BEFORE ALL CLEANUP (JCB CARDS) ===');
       console.log('JWT Token:', token ? token.substring(0, 50) + '...' : 'No token found');
       
       if (!token) {
@@ -61,12 +60,12 @@ test.describe('Billing Page, Payment Methods', () => {
         return;
       }
       
-      // Find cards with last4 digits that need to be deleted
+      // Find JCB cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-       card.last4 === '8431' || card.last4 === '0003'
+        card.last4 === '0505' || card.last4 === '0000'
       );
       
-      console.log('Cards to delete:', cardsToDelete);
+      console.log('JCB cards to delete:', cardsToDelete);
       
       // Delete each found card using stripe_id
       for (const card of cardsToDelete) {
@@ -79,10 +78,10 @@ test.describe('Billing Page, Payment Methods', () => {
             payment_method_id: card.stripe_id
           }
         });
-        console.log(`🗑️ Deleted card ${card.last4}, status:`, deleteResponse.status());
+        console.log(`🗑️ Deleted JCB card ${card.last4}, status:`, deleteResponse.status());
       }
       
-      console.log('=== BEFORE ALL CLEANUP COMPLETED ===');
+      console.log('=== BEFORE ALL CLEANUP COMPLETED (JCB CARDS) ===');
     } catch (error) {
       console.log('Error in beforeAll cleanup:', error);
     } finally {
@@ -113,7 +112,7 @@ test.describe('Billing Page, Payment Methods', () => {
         localStorage.getItem('nebulablock_newlook_token')
       );
     
-      console.log('=== AFTER ALL CLEANUP ===');
+      console.log('=== AFTER ALL CLEANUP (JCB CARDS) ===');
       console.log('JWT Token:', token ? token.substring(0, 50) + '...' : 'No token found');
       
       if (!token) {
@@ -137,17 +136,17 @@ test.describe('Billing Page, Payment Methods', () => {
         return;
       }
       
-      // Find cards with last4 digits that need to be deleted
+      // Find JCB cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '8431' || card.last4 === '0003'
+        card.last4 === '0505' || card.last4 === '0000'
       );
       
-      console.log('🧹 Final cleanup - Cards to delete:', cardsToDelete);
+      console.log('🧹 Final cleanup - JCB cards to delete:', cardsToDelete);
       console.log('📊 Total cards found before final cleanup:', paymentJson.data.length);
       
       // Delete each found card using stripe_id
       for (const card of cardsToDelete) {
-        console.log(`🗑️ Final cleanup - Attempting to delete card ${card.last4} with ID: ${card.stripe_id}`);
+        console.log(`🗑️ Final cleanup - Attempting to delete JCB card ${card.last4} with ID: ${card.stripe_id}`);
         const deleteResponse = await context.request.post('https://dev-portal-api.nebulablock.com/api/v1/payment/delete', {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -157,7 +156,7 @@ test.describe('Billing Page, Payment Methods', () => {
             payment_method_id: card.stripe_id
           }
         });
-        console.log(`✅ Final cleanup - Deleted card ${card.last4}, status:`, deleteResponse.status());
+        console.log(`✅ Final cleanup - Deleted JCB card ${card.last4}, status:`, deleteResponse.status());
       }
       
       // Final verification - check if cards still exist
@@ -170,19 +169,19 @@ test.describe('Billing Page, Payment Methods', () => {
       });
       const finalData = await finalCheck.json();
       const remainingTestCards = finalData.data?.filter((card: any) => 
-        card.last4 === '8431' || card.last4 === '0003'
+        card.last4 === '0505' || card.last4 === '0000'
       ) || [];
       
       console.log('📊 Total cards after final cleanup:', finalData.data?.length || 0);
-      console.log('🚨 Remaining test cards:', remainingTestCards);
+      console.log('🚨 Remaining JCB test cards:', remainingTestCards);
       
       if (remainingTestCards.length > 0) {
-        console.log('⚠️ WARNING: Some test cards were not deleted in final cleanup!');
+        console.log('⚠️ WARNING: Some JCB test cards were not deleted in final cleanup!');
       } else {
-        console.log('✅ All test cards successfully cleaned up in final cleanup!');
+        console.log('✅ All JCB test cards successfully cleaned up in final cleanup!');
       }
       
-      console.log('=== AFTER ALL CLEANUP COMPLETED ===');
+      console.log('=== AFTER ALL CLEANUP COMPLETED (JCB CARDS) ===');
     } catch (error) {
       console.log('Error in afterAll cleanup:', error);
     } finally {
@@ -190,16 +189,16 @@ test.describe('Billing Page, Payment Methods', () => {
     }
   });
 
-  test('should add payment method successfully', async () => {
-    test.setTimeout(120000);
-    await billingPage.addNewCard(testData, cards.first);
+  test('should accept JCB card - 3566002020360505', async () => {
+    test.setTimeout(90000);
+    await billingPage.addNewCard(testData, cards.jcb);
     await billingPage.verifyCardAddedSuccessfully();
   });
 
-  test('should only accept credit card', async () => {
+  test('should accept JCB card (Japan) - 3530111333300000', async () => {
     test.setTimeout(90000);
-    await billingPage.addNewCard(testData, cards.third);
-    await billingPage.verifyCardErrorTypeMessage();
+    await billingPage.addNewCard(testData, cards.jcbJapan);
+    await billingPage.verifyCardAddedSuccessfully();
   });
 
 });

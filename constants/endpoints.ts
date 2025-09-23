@@ -16,6 +16,7 @@ export const ENDPOINTS = {
   BILLING: '/billing',
   ACCOUNT: '/profile',
   SUPPORT: '/support',
+  APPLICATION: '/application',
   REFERRAL: '/referral',
   SSH_KEY: '/sshKey',
   TEAM: '/team',

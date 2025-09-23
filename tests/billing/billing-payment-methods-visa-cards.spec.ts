@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import { BillingPage } from '../../pages/BillingPage';
 import { ENDPOINTS } from '../../constants/endpoints';
 
-test.describe('Billing Page, Delete Card', () => {
+test.describe('Billing Page, Visa Cards', () => {
   let billingPage: BillingPage;
   const testData = {
       fullName: 'Ellie nguyen',
@@ -15,7 +15,9 @@ test.describe('Billing Page, Delete Card', () => {
       securityCode: '111'
   }
   const cards = {
-    second: '4000004400000000'
+    visaCredit: '4242424242424242',  // Visa test card
+    visaDebit: '4000056655665556',  // Visa Debit test card
+    visaGreece: '4000003000000030', // Visa Greece (GR)
   }
 
   test.beforeAll(async ({ browser }) => {
@@ -35,7 +37,7 @@ test.describe('Billing Page, Delete Card', () => {
         localStorage.getItem('nebulablock_newlook_token')
       );
     
-      console.log('=== BEFORE ALL CLEANUP ===');
+      console.log('=== BEFORE ALL CLEANUP (VISA CARDS) ===');
       console.log('JWT Token:', token ? token.substring(0, 50) + '...' : 'No token found');
       
       if (!token) {
@@ -59,12 +61,12 @@ test.describe('Billing Page, Delete Card', () => {
         return;
       }
       
-      // Find cards with last4 digits that need to be deleted
+      // Find Visa test cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '0000'
+        card.last4 === '4242' || card.last4 === '5556' || card.last4 === '0030'
       );
       
-      console.log('Cards to delete:', cardsToDelete);
+      console.log('Visa test cards to delete:', cardsToDelete);
       
       // Delete each found card using stripe_id
       for (const card of cardsToDelete) {
@@ -77,10 +79,10 @@ test.describe('Billing Page, Delete Card', () => {
             payment_method_id: card.stripe_id
           }
         });
-        console.log(`🗑️ Deleted card ${card.last4}, status:`, deleteResponse.status());
+        console.log(`🗑️ Deleted Visa card ${card.last4}, status:`, deleteResponse.status());
       }
       
-      console.log('=== BEFORE ALL CLEANUP COMPLETED ===');
+      console.log('=== BEFORE ALL CLEANUP COMPLETED (VISA CARDS) ===');
     } catch (error) {
       console.log('Error in beforeAll cleanup:', error);
     } finally {
@@ -111,7 +113,7 @@ test.describe('Billing Page, Delete Card', () => {
         localStorage.getItem('nebulablock_newlook_token')
       );
     
-      console.log('=== AFTER ALL CLEANUP ===');
+      console.log('=== AFTER ALL CLEANUP (VISA CARDS) ===');
       console.log('JWT Token:', token ? token.substring(0, 50) + '...' : 'No token found');
       
       if (!token) {
@@ -135,17 +137,17 @@ test.describe('Billing Page, Delete Card', () => {
         return;
       }
       
-      // Find cards with last4 digits that need to be deleted
+      // Find Visa test cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '0000'
+        card.last4 === '4242' || card.last4 === '5556' || card.last4 === '0030'
       );
       
-      console.log('🧹 Final cleanup - Cards to delete:', cardsToDelete);
+      console.log('🧹 Final cleanup - Visa test cards to delete:', cardsToDelete);
       console.log('📊 Total cards found before final cleanup:', paymentJson.data.length);
       
       // Delete each found card using stripe_id
       for (const card of cardsToDelete) {
-        console.log(`🗑️ Final cleanup - Attempting to delete card ${card.last4} with ID: ${card.stripe_id}`);
+        console.log(`🗑️ Final cleanup - Attempting to delete Visa card ${card.last4} with ID: ${card.stripe_id}`);
         const deleteResponse = await context.request.post('https://dev-portal-api.nebulablock.com/api/v1/payment/delete', {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -155,7 +157,7 @@ test.describe('Billing Page, Delete Card', () => {
             payment_method_id: card.stripe_id
           }
         });
-        console.log(`✅ Final cleanup - Deleted card ${card.last4}, status:`, deleteResponse.status());
+        console.log(`✅ Final cleanup - Deleted Visa card ${card.last4}, status:`, deleteResponse.status());
       }
       
       // Final verification - check if cards still exist
@@ -168,19 +170,19 @@ test.describe('Billing Page, Delete Card', () => {
       });
       const finalData = await finalCheck.json();
       const remainingTestCards = finalData.data?.filter((card: any) => 
-        card.last4 === '0000'
+        card.last4 === '4242' || card.last4 === '5556' || card.last4 === '0030'
       ) || [];
       
       console.log('📊 Total cards after final cleanup:', finalData.data?.length || 0);
-      console.log('🚨 Remaining test cards:', remainingTestCards);
+      console.log('🚨 Remaining Visa test cards:', remainingTestCards);
       
       if (remainingTestCards.length > 0) {
-        console.log('⚠️ WARNING: Some test cards were not deleted in final cleanup!');
+        console.log('⚠️ WARNING: Some Visa test cards were not deleted in final cleanup!');
       } else {
-        console.log('✅ All test cards successfully cleaned up in final cleanup!');
+        console.log('✅ All Visa test cards successfully cleaned up in final cleanup!');
       }
       
-      console.log('=== AFTER ALL CLEANUP COMPLETED ===');
+      console.log('=== AFTER ALL CLEANUP COMPLETED (VISA CARDS) ===');
     } catch (error) {
       console.log('Error in afterAll cleanup:', error);
     } finally {
@@ -188,12 +190,22 @@ test.describe('Billing Page, Delete Card', () => {
     }
   });
 
-  test('should delete specific card by last 4 digits successfully - 4000004400000000', async () => {
-    test.setTimeout(90000);
- 
-    await billingPage.addNewCard(testData, cards.second);
+  test('should accept Visa Credit - 4000000000000002', async () => {
+    test.setTimeout(120000);
+    await billingPage.addNewCard(testData, cards.visaCredit);
     await billingPage.verifyCardAddedSuccessfully();
-    await billingPage.deleteSpecificCard('0000');
-    await billingPage.verifyCardDeleted('0000');
   });
+
+  test('should accept Visa Debit - 4000056655665556', async () => {
+    test.setTimeout(90000);
+    await billingPage.addNewCard(testData, cards.visaDebit);
+    await billingPage.verifyCardAddedSuccessfully();
+  });
+
+  test('should accept Visa Greece (GR) - 4000003000000030', async () => {
+    test.setTimeout(90000);
+    await billingPage.addNewCard(testData, cards.visaGreece);
+    await billingPage.verifyCardAddedSuccessfully();
+  });
+
 });

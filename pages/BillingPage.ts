@@ -249,8 +249,8 @@ export class BillingPage extends BasePage {
     await this.page.waitForTimeout(500);
   }
 
-  async verifyCardErrorMessage() {
-    await expect(this.page.locator('#message')).toHaveText('This payment method is already in use. Please use a different method.', { timeout: 30000 });
+  async verifyDuplicateCardErrorMessage() {
+    await expect(this.page.getByText('This payment method is already in use. Please use a different method.')).toBeVisible({ timeout: 30000 });
   }
 
   async verifyCardErrorTypeMessage() {

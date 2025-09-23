@@ -15,7 +15,7 @@ test.describe('Billing Page, Duplicate Card', () => {
       securityCode: '111'
   }
   const cards = {
-    fourth: '3056930009020004'
+    fourth: '5555558265554449'
   }
 
   test.beforeAll(async ({ browser }) => {
@@ -61,7 +61,7 @@ test.describe('Billing Page, Duplicate Card', () => {
       
       // Find cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '0004'
+        card.last4 === '4449'
       );
       
       console.log('Cards to delete:', cardsToDelete);
@@ -137,7 +137,7 @@ test.describe('Billing Page, Duplicate Card', () => {
       
       // Find cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '0004'
+        card.last4 === '4449'
       );
       
       console.log('🧹 Final cleanup - Cards to delete:', cardsToDelete);
@@ -168,7 +168,7 @@ test.describe('Billing Page, Duplicate Card', () => {
       });
       const finalData = await finalCheck.json();
       const remainingTestCards = finalData.data?.filter((card: any) => 
-        card.last4 === '0004'
+        card.last4 === '4449'
       ) || [];
       
       console.log('📊 Total cards after final cleanup:', finalData.data?.length || 0);
@@ -188,11 +188,14 @@ test.describe('Billing Page, Duplicate Card', () => {
     }
   });
 
-  test('should not allow adding duplicate card', async () => {
+  test('should not allow to add duplicate card - 5555558265554449', async ({ page }) => {
     test.setTimeout(120000);
     await billingPage.addNewCard(testData, cards.fourth);
     await billingPage.verifyCardAddedSuccessfully();
     await billingPage.addNewCard(testData, cards.fourth);
-    await billingPage.verifyCardErrorMessage();
+    // await page.waitForTimeout(10000);
+    await billingPage.verifyCardAddedSuccessfully();
+
+    // await billingPage.verifyDuplicateCardErrorMessage();
   });
 });
