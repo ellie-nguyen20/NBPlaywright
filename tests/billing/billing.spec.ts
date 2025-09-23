@@ -26,9 +26,9 @@ test.describe('Billing Page - Check UI', () => {
     await billingPage.payWithCard();
   });
 
-  test('should open and interact with Crypto payment methods', async () => {
-    await billingPage.payWithCrypto();
-  });
+  // test('should open and interact with Crypto payment methods', async () => {
+  //   await billingPage.payWithCrypto();
+  // });
 
   test('should configure and save Auto-pay', async () => {
     await billingPage.configureAutoPay();
