@@ -78,6 +78,5 @@ test.describe('Billing Page, Add Credit', () => {
     const token = await loginAndGetToken(request, creds.valid.email, creds.valid.password); 
   });
 
-  test.skip('should add credit by crypto successfully', async () => {
-  });
+  
 });

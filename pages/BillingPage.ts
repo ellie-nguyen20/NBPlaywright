@@ -250,12 +250,12 @@ export class BillingPage extends BasePage {
   }
 
   async verifyDuplicateCardErrorMessage() {
-    await expect(this.page.getByText('This payment method is already in use. Please use a different method.')).toBeVisible({ timeout: 30000 });
+    await expect(this.page.locator('#message')).toContainText('This payment method is already in use. Please use a different method.', { timeout: 30000 });
   }
 
-  async verifyCardErrorTypeMessage() {
-    await expect(this.page.locator('#message')).toHaveText('Currently only credit cards are allowed.');
-  }
+  // async verifyCardErrorTypeMessage() {
+  //   await expect(this.page.locator('#message')).toHaveText('Currently only credit cards are allowed.');
+  // }
 
   // New methods for deleting specific card
   async openCardDropdownMenu(cardLastDigits: string) {
@@ -414,16 +414,6 @@ export class BillingPage extends BasePage {
   }
 
   // Error handling methods
-  async verifyDeclinedCardError() {
-    // Verify that declined card error message is displayed
-    await expect(this.page.locator('text=Your card was declined')).toBeVisible();
-  }
-
-  async verifyInsufficientFundsError() {
-    // Verify that insufficient funds error message is displayed
-    await expect(this.page.locator('text=insufficient funds')).toBeVisible();
-  }
-
   async verifyPaymentError(errorMessage: string) {
     // Generic method to verify any payment error message
     await expect(this.page.locator(`text=${errorMessage}`)).toBeVisible();
@@ -463,5 +453,41 @@ export class BillingPage extends BasePage {
     
     // // Wait for success message and close popup
     // await this.verifyCardAddedSuccessfully();
+  }
+
+  /**
+   * Verify error message is displayed for declined cards
+   * Uses #message id selector to avoid strict mode violation
+   */
+  async verifyDeclinedCardError(expectedError: string) {
+    // Use #message id selector to target the specific error element
+    await expect(this.page.locator('#message')).toContainText(expectedError, { timeout: 30000 });
+  }
+
+  /**
+   * Verify specific error messages for different decline types
+   */
+  async verifyInsufficientFundsError() {
+    return await this.verifyDeclinedCardError('Payment validation failed. Your card has insufficient funds.');
+  }
+
+  async verifyGenericDeclineError() {
+    return await this.verifyDeclinedCardError('Payment validation failed. Your card was declined.');
+  }
+
+  async verifyExpiredCardError() {
+    return await this.verifyDeclinedCardError('Payment validation failed. Your card has expired.');
+  }
+
+  async verifyIncorrectCVCError() {
+    return await this.verifyDeclinedCardError('Payment validation failed. Your card\'s security code is incorrect.');
+  }
+
+  async verifyProcessingError() {
+    return await this.verifyDeclinedCardError('Payment validation failed. An error occurred while processing your card. Try again in a little bit.');
+  }
+
+  async verifyIncorrectNumberError() {
+    return await this.verifyDeclinedCardError('Your card number is incorrect.');
   }
 } 
