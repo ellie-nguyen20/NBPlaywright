@@ -488,6 +488,10 @@ export class BillingPage extends BasePage {
   }
 
   async verifyIncorrectNumberError() {
-    return await this.verifyDeclinedCardError('Your card number is incorrect.');
+    return await this.verifyDeclinedCardError('Your card number is invalid.');
+  }
+
+  async verifyVelocityExceededError() {
+    return await this.verifyDeclinedCardError('Payment validation failed. Your card was declined for making repeated attempts too frequently or exceeding its amount limit.');
   }
 } 

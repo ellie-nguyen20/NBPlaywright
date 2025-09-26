@@ -407,6 +407,6 @@ test.describe('Billing Page, Add Card - Declined Cards', () => {
     expect(newCount).toBe(initialCount); // No new payment method should be added
     
     // Verify error message is displayed
-    await billingPage.verifyGenericDeclineError();
+    await billingPage.verifyVelocityExceededError();
   });
 });
