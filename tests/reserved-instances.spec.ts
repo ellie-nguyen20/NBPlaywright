@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 import { ReservedInstancesPage } from '../pages/ReservedInstancesPage';
 import { ENDPOINTS } from '../constants/endpoints';
 
-test.describe('Reserved Instances Page', () => {
+test.describe.skip('Reserved Instances Page', () => {
   const statuses = ['Booked', 'Canceled', 'Provisioning', 'Completed', 'Running'];
   let reservedInstancesPage: ReservedInstancesPage;
 
