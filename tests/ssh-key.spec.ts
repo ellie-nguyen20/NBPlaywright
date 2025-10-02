@@ -60,4 +60,18 @@ test.describe.serial('SSH Key Page', () => {
       await sshKeyPage.deleteKeyInModal();
       await sshKeyPage.checkKeyNotInTable('test-key');
   });
+
+  test('should verify page responsiveness on different screen sizes', async ({ page }) => {
+    // Test mobile viewport
+    await page.setViewportSize({ width: 375, height: 667 });
+    await sshKeyPage.checkUI();
+    
+    // Test tablet viewport
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await sshKeyPage.checkUI();
+    
+    // Test desktop viewport
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await sshKeyPage.checkUI();
+  });
 }); 

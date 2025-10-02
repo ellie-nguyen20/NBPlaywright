@@ -230,4 +230,68 @@ test.describe('Instances Page - Instance Status - When user have 4 GPUs with var
     await instancesPage.checkInstanceDefaultFields();
     await instancesPage.checkInstanceDetailFields(detailData);
   });
+
+  test('should verify page responsiveness on different screen sizes', async ({ page }) => {
+    const instance = {
+      name: 'gpu-Running',
+      id: 'mock-id',
+      dc_id: 3,
+      region: 'Montreal',
+      product_type: 'Virtual Machine',
+      host_name: 'gpu-Running',
+      cpu_cores: 96,
+      cpu_model: 'INTEL(R) XEON(R) PLATINUM 8558',
+      cpu_count: '2',
+      ram: 2048,
+      gpu: 'H100-80G-SXM',
+      gpu_type: 'H100',
+      gpu_count: 8,
+      disk_size: 14336,
+      ephemeral: 0,
+      public_ipv4: '127.0.0.1',
+      price_per_hour: 14.4,
+      os: '',
+      status: 'Running',
+      team_id: null,
+      created_at: Date.now() / 1000,
+      type: 1,
+      started_at: Date.now() / 1000 + 600,
+      ended_at: Date.now() / 1000 + 3600,
+      team: null,
+      user: {
+        id: 123,
+        name: 'Ellie Nguyen',
+        email: 'thivunguyen1506@gmail.com',
+      },
+    };
+
+    // Mock instances list API
+    await page.route('**/api/v1/computing/instances?limit=10&offset=1&type=0', async route => {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          data: [instance],
+          total_instance: 1,
+          message: 'All instances retrieved successfully',
+          status: 'success',
+        }),
+      });
+    });
+
+    await instancesPage.navigateTo();
+    await expect(page).toHaveURL(new RegExp(ENDPOINTS.INSTANCES));
+
+    // Test mobile viewport
+    await page.setViewportSize({ width: 375, height: 667 });
+    await instancesPage.checkInstanceListUI();
+    
+    // Test tablet viewport
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await instancesPage.checkInstanceListUI();
+    
+    // Test desktop viewport
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await instancesPage.checkInstanceListUI();
+  });
 });

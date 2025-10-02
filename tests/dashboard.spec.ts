@@ -64,4 +64,18 @@ test.describe('Dashboard Page', () => {
     await dashboardPage.submitFeedbackViaHelpButton();
   });
 
+  test('should verify page responsiveness on different screen sizes', async ({ page }) => {
+    // Test mobile viewport
+    await page.setViewportSize({ width: 375, height: 667 });
+    await dashboardPage.checkUI();
+    
+    // Test tablet viewport
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await dashboardPage.checkUI();
+    
+    // Test desktop viewport
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await dashboardPage.checkUI();
+  });
+
 }); 

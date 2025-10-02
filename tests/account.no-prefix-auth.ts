@@ -49,4 +49,18 @@ test.describe('Account Page', () => {
   test('should not change password with duplicate password', async () => {
     await accountPage.changeWithDuplicatePassword(credentials.account.password, credentials.account.password);
   });
+
+  test('should verify page responsiveness on different screen sizes', async ({ page }) => {
+    // Test mobile viewport
+    await page.setViewportSize({ width: 375, height: 667 });
+    await accountPage.checkUI();
+    
+    // Test tablet viewport
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await accountPage.checkUI();
+    
+    // Test desktop viewport
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await accountPage.checkUI();
+  });
 }); 

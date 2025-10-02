@@ -29,4 +29,18 @@ test.describe('Login Page', () => {
     await loginPage.isLoginError();
   });
 
+  test('should verify page responsiveness on different screen sizes', async ({ page }) => {
+    // Test mobile viewport
+    await page.setViewportSize({ width: 375, height: 667 });
+    await loginPage.checkUI();
+    
+    // Test tablet viewport
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await loginPage.checkUI();
+    
+    // Test desktop viewport
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await loginPage.checkUI();
+  });
+
 }); 

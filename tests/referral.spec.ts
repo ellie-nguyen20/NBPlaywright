@@ -34,4 +34,18 @@ test.describe('Referral Page', () => {
     await referralPage.applyReferralCode();
     await referralPage.checkApplyError();
   });
+
+  test('should verify page responsiveness on different screen sizes', async ({ page }) => {
+    // Test mobile viewport
+    await page.setViewportSize({ width: 375, height: 667 });
+    await referralPage.checkUI();
+    
+    // Test tablet viewport
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await referralPage.checkUI();
+    
+    // Test desktop viewport
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await referralPage.checkUI();
+  });
 }); 

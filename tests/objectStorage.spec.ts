@@ -34,6 +34,26 @@ test.describe('Object Storage Page', () => {
         await objectStoragePage.checkUI();
       }).toPass({ timeout: 10000 });
     });
+
+    test('should verify page responsiveness on different screen sizes', async ({ page }) => {
+      // Test mobile viewport
+      await page.setViewportSize({ width: 375, height: 667 });
+      await expect(async () => {
+        await objectStoragePage.checkUI();
+      }).toPass({ timeout: 10000 });
+      
+      // Test tablet viewport
+      await page.setViewportSize({ width: 768, height: 1024 });
+      await expect(async () => {
+        await objectStoragePage.checkUI();
+      }).toPass({ timeout: 10000 });
+      
+      // Test desktop viewport
+      await page.setViewportSize({ width: 1280, height: 720 });
+      await expect(async () => {
+        await objectStoragePage.checkUI();
+      }).toPass({ timeout: 10000 });
+    });
   });
 
   test.describe('Check UI when user have 1 personal object storage, 1 team object storage', () => {

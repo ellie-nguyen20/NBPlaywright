@@ -160,5 +160,19 @@ test.describe.skip('Reserved Instances Page', () => {
     test('should display empty state UI', async ({ page }) => {
       await reservedInstancesPage.checkUI();
     });
+
+    test('should verify page responsiveness on different screen sizes', async ({ page }) => {
+      // Test mobile viewport
+      await page.setViewportSize({ width: 375, height: 667 });
+      await reservedInstancesPage.checkUI();
+      
+      // Test tablet viewport
+      await page.setViewportSize({ width: 768, height: 1024 });
+      await reservedInstancesPage.checkUI();
+      
+      // Test desktop viewport
+      await page.setViewportSize({ width: 1280, height: 720 });
+      await reservedInstancesPage.checkUI();
+    });
   });
 }); 

@@ -57,4 +57,18 @@ test.describe('Team Page - Many Teams UI', () => {
     await lastTeam.scrollIntoViewIfNeeded();
     await expect(lastTeam).toBeVisible();
   });
+
+  test('should verify page responsiveness on different screen sizes', async ({ page }) => {
+    // Test mobile viewport
+    await page.setViewportSize({ width: 375, height: 667 });
+    await teamPage.checkTeamListUI();
+    
+    // Test tablet viewport
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await teamPage.checkTeamListUI();
+    
+    // Test desktop viewport
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await teamPage.checkTeamListUI();
+  });
 }); 
