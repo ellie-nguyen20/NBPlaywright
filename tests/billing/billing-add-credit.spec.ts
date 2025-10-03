@@ -14,7 +14,7 @@ test.describe('Billing Page, Add Credit', () => {
     await expect(page).toHaveURL(new RegExp(ENDPOINTS.BILLING), {timeout: 60000});
   });
 
-  test('should add credit by card successfully', async ({ context, page }) => {
+  test('P0 - should add credit by card successfully', async ({ context, page }) => {
     test.setTimeout(90000); 
     
     // Use test data for payment
