@@ -1,9 +1,9 @@
-import { test } from '../../fixtures/testFixtures';
+import { test } from '../../../fixtures/testFixtures';
 import { expect } from '@playwright/test';
-import { BillingPage } from '../../pages/BillingPage';
-import { ENDPOINTS } from '../../constants/endpoints';
+import { BillingPage } from '../../../pages/BillingPage';
+import { ENDPOINTS } from '../../../constants/endpoints';
 
-test.describe('Billing Page, Mastercard', () => {
+test.describe('Billing Page, Set Default Card', () => {
   let billingPage: BillingPage;
   const testData = {
       fullName: 'Ellie nguyen',
@@ -15,10 +15,7 @@ test.describe('Billing Page, Mastercard', () => {
       securityCode: '111'
   }
   const cards = {
-    mastercard: '5555555555554444',
-    mastercard2Series: '2223003122003222',
-    mastercardDebit: '5200828282828210',
-    mastercardPrepaid: '5105105105105100',
+    fifth: '4000008580000003'
   }
 
   test.beforeAll(async ({ browser }) => {
@@ -38,7 +35,7 @@ test.describe('Billing Page, Mastercard', () => {
         localStorage.getItem('nebulablock_newlook_token')
       );
     
-      console.log('=== BEFORE ALL CLEANUP (MASTERCARD) ===');
+      console.log('=== BEFORE ALL CLEANUP ===');
       console.log('JWT Token:', token ? token.substring(0, 50) + '...' : 'No token found');
       
       if (!token) {
@@ -62,12 +59,39 @@ test.describe('Billing Page, Mastercard', () => {
         return;
       }
       
-      // Find Mastercard cards with last4 digits that need to be deleted
+      // Find cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '4444' || card.last4 === '3222' || card.last4 === '8210' || card.last4 === '5100'
+        card.last4 === '0003'
       );
       
-      console.log('Mastercard cards to delete:', cardsToDelete);
+      console.log('Cards to delete:', cardsToDelete);
+      
+      // Reset default card before deleting test cards
+      if (cardsToDelete.length > 0) {
+        console.log('🔄 Resetting default card before deletion...');
+        // Find any other card to set as default (not the test card)
+        const otherCards = paymentJson.data.filter((card: any) => 
+          card.last4 !== '0003'
+        );
+        
+        if (otherCards.length > 0) {
+          const defaultCard = otherCards[0]; // Use first available card
+          console.log(`🔄 Setting card ${defaultCard.last4} as default before cleanup...`);
+          
+          const setDefaultResponse = await context.request.put('https://dev-portal-api.nebulablock.com/api/v1/payment/payment-methods/default', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            data: {
+              payment_method: defaultCard.stripe_id
+            }
+          });
+          console.log(`✅ Default card reset status:`, setDefaultResponse.status());
+        } else {
+          console.log('⚠️ No other cards found to set as default');
+        }
+      }
       
       // Delete each found card using stripe_id
       for (const card of cardsToDelete) {
@@ -80,10 +104,10 @@ test.describe('Billing Page, Mastercard', () => {
             payment_method_id: card.stripe_id
           }
         });
-        console.log(`🗑️ Deleted Mastercard ${card.last4}, status:`, deleteResponse.status());
+        console.log(`🗑️ Deleted card ${card.last4}, status:`, deleteResponse.status());
       }
       
-      console.log('=== BEFORE ALL CLEANUP COMPLETED (MASTERCARD) ===');
+      console.log('=== BEFORE ALL CLEANUP COMPLETED ===');
     } catch (error) {
       console.log('Error in beforeAll cleanup:', error);
     } finally {
@@ -114,7 +138,7 @@ test.describe('Billing Page, Mastercard', () => {
         localStorage.getItem('nebulablock_newlook_token')
       );
     
-      console.log('=== AFTER ALL CLEANUP (MASTERCARD) ===');
+      console.log('=== AFTER ALL CLEANUP ===');
       console.log('JWT Token:', token ? token.substring(0, 50) + '...' : 'No token found');
       
       if (!token) {
@@ -138,17 +162,44 @@ test.describe('Billing Page, Mastercard', () => {
         return;
       }
       
-      // Find Mastercard cards with last4 digits that need to be deleted
+      // Find cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '4444' || card.last4 === '3222' || card.last4 === '8210' || card.last4 === '5100'
+        card.last4 === '0003'
       );
       
-      console.log('🧹 Final cleanup - Mastercard cards to delete:', cardsToDelete);
+      console.log('🧹 Final cleanup - Cards to delete:', cardsToDelete);
       console.log('📊 Total cards found before final cleanup:', paymentJson.data.length);
+      
+      // Reset default card before deleting test cards
+      if (cardsToDelete.length > 0) {
+        console.log('🔄 Resetting default card before deletion...');
+        // Find any other card to set as default (not the test card)
+        const otherCards = paymentJson.data.filter((card: any) => 
+          card.last4 !== '0003'
+        );
+        
+        if (otherCards.length > 0) {
+          const defaultCard = otherCards[0]; // Use first available card
+          console.log(`🔄 Setting card ${defaultCard.last4} as default before cleanup...`);
+          
+          const setDefaultResponse = await context.request.put('https://dev-portal-api.nebulablock.com/api/v1/payment/payment-methods/default', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            },
+            data: {
+              payment_method: defaultCard.stripe_id
+            }
+          });
+          console.log(`✅ Default card reset status:`, setDefaultResponse.status());
+        } else {
+          console.log('⚠️ No other cards found to set as default');
+        }
+      }
       
       // Delete each found card using stripe_id
       for (const card of cardsToDelete) {
-        console.log(`🗑️ Final cleanup - Attempting to delete Mastercard ${card.last4} with ID: ${card.stripe_id}`);
+        console.log(`🗑️ Final cleanup - Attempting to delete card ${card.last4} with ID: ${card.stripe_id}`);
         const deleteResponse = await context.request.post('https://dev-portal-api.nebulablock.com/api/v1/payment/delete', {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -158,7 +209,7 @@ test.describe('Billing Page, Mastercard', () => {
             payment_method_id: card.stripe_id
           }
         });
-        console.log(`✅ Final cleanup - Deleted Mastercard ${card.last4}, status:`, deleteResponse.status());
+        console.log(`✅ Final cleanup - Deleted card ${card.last4}, status:`, deleteResponse.status());
       }
       
       // Final verification - check if cards still exist
@@ -171,19 +222,19 @@ test.describe('Billing Page, Mastercard', () => {
       });
       const finalData = await finalCheck.json();
       const remainingTestCards = finalData.data?.filter((card: any) => 
-        card.last4 === '4444' || card.last4 === '3222' || card.last4 === '8210' || card.last4 === '5100'
+        card.last4 === '0003'
       ) || [];
       
       console.log('📊 Total cards after final cleanup:', finalData.data?.length || 0);
-      console.log('🚨 Remaining Mastercard test cards:', remainingTestCards);
+      console.log('🚨 Remaining test cards:', remainingTestCards);
       
       if (remainingTestCards.length > 0) {
-        console.log('⚠️ WARNING: Some Mastercard test cards were not deleted in final cleanup!');
+        console.log('⚠️ WARNING: Some test cards were not deleted in final cleanup!');
       } else {
-        console.log('✅ All Mastercard test cards successfully cleaned up in final cleanup!');
+        console.log('✅ All test cards successfully cleaned up in final cleanup!');
       }
       
-      console.log('=== AFTER ALL CLEANUP COMPLETED (MASTERCARD) ===');
+      console.log('=== AFTER ALL CLEANUP COMPLETED ===');
     } catch (error) {
       console.log('Error in afterAll cleanup:', error);
     } finally {
@@ -191,28 +242,11 @@ test.describe('Billing Page, Mastercard', () => {
     }
   });
 
-  test('should accept Mastercard - 5555555555554444', async () => {
+  test('should set a card as default successfully', async () => {
     test.setTimeout(90000);
-    await billingPage.addNewCard(testData, cards.mastercard);
+    await billingPage.addNewCard(testData, cards.fifth);
     await billingPage.verifyCardAddedSuccessfully();
+    await billingPage.setCardAsDefault('0003');
+    await billingPage.verifyCardSetAsDefault('0003');
   });
-
-  test('should accept Mastercard (2-series) - 2223003122003222', async () => {
-    test.setTimeout(90000);
-    await billingPage.addNewCard(testData, cards.mastercard2Series);
-    await billingPage.verifyCardAddedSuccessfully();
-  });
-
-  test('should accept Mastercard debit - 5200828282828210', async () => {
-    test.setTimeout(90000);
-    await billingPage.addNewCard(testData, cards.mastercardDebit);
-    await billingPage.verifyCardAddedSuccessfully();
-  });
-
-  test('should accept Mastercard (prepaid) - 5105105105105100', async () => {
-    test.setTimeout(90000);
-    await billingPage.addNewCard(testData, cards.mastercardPrepaid);
-    await billingPage.verifyCardAddedSuccessfully();
-  });
-
 });

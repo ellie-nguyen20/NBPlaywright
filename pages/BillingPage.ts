@@ -46,12 +46,6 @@ export class BillingPage extends BasePage {
     await this.page.locator('text=Pay with Card').click({ force: true });
   }
 
-  async payWithCrypto() {
-    await expect(async () => {
-      await this.page.locator('text=Pay with Crypto').click({ force: true });
-      await expect(this.page.getByText('Payment Details')).toBeVisible({ timeout: 1000 });
-    }).toPass({timeout: 10000});
-  }
 
   async configureAutoPay() {
     await this.page.locator('text=Configure Auto-Pay').click({ force: true });
@@ -494,4 +488,93 @@ export class BillingPage extends BasePage {
   async verifyVelocityExceededError() {
     return await this.verifyDeclinedCardError('Payment validation failed. Your card was declined for making repeated attempts too frequently or exceeding its amount limit.');
   }
+
+  // PayPal payment methods - Updated based on actual testing
+  async payWithPayPal() {
+    await this.page.locator('text=PayPal').click({ force: true });
+  }
+
+  async enterPayPalCredentials(email: string, password: string) {
+    // Wait for PayPal login form to be visible
+    await this.page.waitForSelector('input[name="login_email"]', { timeout: 30000 });
+    
+    // Fill PayPal email
+    await this.page.locator('input[name="login_email"]').fill(email);
+    
+    // Click Next button to proceed to password field
+    await this.page.locator('button:has-text("Next"), button[id="btnNext"]').click({ force: true });
+    
+    // Wait for password field and fill it
+    await this.page.waitForSelector('input[name="login_password"]', { timeout: 30000 });
+    await this.page.locator('input[name="login_password"]').fill(password);
+    
+    // Click login button
+    await this.page.locator('button:has-text("Log In"), button[id="btnLogin"]').click({ force: true });
+  }
+
+  async confirmPayPalPayment() {
+    // Click Complete Purchase button on PayPal payment confirmation page
+    await this.page.locator('button:has-text("Complete Purchase")').click({ force: true });
+  }
+
+  async cancelPayPalPayment() {
+    // Click Cancel button on PayPal page - updated with actual text
+    await this.page.locator('button:has-text("Cancel and return to Nebula Block")').click({ force: true });
+  }
+
+  async waitForPayPalPaymentProcessing() {
+    // Wait for redirect to success page - PayPal processes quickly
+    await this.page.waitForURL('**/payment-success', { timeout: 30000 });
+  }
+
+  async verifyPayPalPaymentSuccess() {
+    // Verify that PayPal payment was successful - using actual success message
+    await expect(this.page.getByText('Your funds are on the way and are usually available within the minute!')).toBeVisible({ timeout: 30000 });
+    
+    // Verify we're on the success page
+    await expect(this.page).toHaveURL(/.*payment-success/);
+    
+    // Return to billing page
+    await this.page.locator('button:has-text("Billing")').click({ force: true });
+    
+    // Verify we're back on billing page
+    await expect(this.page).toHaveURL(/.*billing/);
+  }
+
+  async verifyPayPalPaymentError(errorMessage: string) {
+    // Verify PayPal payment error message - using actual error text
+    await expect(this.page.locator(`text=${errorMessage}`)).toBeVisible({ timeout: 30000 });
+  }
+
+  async verifyPayPalLoginPage() {
+    // Verify PayPal login page elements
+    await expect(this.page.locator('text=Log in to your PayPal account')).toBeVisible({ timeout: 30000 });
+    await expect(this.page.locator('input[name="login_email"]')).toBeVisible();
+  }
+
+  async verifyPayPalPaymentPage() {
+    // Verify PayPal payment confirmation page elements
+    await expect(this.page.locator('text=Pay with PayPal')).toBeVisible({ timeout: 30000 });
+    await expect(this.page.locator('text=Nebula Block')).toBeVisible();
+    await expect(this.page.locator('button:has-text("Complete Purchase")')).toBeVisible();
+    await expect(this.page.locator('button:has-text("Cancel and return to Nebula Block")')).toBeVisible();
+  }
+
+  async addCreditByPayPal(paymentData: {
+    email: string;
+    amount: string;
+    paypalEmail: string;
+    paypalPassword: string;
+  }) {
+    // Complete flow to add credit by PayPal
+    await this.clickAddCredits();
+    await this.selectCreditAmount(paymentData.amount);
+    await this.payWithPayPal();
+    await this.enterPayPalCredentials(paymentData.paypalEmail, paymentData.paypalPassword);
+    await this.verifyPayPalPaymentPage();
+    await this.confirmPayPalPayment();
+    await this.waitForPayPalPaymentProcessing();
+    await this.verifyPayPalPaymentSuccess();
+  }
+
 } 

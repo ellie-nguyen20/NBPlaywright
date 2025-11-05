@@ -164,4 +164,55 @@ export const DECLINED_CARDS = {
     expectedError: 'Your card was declined.',
     declineCode: 'card_velocity_exceeded'
   }
+};
+
+// PayPal test data for payment tests - Updated based on actual sandbox testing
+export const PAYPAL_TEST_DATA = {
+  validPayPal: {
+    email: 'ellie.nguyen@example.com',
+    amount: '50',
+    paypalEmail: 'sb-kv5q946998418@personal.example.com',
+    paypalPassword: '(h!zg68J',
+    expectedSuccessMessage: 'Your funds are on the way and are usually available within the minute!',
+    successUrl: '/payment-success',
+    merchantName: 'Nebula Block'
+  },
+  invalidCredentials: {
+    email: 'ellie.nguyen@example.com',
+    amount: '25',
+    paypalEmail: 'invalid@email.com',
+    paypalPassword: 'wrongpassword',
+    expectedError: 'Some of your info didn\'t match. Try again, change the email address, or get help if you forgot your password.'
+  },
+  cancelledPayment: {
+    email: 'ellie.nguyen@example.com',
+    amount: '100',
+    paypalEmail: 'sb-kv5q946998418@personal.example.com',
+    paypalPassword: 'h!zg68J',
+    expectedMessage: 'Payment cancelled',
+    cancelButtonText: 'Cancel and return to Nebula Block'
+  },
+  timeoutPayment: {
+    email: 'ellie.nguyen@example.com',
+    amount: '75',
+    paypalEmail: 'sb-kv5q946998418@personal.example.com',
+    paypalPassword: 'h!zg68J',
+    expectedError: 'Payment timeout'
+  },
+  // Additional test scenarios based on real PayPal flow
+  paypalLoginFlow: {
+    loginPageTitle: 'Log in to your PayPal account',
+    loginFormEmail: 'Email or mobile number',
+    loginFormPassword: 'Password',
+    nextButtonText: 'Next',
+    loginButtonText: 'Log In'
+  },
+  paypalPaymentFlow: {
+    paymentPageTitle: 'Pay with PayPal',
+    merchantInfo: 'Nebula Block',
+    completePurchaseButton: 'Complete Purchase',
+    cancelButton: 'Cancel and return to Nebula Block',
+    currencyConversion: 'PayPal\'s conversion rate:',
+    paymentMethods: ['PayPal balance', 'BMO - ONLINE BANKING', 'Visa']
+  }
 }; 

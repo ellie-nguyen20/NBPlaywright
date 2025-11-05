@@ -1,9 +1,9 @@
-import { test } from '../../fixtures/testFixtures';
+import { test } from '../../../fixtures/testFixtures';
 import { expect } from '@playwright/test';
-import { BillingPage } from '../../pages/BillingPage';
-import { ENDPOINTS } from '../../constants/endpoints';
+import { BillingPage } from '../../../pages/BillingPage';
+import { ENDPOINTS } from '../../../constants/endpoints';
 
-test.describe('Billing Page, Visa Cards', () => {
+test.describe('Billing Page, Mastercard', () => {
   let billingPage: BillingPage;
   const testData = {
       fullName: 'Ellie nguyen',
@@ -15,9 +15,10 @@ test.describe('Billing Page, Visa Cards', () => {
       securityCode: '111'
   }
   const cards = {
-    visaCredit: '4242424242424242',  // Visa test card
-    visaDebit: '4000056655665556',  // Visa Debit test card
-    visaGreece: '4000003000000030', // Visa Greece (GR)
+    mastercard: '5555555555554444',
+    mastercard2Series: '2223003122003222',
+    mastercardDebit: '5200828282828210',
+    mastercardPrepaid: '5105105105105100',
   }
 
   test.beforeAll(async ({ browser }) => {
@@ -37,7 +38,7 @@ test.describe('Billing Page, Visa Cards', () => {
         localStorage.getItem('nebulablock_newlook_token')
       );
     
-      console.log('=== BEFORE ALL CLEANUP (VISA CARDS) ===');
+      console.log('=== BEFORE ALL CLEANUP (MASTERCARD) ===');
       console.log('JWT Token:', token ? token.substring(0, 50) + '...' : 'No token found');
       
       if (!token) {
@@ -61,12 +62,12 @@ test.describe('Billing Page, Visa Cards', () => {
         return;
       }
       
-      // Find Visa test cards with last4 digits that need to be deleted
+      // Find Mastercard cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '4242' || card.last4 === '5556' || card.last4 === '0030'
+        card.last4 === '4444' || card.last4 === '3222' || card.last4 === '8210' || card.last4 === '5100'
       );
       
-      console.log('Visa test cards to delete:', cardsToDelete);
+      console.log('Mastercard cards to delete:', cardsToDelete);
       
       // Delete each found card using stripe_id
       for (const card of cardsToDelete) {
@@ -79,10 +80,10 @@ test.describe('Billing Page, Visa Cards', () => {
             payment_method_id: card.stripe_id
           }
         });
-        console.log(`🗑️ Deleted Visa card ${card.last4}, status:`, deleteResponse.status());
+        console.log(`🗑️ Deleted Mastercard ${card.last4}, status:`, deleteResponse.status());
       }
       
-      console.log('=== BEFORE ALL CLEANUP COMPLETED (VISA CARDS) ===');
+      console.log('=== BEFORE ALL CLEANUP COMPLETED (MASTERCARD) ===');
     } catch (error) {
       console.log('Error in beforeAll cleanup:', error);
     } finally {
@@ -113,7 +114,7 @@ test.describe('Billing Page, Visa Cards', () => {
         localStorage.getItem('nebulablock_newlook_token')
       );
     
-      console.log('=== AFTER ALL CLEANUP (VISA CARDS) ===');
+      console.log('=== AFTER ALL CLEANUP (MASTERCARD) ===');
       console.log('JWT Token:', token ? token.substring(0, 50) + '...' : 'No token found');
       
       if (!token) {
@@ -137,17 +138,17 @@ test.describe('Billing Page, Visa Cards', () => {
         return;
       }
       
-      // Find Visa test cards with last4 digits that need to be deleted
+      // Find Mastercard cards with last4 digits that need to be deleted
       const cardsToDelete = paymentJson.data.filter((card: any) => 
-        card.last4 === '4242' || card.last4 === '5556' || card.last4 === '0030'
+        card.last4 === '4444' || card.last4 === '3222' || card.last4 === '8210' || card.last4 === '5100'
       );
       
-      console.log('🧹 Final cleanup - Visa test cards to delete:', cardsToDelete);
+      console.log('🧹 Final cleanup - Mastercard cards to delete:', cardsToDelete);
       console.log('📊 Total cards found before final cleanup:', paymentJson.data.length);
       
       // Delete each found card using stripe_id
       for (const card of cardsToDelete) {
-        console.log(`🗑️ Final cleanup - Attempting to delete Visa card ${card.last4} with ID: ${card.stripe_id}`);
+        console.log(`🗑️ Final cleanup - Attempting to delete Mastercard ${card.last4} with ID: ${card.stripe_id}`);
         const deleteResponse = await context.request.post('https://dev-portal-api.nebulablock.com/api/v1/payment/delete', {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -157,7 +158,7 @@ test.describe('Billing Page, Visa Cards', () => {
             payment_method_id: card.stripe_id
           }
         });
-        console.log(`✅ Final cleanup - Deleted Visa card ${card.last4}, status:`, deleteResponse.status());
+        console.log(`✅ Final cleanup - Deleted Mastercard ${card.last4}, status:`, deleteResponse.status());
       }
       
       // Final verification - check if cards still exist
@@ -170,19 +171,19 @@ test.describe('Billing Page, Visa Cards', () => {
       });
       const finalData = await finalCheck.json();
       const remainingTestCards = finalData.data?.filter((card: any) => 
-        card.last4 === '4242' || card.last4 === '5556' || card.last4 === '0030'
+        card.last4 === '4444' || card.last4 === '3222' || card.last4 === '8210' || card.last4 === '5100'
       ) || [];
       
       console.log('📊 Total cards after final cleanup:', finalData.data?.length || 0);
-      console.log('🚨 Remaining Visa test cards:', remainingTestCards);
+      console.log('🚨 Remaining Mastercard test cards:', remainingTestCards);
       
       if (remainingTestCards.length > 0) {
-        console.log('⚠️ WARNING: Some Visa test cards were not deleted in final cleanup!');
+        console.log('⚠️ WARNING: Some Mastercard test cards were not deleted in final cleanup!');
       } else {
-        console.log('✅ All Visa test cards successfully cleaned up in final cleanup!');
+        console.log('✅ All Mastercard test cards successfully cleaned up in final cleanup!');
       }
       
-      console.log('=== AFTER ALL CLEANUP COMPLETED (VISA CARDS) ===');
+      console.log('=== AFTER ALL CLEANUP COMPLETED (MASTERCARD) ===');
     } catch (error) {
       console.log('Error in afterAll cleanup:', error);
     } finally {
@@ -190,21 +191,27 @@ test.describe('Billing Page, Visa Cards', () => {
     }
   });
 
-  test('should accept Visa Credit - 4000000000000002', async () => {
-    test.setTimeout(120000);
-    await billingPage.addNewCard(testData, cards.visaCredit);
+  test('should accept Mastercard - 5555555555554444', async () => {
+    test.setTimeout(90000);
+    await billingPage.addNewCard(testData, cards.mastercard);
     await billingPage.verifyCardAddedSuccessfully();
   });
 
-  test('should accept Visa Debit - 4000056655665556', async () => {
+  test('should accept Mastercard (2-series) - 2223003122003222', async () => {
     test.setTimeout(90000);
-    await billingPage.addNewCard(testData, cards.visaDebit);
+    await billingPage.addNewCard(testData, cards.mastercard2Series);
     await billingPage.verifyCardAddedSuccessfully();
   });
 
-  test('should accept Visa Greece (GR) - 4000003000000030', async () => {
+  test('should accept Mastercard debit - 5200828282828210', async () => {
     test.setTimeout(90000);
-    await billingPage.addNewCard(testData, cards.visaGreece);
+    await billingPage.addNewCard(testData, cards.mastercardDebit);
+    await billingPage.verifyCardAddedSuccessfully();
+  });
+
+  test('should accept Mastercard (prepaid) - 5105105105105100', async () => {
+    test.setTimeout(90000);
+    await billingPage.addNewCard(testData, cards.mastercardPrepaid);
     await billingPage.verifyCardAddedSuccessfully();
   });
 
